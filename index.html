@@ -472,13 +472,13 @@
 
         function handleRouting() {
             const urlParams = new URLSearchParams(window.location.search);
-            const note = urlParams.get('note'), pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img'), yt = urlParams.get('yt'), urlEmbed = urlParams.get('url'); 
+            const note = urlParams.get('note'), pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img'), yt = urlParams.get('yt'), urlEmbed = urlParams.get('url'), htmlParam = urlParams.get('html'); 
             
             markdownContent.innerHTML = '';
             mediaContent.innerHTML = '';
             markdownContent.style.display = 'none';
 
-            const currentFilePath = note || pdf || video || img;
+            const currentFilePath = note || pdf || video || img || htmlParam;
             const viewerBc = document.getElementById('viewer-breadcrumb');
             if (currentFilePath && viewerBc) {
                 const parts = currentFilePath.split('/');
@@ -514,6 +514,12 @@
                         mediaContent.innerHTML = '<h2>❌ Error!</h2><p>අදාළ සටහන සොයාගත නොහැක.</p>';
                         downloadBtn.style.display = 'none';
                     });
+            } else if (htmlParam) {
+                let fetchUrl = htmlParam.includes('.') ? htmlParam : htmlParam + '.html';
+                let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
+                showContentLayout(encodedUrl, "Web Page");
+                mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${encodedUrl}" allowfullscreen></iframe>`;
+                document.title = fetchUrl.split('/').pop() + " - Batch Kuppi";
             } else if (pdf) {
                 let encodedUrl = (pdf.endsWith('.pdf') ? pdf : pdf + '.pdf').split('/').map(part => encodeURIComponent(part)).join('/');
                 showContentLayout(encodedUrl, "PDF");
@@ -566,13 +572,29 @@
         let fileCache = null; 
         let noteContentCache = {};
 
+        const IGNORE_PATHS = [
+            'index.html',
+            'readme.md',
+            '.nojekyll',
+            'logo.ico'
+            // ඔබට නොපෙන්විය යුතු ෆයිල් හෝ ෆෝල්ඩර් වල නම් මෙතනට එකතු කරන්න (Add files/folders to hide here)
+        ];
+
         async function fetchRepoTree() {
             if (fileCache) return fileCache;
             try {
                 const res = await fetch('https://api.github.com/repos/pathum-official/Batch-Kuppi-Initiative/git/trees/main?recursive=1');
                 if (!res.ok) throw new Error("Failed to fetch tree");
                 const data = await res.json();
-                fileCache = data.tree.filter(item => item.type === 'blob' && !item.path.startsWith('.') && item.path.toLowerCase() !== 'readme.md');
+                fileCache = data.tree.filter(item => {
+                    if (item.type !== 'blob') return false;
+                    const pathLower = item.path.toLowerCase();
+                    if (pathLower.startsWith('.')) return false;
+                    for (let ignore of IGNORE_PATHS) {
+                        if (pathLower === ignore || pathLower.startsWith(ignore + '/')) return false;
+                    }
+                    return true;
+                });
                 return fileCache;
             } catch (e) { return []; }
         }
@@ -624,6 +646,7 @@
                         if (ext === 'pdf') { icon = 'fa-file-pdf'; typeParam = 'pdf'; }
                         else if (ext === 'mp4') { icon = 'fa-video'; typeParam = 'video'; }
                         else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
+                        else if (['html', 'htm'].includes(ext)) { icon = 'fa-globe'; typeParam = 'html'; }
 
                         let fileParamPath = file.path.replace('.' + ext, '');
                         let matchesFilename = title.toLowerCase().includes(query);
@@ -779,6 +802,7 @@
                     if (ext === 'pdf') { icon = 'fa-file-pdf'; typeParam = 'pdf'; }
                     else if (ext === 'mp4') { icon = 'fa-video'; typeParam = 'video'; }
                     else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
+                    else if (['html', 'htm'].includes(ext)) { icon = 'fa-globe'; typeParam = 'html'; }
                     
                     let fileParamPath = item.fullPath.replace('.' + ext, '');
 
