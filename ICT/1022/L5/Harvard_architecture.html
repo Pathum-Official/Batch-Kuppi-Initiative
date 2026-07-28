@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvard Architecture Simulator</title>
+    <style>
+        :root {
+            --cpu-color: #2c3e50;
+            --im-color: #2980b9; /* Instruction Memory (Blue) */
+            --dm-color: #27ae60; /* Data Memory (Green) */
+            --highlight: #e74c3c;
+            --bg-body: #f4f7f6;
+            --text-main: #333;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { color: #1a252f; font-size: 2.2em; }
+        header p { color: #555; font-size: 1.1em; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+        /* --- Architecture Layout --- */
+        .architecture {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .component-box {
+            border: 3px solid;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fff;
+            flex: 1;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .im-box { border-color: var(--im-color); flex: 0.8; }
+        .cpu-box { border-color: var(--cpu-color); flex: 1.2; }
+        .dm-box { border-color: var(--dm-color); flex: 0.8; }
+
+        .component-title {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 10px;
+            font-weight: 800;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .im-box .component-title { color: var(--im-color); }
+        .cpu-box .component-title { color: var(--cpu-color); }
+        .dm-box .component-title { color: var(--dm-color); }
+
+        /* --- CPU Internals --- */
+        .cpu-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .cu {
+            background: #fff3e0;
+            border: 2px solid #ffb74d;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .cpu-split {
+            display: flex;
+            gap: 15px;
+        }
+
+        .cpu-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .register {
+            background: #f0f4f8;
+            border: 2px solid #b0bec5;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .register strong { display: block; font-size: 0.8em; color: #555; }
+        .register .val { font-family: monospace; font-size: 1.2em; font-weight: bold; color: var(--cpu-color); margin-top: 5px; }
+
+        .alu {
+            background: #e3f2fd;
+            border: 2px solid #90caf9;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            color: #1565c0;
+        }
+
+        /* --- Buses --- */
+        .buses {
+            flex: 0.4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 50px;
+            position: relative;
+        }
+
+        .bus-line {
+            height: 12px;
+            background: #e0e0e0;
+            position: relative;
+            border-radius: 6px;
+        }
+
+        .bus-label {
+            position: absolute;
+            top: -24px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+
+        /* Bus Animations */
+        .bus-data-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            opacity: 0;
+            top: -2px;
+        }
+
+        /* IM Buses (Left Side) */
+        .bus-dot-im { background-color: var(--im-color); box-shadow: 0 0 10px var(--im-color); }
+        .bus-line.active-im { background: #d4e6f1; }
+        
+        /* DM Buses (Right Side) */
+        .bus-dot-dm { background-color: var(--dm-color); box-shadow: 0 0 10px var(--dm-color); }
+        .bus-line.active-dm { background: #d5f5e3; }
+
+        /* Animation Keyframes */
+        @keyframes cpu-to-im { 0% { left: 95%; opacity: 1; } 90% { left: 0%; opacity: 1; } 100% { left: 0%; opacity: 0; } }
+        @keyframes im-to-cpu { 0% { left: 0%; opacity: 1; } 90% { left: 95%; opacity: 1; } 100% { left: 95%; opacity: 0; } }
+        
+        @keyframes cpu-to-dm { 0% { left: 0%; opacity: 1; } 90% { left: 95%; opacity: 1; } 100% { left: 95%; opacity: 0; } }
+        @keyframes dm-to-cpu { 0% { left: 95%; opacity: 1; } 90% { left: 0%; opacity: 1; } 100% { left: 0%; opacity: 0; } }
+
+        .anim-cpu-im .bus-dot-im { animation: cpu-to-im 1s linear infinite; }
+        .anim-im-cpu .bus-dot-im { animation: im-to-cpu 1s linear infinite; }
+        
+        .anim-cpu-dm .bus-dot-dm { animation: cpu-to-dm 1s linear infinite; }
+        .anim-dm-cpu .bus-dot-dm { animation: dm-to-cpu 1s linear infinite; }
+
+        /* --- Memory Internals --- */
+        .memory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 1.05em;
+        }
+        .memory-table th, .memory-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .im-box th { background: #d4e6f1; color: var(--im-color); }
+        .dm-box th { background: #d5f5e3; color: var(--dm-color); }
+        
+        tr.active td { font-weight: bold; transform: scale(1.02); }
+        .im-box tr.active td { background: #a9cce3; border-color: var(--im-color); }
+        .dm-box tr.active td { background: #a9dfbf; border-color: var(--dm-color); }
+
+        /* --- Controls & Status --- */
+        .status-panel {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-text { max-width: 70%; }
+        .status-text h3 { color: #f39c12; margin-bottom: 5px; }
+        .status-text p { font-size: 0.95em; color: #ecf0f1; }
+        .parallel-alert { color: #2ecc71; font-weight: bold; background: rgba(46, 204, 113, 0.2); padding: 2px 6px; border-radius: 4px; display: none; }
+
+        .controls { display: flex; gap: 10px; }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #3498db;
+            color: white;
+        }
+        button:hover { background: #2980b9; }
+        button:active { transform: scale(0.95); }
+        #btn-reset { background: #e74c3c; }
+        #btn-reset:hover { background: #c0392b; }
+
+        .highlight {
+            border-color: var(--highlight) !important;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+            background-color: #fdf2f0 !important;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Harvard Architecture Simulator</h1>
+        <p>Notice the physically separate memories and buses. Watch for "Cycle 3" to see instructions and data moving simultaneously!</p>
+    </header>
+
+    <div class="card status-panel">
+        <div class="status-text">
+            <h3 id="step-title">System Idle</h3>
+            <p id="step-desc">Press "Next Step" to start processing the program.</p>
+            <span class="parallel-alert" id="parallel-alert">⚡ PARALLEL PROCESSING ACTIVE: Fetching and Executing at the same time!</span>
+        </div>
+        <div class="controls">
+            <button id="btn-prev">‹ Prev</button>
+            <button id="btn-next">Next Step ›</button>
+            <button id="btn-reset">↺ Reset</button>
+        </div>
+    </div>
+
+    <div class="architecture">
+        
+        <!-- INSTRUCTION MEMORY (ROM) -->
+        <div class="component-box im-box" id="comp-im">
+            <div class="component-title">Instruction Memory</div>
+            <table class="memory-table">
+                <thead><tr><th>Addr</th><th>Instruction</th></tr></thead>
+                <tbody>
+                    <tr id="im-00"><td>00</td><td>LOAD [10]</td></tr>
+                    <tr id="im-01"><td>01</td><td>ADD [11]</td></tr>
+                    <tr id="im-02"><td>02</td><td>STORE [12]</td></tr>
+                    <tr id="im-03"><td>03</td><td>HALT</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- LEFT BUSES (IM) -->
+        <div class="buses">
+            <div class="bus-line" id="bus-im-addr">
+                <div class="bus-label">Instr. Address Bus</div>
+                <div class="bus-data-dot bus-dot-im"></div>
+            </div>
+            <div class="bus-line" id="bus-im-data">
+                <div class="bus-label">Instr. Data Bus</div>
+                <div class="bus-data-dot bus-dot-im"></div>
+            </div>
+        </div>
+
+        <!-- CENTRAL CPU -->
+        <div class="component-box cpu-box" id="comp-cpu">
+            <div class="component-title">Central Processing Unit</div>
+            
+            <div class="cpu-layout">
+                <div class="cu" id="cu">Control Unit (CU)</div>
+                
+                <div class="cpu-split">
+                    <!-- Instruction Handlers -->
+                    <div class="cpu-side">
+                        <div class="register" id="pc">
+                            <strong>Program Counter (PC)</strong>
+                            <div class="val" id="val-pc">00</div>
+                        </div>
+                        <div class="register" id="ir">
+                            <strong>Instruction Reg (IR)</strong>
+                            <div class="val" id="val-ir">---</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Handlers -->
+                    <div class="cpu-side">
+                        <div class="alu" id="alu">
+                            ALU
+                            <div class="register" id="acc" style="margin-top:10px; background:white;">
+                                <strong>Accumulator</strong>
+                                <div class="val" id="val-acc">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT BUSES (DM) -->
+        <div class="buses">
+            <div class="bus-line" id="bus-dm-addr">
+                <div class="bus-label">Data Address Bus</div>
+                <div class="bus-data-dot bus-dot-dm"></div>
+            </div>
+            <div class="bus-line" id="bus-dm-data">
+                <div class="bus-label">Data Bus</div>
+                <div class="bus-data-dot bus-dot-dm"></div>
+            </div>
+        </div>
+
+        <!-- DATA MEMORY (RAM) -->
+        <div class="component-box dm-box" id="comp-dm">
+            <div class="component-title">Data Memory</div>
+            <table class="memory-table">
+                <thead><tr><th>Addr</th><th>Data Value</th></tr></thead>
+                <tbody>
+                    <tr id="dm-10"><td>10</td><td>5</td></tr>
+                    <tr id="dm-11"><td>11</td><td>7</td></tr>
+                    <tr id="dm-12"><td>12</td><td id="val-dm-12">0</td></tr>
+                    <tr id="dm-13"><td>13</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    /* 
+     * The Script: Demonstrates Harvard's ability to fetch the next instruction
+     * AT THE SAME TIME it reads/writes data for the current instruction.
+     */
+    const steps = [
+        // CYCLE 1
+        { title: "Cycle 1: FETCH", desc: "The CPU sends the Program Counter (00) to the Instruction Memory. Instruction Memory sends back 'LOAD [10]'. Notice only the left-side buses are used.",
+          high: ['pc', 'bus-im-addr', 'im-00', 'bus-im-data', 'ir'], 
+          anims: [{id: 'bus-im-addr', type: 'anim-cpu-im', base: 'active-im'}, {id: 'bus-im-data', type: 'anim-im-cpu', base: 'active-im'}],
+          state: {pc: '01', ir: 'LOAD [10]', acc: '0', dm12: '0'}, parallel: false },
+          
+        { title: "Cycle 1: DECODE", desc: "The Control Unit decodes 'LOAD [10]'. It prepares to read Data Memory address 10.",
+          high: ['cu', 'ir'], anims: [],
+          state: {pc: '01', ir: 'LOAD [10]', acc: '0', dm12: '0'}, parallel: false },
+
+        // CYCLE 2 - THE MAGIC HAPPENS HERE
+        { title: "Cycle 2: EXECUTE (Load) + FETCH Next", desc: "Harvard Architecture advantage! The CPU fetches Data (5) from Data Memory AND fetches the next Instruction (ADD [11]) from Instruction Memory simultaneously over separate buses.",
+          high: ['bus-dm-addr', 'dm-10', 'bus-dm-data', 'acc', 'pc', 'bus-im-addr', 'im-01', 'bus-im-data', 'ir'], 
+          anims: [
+              {id: 'bus-dm-addr', type: 'anim-cpu-dm', base: 'active-dm'}, {id: 'bus-dm-data', type: 'anim-dm-cpu', base: 'active-dm'},
+              {id: 'bus-im-addr', type: 'anim-cpu-im', base: 'active-im'}, {id: 'bus-im-data', type: 'anim-im-cpu', base: 'active-im'}
+          ],
+          state: {pc: '02', ir: 'ADD [11]', acc: '5', dm12: '0'}, parallel: true },
+
+        { title: "Cycle 2: DECODE", desc: "The Control Unit decodes 'ADD [11]'.",
+          high: ['cu', 'ir'], anims: [],
+          state: {pc: '02', ir: 'ADD [11]', acc: '5', dm12: '0'}, parallel: false },
+
+        // CYCLE 3
+        { title: "Cycle 3: EXECUTE (Add) + FETCH Next", desc: "CPU reads Data Memory address 11 (Value: 7) and adds it to the Accumulator (5+7=12). Simultaneously, it fetches 'STORE [12]' from Instruction Memory.",
+          high: ['bus-dm-addr', 'dm-11', 'bus-dm-data', 'alu', 'acc', 'pc', 'bus-im-addr', 'im-02', 'bus-im-data', 'ir'], 
+          anims: [
+              {id: 'bus-dm-addr', type: 'anim-cpu-dm', base: 'active-dm'}, {id: 'bus-dm-data', type: 'anim-dm-cpu', base: 'active-dm'},
+              {id: 'bus-im-addr', type: 'anim-cpu-im', base: 'active-im'}, {id: 'bus-im-data', type: 'anim-im-cpu', base: 'active-im'}
+          ],
+          state: {pc: '03', ir: 'STORE [12]', acc: '12', dm12: '0'}, parallel: true },
+
+        { title: "Cycle 3: DECODE", desc: "The Control Unit decodes 'STORE [12]'.",
+          high: ['cu', 'ir'], anims: [],
+          state: {pc: '03', ir: 'STORE [12]', acc: '12', dm12: '0'}, parallel: false },
+
+        // CYCLE 4
+        { title: "Cycle 4: EXECUTE (Store) + FETCH Next", desc: "CPU writes Accumulator (12) into Data Memory address 12. Simultaneously, it fetches the next instruction ('HALT') from Instruction Memory.",
+          high: ['acc', 'bus-dm-addr', 'bus-dm-data', 'dm-12', 'pc', 'bus-im-addr', 'im-03', 'bus-im-data', 'ir'], 
+          anims: [
+              {id: 'bus-dm-addr', type: 'anim-cpu-dm', base: 'active-dm'}, {id: 'bus-dm-data', type: 'anim-cpu-dm', base: 'active-dm'}, /* Both write outwards to DM */
+              {id: 'bus-im-addr', type: 'anim-cpu-im', base: 'active-im'}, {id: 'bus-im-data', type: 'anim-im-cpu', base: 'active-im'}
+          ],
+          state: {pc: '04', ir: 'HALT', acc: '12', dm12: '12'}, parallel: true },
+
+        // CYCLE 5
+        { title: "Cycle 5: HALT", desc: "The program halts. Because of Harvard architecture, execution finished in fewer total cycles by overlapping fetching and execution.",
+          high: ['cu'], anims: [],
+          state: {pc: '04', ir: 'HALT', acc: '12', dm12: '12'}, parallel: false }
+    ];
+
+    let currentStep = -1;
+
+    const titleEl = document.getElementById('step-title');
+    const descEl = document.getElementById('step-desc');
+    const parallelAlert = document.getElementById('parallel-alert');
+    const valPc = document.getElementById('val-pc');
+    const valIr = document.getElementById('val-ir');
+    const valAcc = document.getElementById('val-acc');
+    const valDm12 = document.getElementById('val-dm-12');
+    
+    function clearHighlights() {
+        document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+        document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+        
+        // Clear all bus animations and base classes
+        const busLines = document.querySelectorAll('.bus-line');
+        busLines.forEach(bus => {
+            bus.className = 'bus-line'; // Reset classes
+        });
+    }
+
+    function renderStep(index) {
+        if (index < 0) {
+            titleEl.textContent = "System Idle";
+            descEl.textContent = "Press 'Next Step' to start processing the program.";
+            parallelAlert.style.display = "none";
+            clearHighlights();
+            valPc.textContent = '00'; valIr.textContent = '---';
+            valAcc.textContent = '0'; valDm12.textContent = '0';
+            return;
+        }
+
+        const step = steps[index];
+        titleEl.textContent = step.title;
+        descEl.textContent = step.desc;
+        parallelAlert.style.display = step.parallel ? "inline-block" : "none";
+
+        clearHighlights();
+
+        step.high.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.tagName === 'TR') el.classList.add('active');
+                else el.classList.add('highlight');
+            }
+        });
+
+        step.anims.forEach(anim => {
+            const bus = document.getElementById(anim.id);
+            if (bus) {
+                bus.classList.add(anim.base);
+                bus.classList.add(anim.type);
+            }
+        });
+
+        valPc.textContent = step.state.pc;
+        valIr.textContent = step.state.ir;
+        valAcc.textContent = step.state.acc;
+        valDm12.textContent = step.state.dm12;
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            renderStep(currentStep);
+        }
+    });
+
+    document.getElementById('btn-prev').addEventListener('click', () => {
+        if (currentStep > -1) {
+            currentStep--;
+            renderStep(currentStep);
+        }
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+        currentStep = -1;
+        renderStep(currentStep);
+    });
+
+</script>
+</body>
+</html>
