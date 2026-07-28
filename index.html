@@ -108,76 +108,22 @@
             line-height: 1.6;
         }
         .hero {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+            text-align: center; padding: 60px 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3);
+            position: relative; overflow: hidden;
         }
-        .hero h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 800; }
-        .hero h3 { margin-top: 0; color: #ffd700; }
-        .hero p {
-            font-size: 1.2em;
-            font-style: italic;
-            background: rgba(255,255,255,0.1);
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 50px;
-            margin-top: 15px;
-        }
+        .hero::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); }
+        .hero h1 { font-size: 2.8em; margin-bottom: 15px; font-weight: 800; position: relative; z-index: 1; }
+        .hero p { font-size: 1.1em; opacity: 0.9; max-width: 600px; margin: 0 auto 30px; position: relative; z-index: 1; }
+        .hero-badge { display: inline-block; background: rgba(255, 215, 0, 0.2); color: #ffd700; padding: 5px 15px; border-radius: 50px; font-size: 0.9em; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255, 215, 0, 0.5); position: relative; z-index: 1; }
         
-        .section-title {
-            color: #764ba2;
-            font-weight: 700;
-            border-bottom: 3px solid #764ba2;
-            padding-bottom: 8px;
-            margin-top: 40px;
-            font-size: 1.5em;
-        }
-        
-        .mission-box {
-            background-color: #fff3cd;
-            border-left: 6px solid #ffc107;
-            padding: 25px;
-            margin: 25px 0;
-            border-radius: 6px;
-            font-size: 1.1em;
-        }
-        
-        .methods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-            margin-top: 25px;
-        }
-        .method-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-            transition: transform 0.3s;
-            position: relative;
-        }
-        .method-card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #667eea;
-        }
-        .method-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-        .method-card h3 { color: #2c3e50; margin-top: 0; font-size: 1.2em; }
-        .method-card h3 small { color: #6c757d; font-size: 0.8em; display: block; margin-top: 5px; }
-        
-        .benefits-list { list-style: none; padding: 0; margin-top: 25px; }
-        .benefits-list li {
-            margin-bottom: 15px; background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 6px solid #28a745;
-        }
-        .benefits-list li strong { color: #155724; font-size: 1.1em; display: block; margin-bottom: 5px; }
-        
-        .cta-text {
-            text-align: center; font-weight: 800; font-size: 1.3em; color: #2c3e50;
-            background: #e2e8f0; padding: 20px; border-radius: 50px; margin-top: 40px;
-        }
+        .quick-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .ql-card { display: flex; align-items: center; background: #fff; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 1px solid #eee; }
+        .ql-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: #667eea; }
+        .ql-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5em; margin-right: 15px; flex-shrink: 0; }
+        .ql-content h3 { margin: 0 0 5px 0; font-size: 1.1em; color: #1e3c72; }
+        .ql-content p { margin: 0; font-size: 0.85em; color: #666; }
 
         /* Toolbar (Back & Download) */
         .content-toolbar {
@@ -235,15 +181,11 @@
         body.dark-mode { background: #0d1117; color: #c9d1d9; }
         body.dark-mode header { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border-bottom: 1px solid #30363d; }
         body.dark-mode .container { background: #161b22; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #30363d; }
-        body.dark-mode .hero { background: linear-gradient(135deg, #232a35 0%, #161b22 100%); border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        body.dark-mode .section-title { color: #58a6ff; border-bottom-color: #58a6ff; }
-        body.dark-mode .mission-box { background-color: #21262d; border-left-color: #e3b341; color: #c9d1d9; }
-        body.dark-mode .method-card { background: #0d1117; border-color: #30363d; }
-        body.dark-mode .method-card h3 { color: #58a6ff; }
-        body.dark-mode .method-card h3 small { color: #8b949e; }
-        body.dark-mode .benefits-list li { background: #21262d; border-left-color: #238636; color: #c9d1d9; }
-        body.dark-mode .benefits-list li strong { color: #3fb950; }
-        body.dark-mode .cta-text { background: #21262d; color: #c9d1d9; }
+        body.dark-mode .hero { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        body.dark-mode .ql-card { background: #161b22; border-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .ql-card:hover { border-color: #58a6ff; }
+        body.dark-mode .ql-content h3 { color: #58a6ff; }
+        body.dark-mode .ql-content p { color: #8b949e; }
         body.dark-mode footer { background: #0d1117; border-top: 1px solid #30363d; }
         body.dark-mode .home-btn { background: rgba(255, 255, 255, 0.1); }
         body.dark-mode .home-btn:hover { background: rgba(255, 255, 255, 0.2); }
@@ -351,9 +293,9 @@
             <!-- Home Page Content -->
             <div id="home-page">
                 <div class="hero">
-                    <h1>🚀 Batch Kuppi Initiative</h1>
-                    <h3>(Semester 01)</h3>
-                    <p>"එකෙක්වත් Repeat නොවන, මුළු Batch එකම එකතු වෙන Master Plan එක!"</p>
+                    <div class="hero-badge">Semester 01 - Final Exams Prep</div>
+                    <h1>Batch Kuppi Portal</h1>
+                    <p>Search for notes, slides, past papers, and video lectures instantly.</p>
                     
                     <div class="search-container">
                         <i class="fas fa-search search-icon"></i>
@@ -363,52 +305,28 @@
                     </div>
                 </div>
 
-                <h2 class="section-title"><i class="fas fa-bullseye"></i> අපේ අරමුණ (Our Mission)</h2>
-                <div class="mission-box">
-                    අපේ පළවෙනි සෙමෙස්ටර් අවසාන විභාගය ඉතා ආසන්නයේම පවතින අතර, මේ වන විට අප සියලු දෙනාම Study Leave ලබා ගෙවල් වල සිට පාඩම් කරමින් සිටිමු.<br><br>
-                    පාඩම් කිරීමේදී විවිධ ප්‍රශ්න සහ ගැටලු මතුවීම සාමාන්‍ය දෙයකි. ඇතැම් විෂය කරුණු සම්බන්ධයෙන් ඔබ <b>"බිංදුව මට්ටමේ"</b> සිටියද, කිසිසේත්ම පසුබට විය යුතු නැත! අපේ 52 දෙනෙකුගෙන් යුත් මුළු Batch එකම කිසිවෙකුත් අතනොහැර, එකමුතුව සහ පරාර්ථකාමීව විභාගයට මුහුණ දී <b>100% Pass Rate</b> එකක් ලබා ගැනීම අපගේ ප්‍රධානම අරමුණයි.<br><br>
-                    අප සියලු දෙනාම සාමූහිකව හොඳින් Perform කළහොත්, අප හට <b>ICT Special Degree</b> අවස්ථාවද ලබා ගැනීමට මඟ පෑදෙනු ඇත! 🎯
-                </div>
-
-                <h2 class="section-title"><i class="fas fa-cogs"></i> අපගේ අධ්‍යයන ක්‍රමවේදය (How We Work)</h2>
-                <div class="methods-grid">
-                    <div class="method-card">
-                        <h3>1️⃣ බෙදාගෙන පාඩම් කිරීම <small>(Smart Task Allocation)</small></h3>
-                        <p>සියලුම Lecture Notes පිටු කුඩා කොටස් වලට වෙන් කර ඇත. තනිවම හෝ 2-3 දෙනෙකුගේ කණ්ඩායමක් ලෙස තමන් කැමති පිටු ප්‍රමාණයක් භාරගෙන (Assign) පාඩම් කර Summary එකක් සකස් කරනු ලබයි.</p>
-                    </div>
-                    <div class="method-card">
-                        <h3>2️⃣ දිනපතා රෑ Zoom Discussions <small>(Daily Night Sessions)</small></h3>
-                        <p>දිනපතා රාත්‍රී 9.00 සිට Uninterrupted Zoom Meetings මඟින් කණ්ඩායම සෙට් වේ. තමන් පාඩම් කළ පිටු පිළිබඳව අන් අයට පැහැදිලි කර දීම (Kuppiya) සිදු කෙරේ.</p>
-                    </div>
-                    <div class="method-card">
-                        <h3>3️⃣ සෙන්ට්‍රලයිස්ඩ් Google Drive <small>(Shared Resources)</small></h3>
-                        <p>සියලුම Notes, AI Generated Content, Prompts, Past Papers සහ Slides එකම Shared Drive එකක ගබඩා කෙරේ.</p>
-                    </div>
-                    <div class="method-card">
-                        <h3>4️⃣ Active WhatsApp Q&A <small>(24/7 Channel)</small></h3>
-                        <p>විභාග කාලය ඉවර වන තෙක්ම 24/7 ක්‍රියාත්මක WhatsApp Group එකක්. Voice Messages, Hand-written Notes, Screenshots මඟින් ප්‍රශ්න අසා නිරවුල් කර ගැනීමේ හැකියාව ඇත.</p>
-                    </div>
-                </div>
-
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Live Progress Tracker</h2>
-                <div style="background: #fff; border-left: 4px solid #3498db; padding: 15px 25px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 15px;">
-                    <ul style="line-height: 1.8; color: #495057;">
-                        <li><i class="fas fa-user-check" style="color: #3498db; width: 25px;"></i> <b>Assignees:</b> අදාළ කොටස භාරගත් සාමාජිකයන්ගේ නම්.</li>
-                        <li><i class="fas fa-book-open" style="color: #3498db; width: 25px;"></i> <b>Topic:</b> පිටු 5 ඇතුළත් ප්‍රධාන මාතෘකාව.</li>
-                        <li><i class="fas fa-spinner" style="color: #3498db; width: 25px;"></i> <b>Status Tracking:</b> වැඩ ප්‍රගතිය පෙන්වන Indicator එක.</li>
-                    </ul>
-                </div>
-
-                <h2 class="section-title"><i class="fas fa-trophy"></i> ප්‍රතිලාභ (Benefits)</h2>
-                <ul class="benefits-list">
-                    <li><strong><i class="fas fa-check-circle"></i> Zero Repeats</strong> එක් අයෙකුටවත් අසමත් වීමට ඉඩ නොතැබීම.</li>
-                    <li><strong><i class="fas fa-clock"></i> Time Savings</strong> Notes කියවීමට යන කාලය ඉතිරි වීම.</li>
-                    <li><strong><i class="fas fa-users"></i> Strong Batch Unity</strong> ශක්තිමත් පරාර්ථකාමී එකමුතුකම.</li>
-                    <li><strong><i class="fas fa-graduation-cap"></i> ICT Special Degree Offer</strong> ඉහළ සාමූහික ප්‍රතිඵලයක් ලබා ගැනීම.</li>
-                </ul>
-                
-                <div class="cta-text">
-                    අදම Google Sheet එකෙන් ඔයාගේ කොටස Assign කරගන්න, රෑ Zoom Session එකට සෙට් වෙන්න! 🇱🇰💪
+                <div class="quick-links-grid">
+                    <a href="?note=00_Table_of_Contents" class="ql-card">
+                        <div class="ql-icon" style="background: rgba(102, 126, 234, 0.1); color: #667eea;"><i class="fas fa-list-ul"></i></div>
+                        <div class="ql-content">
+                            <h3>Table of Contents</h3>
+                            <p>Browse all structured notes sequentially</p>
+                        </div>
+                    </a>
+                    <a href="https://github.com/pathum-official/Batch-Kuppi-Initiative/discussions" target="_blank" class="ql-card">
+                        <div class="ql-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;"><i class="fas fa-comments"></i></div>
+                        <div class="ql-content">
+                            <h3>Discussions & Q&A</h3>
+                            <p>Ask questions and discuss topics with the batch</p>
+                        </div>
+                    </a>
+                    <a href="https://github.com/pathum-official/Batch-Kuppi-Initiative" target="_blank" class="ql-card">
+                        <div class="ql-icon" style="background: rgba(118, 75, 162, 0.1); color: #764ba2;"><i class="fab fa-github"></i></div>
+                        <div class="ql-content">
+                            <h3>GitHub Repository</h3>
+                            <p>View raw files, contribute, and fork</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -710,7 +628,7 @@
                         }
                         
                         resultsHTML += `
-                            <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="search-result-item" onclick="openSearchResult(event, '${typeParam}', '${fileParamPath}')">
+                            <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="search-result-item" data-type="${typeParam}" data-path="${fileParamPath.replace(/"/g, '&quot;')}">
                                 <div class="search-result-title"><i class="fas ${icon}"></i> ${title}</div>
                                 ${snippet ? `<div class="search-result-snippet">${snippet}</div>` : ''}
                             </a>
@@ -736,15 +654,22 @@
             }
         });
 
-        window.openSearchResult = function(e, type, path) {
-            e.preventDefault();
-            searchResults.style.display = 'none';
-            searchInput.value = '';
-            const url = new URL(window.location);
-            url.search = `?${type}=${encodeURIComponent(path)}`;
-            window.history.pushState({}, '', url);
-            handleRouting();
-        };
+        if (searchResults) {
+            searchResults.addEventListener('click', (e) => {
+                const item = e.target.closest('.search-result-item');
+                if (item) {
+                    e.preventDefault();
+                    const type = item.getAttribute('data-type');
+                    const path = item.getAttribute('data-path');
+                    searchResults.style.display = 'none';
+                    searchInput.value = '';
+                    const url = new URL(window.location);
+                    url.search = `?${type}=${encodeURIComponent(path)}`;
+                    window.history.pushState({}, '', url);
+                    handleRouting();
+                }
+            });
+        }
 
         // Initialize Router
         handleRouting();
