@@ -454,21 +454,29 @@
                     
                     // --- 1. Fix GitHub Alerts [!NOTE], [!WARNING], etc. ---
                     document.querySelectorAll('.markdown-body blockquote').forEach(bq => {
-                        let html = bq.innerHTML;
-                        const match = html.match(/^<p>\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
-                        if (match) {
-                            const type = match[1].toLowerCase();
-                            bq.classList.add(`alert-${type}`);
-                            
-                            let icon = 'info-circle';
-                            let titleText = 'Note';
-                            if (type === 'tip') { icon = 'lightbulb'; titleText = 'Tip'; }
-                            else if (type === 'important') { icon = 'exclamation-circle'; titleText = 'Important'; }
-                            else if (type === 'warning') { icon = 'exclamation-triangle'; titleText = 'Warning'; }
-                            else if (type === 'caution') { icon = 'skull-crossbones'; titleText = 'Caution'; }
+                        const p = bq.firstElementChild;
+                        if (p && p.tagName === 'P') {
+                            const match = p.innerHTML.trim().match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
+                            if (match) {
+                                const type = match[1].toLowerCase();
+                                bq.classList.add(`alert-${type}`);
+                                
+                                let icon = 'info-circle';
+                                let titleText = 'Note';
+                                if (type === 'tip') { icon = 'lightbulb'; titleText = 'Tip'; }
+                                else if (type === 'important') { icon = 'exclamation-circle'; titleText = 'Important'; }
+                                else if (type === 'warning') { icon = 'exclamation-triangle'; titleText = 'Warning'; }
+                                else if (type === 'caution') { icon = 'skull-crossbones'; titleText = 'Caution'; }
 
-                            bq.innerHTML = html.replace(/^<p>\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i, 
-                                `<div class="alert-title"><i class="fas fa-${icon}"></i> ${titleText}</div><p>`);
+                                // Remove the [!TYPE] text (and any following <br> or spaces) from the paragraph
+                                p.innerHTML = p.innerHTML.trim().replace(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(<br>)?\s*/i, '');
+                                
+                                // Insert the custom title at the top of the blockquote
+                                const titleDiv = document.createElement('div');
+                                titleDiv.className = 'alert-title';
+                                titleDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${titleText}`;
+                                bq.insertBefore(titleDiv, p);
+                            }
                         }
                     });
 
