@@ -327,6 +327,8 @@
             <!-- Dynamic Content Container -->
             <div id="content-wrapper">
                 
+                <div id="viewer-breadcrumb" class="fb-breadcrumb" style="margin-bottom: 20px; border-radius: 8px; border: 1px solid #e2e8f0; display: none;"></div>
+
                 <!-- Toolbar for Viewer -->
                 <div class="content-toolbar">
                     <a href="#" id="download-btn" class="toolbar-btn download-btn" download><i class="fas fa-download"></i> <span id="dl-text">Download</span></a>
@@ -476,6 +478,24 @@
             mediaContent.innerHTML = '';
             markdownContent.style.display = 'none';
 
+            const currentFilePath = note || pdf || video || img;
+            const viewerBc = document.getElementById('viewer-breadcrumb');
+            if (currentFilePath && viewerBc) {
+                const parts = currentFilePath.split('/');
+                const fileName = parts.pop();
+                let bcHTML = `<i class="fas fa-home" style="margin-right:5px;"></i> <span class="fb-crumb" onclick="goHomeAndOpen('')">Home</span>`;
+                let cumPath = '';
+                parts.forEach(part => {
+                    cumPath += (cumPath ? '/' : '') + part;
+                    bcHTML += `<span class="fb-crumb-separator"><i class="fas fa-chevron-right"></i></span> <span class="fb-crumb" onclick="goHomeAndOpen('${cumPath.replace(/'/g, "\\'")}')">${part}</span>`;
+                });
+                bcHTML += `<span class="fb-crumb-separator"><i class="fas fa-chevron-right"></i></span> <span style="color: #6c757d;">${fileName}</span>`;
+                viewerBc.innerHTML = bcHTML;
+                viewerBc.style.display = 'flex';
+            } else if (viewerBc) {
+                viewerBc.style.display = 'none';
+            }
+
             if (note) {
                 let fetchUrl = note.endsWith('.md') ? note : note + '.md';
                 let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
@@ -526,10 +546,17 @@
 
         // --- Custom SPA Back Button ---
         function goHome() {
+            goHomeAndOpen('');
+        }
+        
+        function goHomeAndOpen(path) {
             const url = new URL(window.location);
             url.search = '';
             window.history.pushState({}, document.title, url);
             handleRouting();
+            if (typeof renderFolder === 'function') {
+                renderFolder(path);
+            }
         }
 
         // --- Search Feature Logic (GitHub API) ---
@@ -621,9 +648,13 @@
                             if (!matchesFilename) continue;
                         }
                         
+                        const dirPath = file.path.substring(0, file.path.lastIndexOf('/'));
+                        const breadcrumbText = dirPath ? 'Home > ' + dirPath.replace(/\//g, ' > ') : 'Home';
+                        
                         resultsHTML += `
                             <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="search-result-item" data-type="${typeParam}" data-path="${fileParamPath.replace(/"/g, '&quot;')}">
                                 <div class="search-result-title"><i class="fas ${icon}"></i> ${title}</div>
+                                <div style="font-size: 0.8em; color: #888; margin-bottom: 5px;"><i class="fas fa-folder-open"></i> ${breadcrumbText}</div>
                                 ${snippet ? `<div class="search-result-snippet">${snippet}</div>` : ''}
                             </a>
                         `;
