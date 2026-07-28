@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-width=1.0">
     <title>Batch Kuppi Initiative</title>
     <link rel="icon" type="image/x-icon" href="logo.ico">
-    
-    <!-- Force Light Theme for GitHub Markdown to fix dark mode clashes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <!-- Dynamic CSS Links for Light/Dark Mode -->
+    <link id="markdown-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
     
     <!-- Highlight.js for Code Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <link id="highlight-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
 
     <!-- KaTeX for Math Equations (sup, sub, roots) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
@@ -232,6 +231,49 @@
         .alert-warning .alert-title { color: #bf8700; }
         .alert-caution .alert-title { color: #cf222e; }
         
+        /* Dark Mode Styling */
+        body.dark-mode { background: #0d1117; color: #c9d1d9; }
+        body.dark-mode header { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border-bottom: 1px solid #30363d; }
+        body.dark-mode .container { background: #161b22; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #30363d; }
+        body.dark-mode .hero { background: linear-gradient(135deg, #232a35 0%, #161b22 100%); border: 1px solid #30363d; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        body.dark-mode .section-title { color: #58a6ff; border-bottom-color: #58a6ff; }
+        body.dark-mode .mission-box { background-color: #21262d; border-left-color: #e3b341; color: #c9d1d9; }
+        body.dark-mode .method-card { background: #0d1117; border-color: #30363d; }
+        body.dark-mode .method-card h3 { color: #58a6ff; }
+        body.dark-mode .method-card h3 small { color: #8b949e; }
+        body.dark-mode .benefits-list li { background: #21262d; border-left-color: #238636; color: #c9d1d9; }
+        body.dark-mode .benefits-list li strong { color: #3fb950; }
+        body.dark-mode .cta-text { background: #21262d; color: #c9d1d9; }
+        body.dark-mode footer { background: #0d1117; border-top: 1px solid #30363d; }
+        body.dark-mode .home-btn { background: rgba(255, 255, 255, 0.1); }
+        body.dark-mode .home-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        body.dark-mode .content-toolbar { border-bottom-color: #30363d; }
+        body.dark-mode #loading { color: #58a6ff; }
+        body.dark-mode .mermaid { background: #c9d1d9; } 
+        
+        /* Search Box Styling */
+        .search-container { position: relative; max-width: 600px; margin: 20px auto 0; }
+        .search-input { width: 100%; padding: 15px 20px 15px 50px; font-size: 1.1em; border: none; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); outline: none; box-sizing: border-box; transition: box-shadow 0.3s; }
+        .search-input:focus { box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #667eea; font-size: 1.2em; }
+        .search-results { position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 10px; max-height: 400px; overflow-y: auto; text-align: left; display: none; z-index: 100; }
+        .search-result-item { padding: 15px 20px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; color: #333; text-decoration: none; display: block; }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background: #f8f9fa; }
+        .search-result-title { font-weight: 600; color: #1e3c72; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .search-result-snippet { font-size: 0.9em; color: #666; line-height: 1.4; }
+        .search-highlight { background-color: #ffeb3b; padding: 0 2px; border-radius: 2px; color: #000; }
+        .search-loading { padding: 15px; text-align: center; color: #666; display: none; }
+        
+        body.dark-mode .search-input { background: #21262d; color: #c9d1d9; box-shadow: inset 0 1px 2px rgba(0,0,0,0.075); border: 1px solid #30363d; }
+        body.dark-mode .search-icon { color: #58a6ff; }
+        body.dark-mode .search-results { background: #161b22; border: 1px solid #30363d; }
+        body.dark-mode .search-result-item { border-bottom-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .search-result-item:hover { background: #21262d; }
+        body.dark-mode .search-result-title { color: #58a6ff; }
+        body.dark-mode .search-result-snippet { color: #8b949e; }
+        body.dark-mode .search-highlight { background-color: rgba(210, 153, 34, 0.4); color: #fff; }
+
         /* Make Markdown tables responsive on mobile */
         .markdown-body table { display: block; width: 100%; overflow-x: auto; }
         
@@ -293,7 +335,10 @@
     <header>
         <div class="header-content">
             <div class="logo"><i class="fas fa-graduation-cap"></i> Batch Kuppi Portal</div>
-            <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
+            <div style="display: flex; gap: 10px;">
+                <button id="theme-toggle" class="home-btn" style="border:none; cursor:pointer;" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
+            </div>
         </div>
     </header>
 
@@ -309,6 +354,13 @@
                     <h1>🚀 Batch Kuppi Initiative</h1>
                     <h3>(Semester 01)</h3>
                     <p>"එකෙක්වත් Repeat නොවන, මුළු Batch එකම එකතු වෙන Master Plan එක!"</p>
+                    
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" class="search-input" placeholder="පාඩම්, වචන, හෝ ගොනු සොයන්න... (Search notes...)">
+                        <div id="search-loading" class="search-loading"><i class="fas fa-spinner fa-spin"></i> ෆයිල්ස් පරීක්ෂා කරමින් පවතී...</div>
+                        <div id="search-results" class="search-results"></div>
+                    </div>
                 </div>
 
                 <h2 class="section-title"><i class="fas fa-bullseye"></i> අපේ අරමුණ (Our Mission)</h2>
@@ -365,7 +417,7 @@
                 
                 <!-- Toolbar for Viewer -->
                 <div class="content-toolbar">
-                    
+                    <button onclick="goHome()" class="toolbar-btn back-btn" style="border:none; cursor:pointer;"><i class="fas fa-arrow-left"></i> ආපසු (Back)</button>
                     <a href="#" id="download-btn" class="toolbar-btn download-btn" download><i class="fas fa-download"></i> <span id="dl-text">Download</span></a>
                 </div>
 
@@ -378,8 +430,8 @@
 
     <!-- Footer Area -->
     <footer>
-        <p>"තනිවම යනවාට වඩා, එකතු වී යාමෙන් අපට බොහෝ දුර යා හැකිය!"</p>
-        <small>© 2026 Batch Kuppi Initiative - Developed for Semester 01 Students</small>
+        <p>"තනිවම යනවාට වඩා, එකතු වී යාමෙන් අපට බොහෝ දුරක් යා හැකියි!"</p>
+        <small>© 2026 Batch Kuppi Initiative - Powered By 2024/25 USJP ICT Students</small>
     </footer>
 
     <!-- Scripts Section -->
@@ -398,6 +450,37 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
     <script>
+        // --- Dark Mode Logic ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const mdCss = document.getElementById('markdown-css');
+        const hljsCss = document.getElementById('highlight-css');
+        const body = document.body;
+        
+        // Check local storage for theme
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') { enableDarkMode(); }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) { enableLightMode(); } 
+            else { enableDarkMode(); }
+        });
+
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            mdCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css';
+            hljsCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css';
+            localStorage.setItem('theme', 'dark');
+        }
+
+        function enableLightMode() {
+            body.classList.remove('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            mdCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css';
+            hljsCss.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css';
+            localStorage.setItem('theme', 'light');
+        }
+
         // Configure Marked to use Highlight.js for Code Blocks
         marked.setOptions({
             highlight: function(code, lang) {
@@ -430,120 +513,243 @@
         function showContentLayout(downloadUrl, fileType) {
             homePageDiv.style.display = 'none';
             contentWrapper.style.display = 'block';
-            
             if (downloadUrl) {
                 downloadBtn.href = downloadUrl;
                 downloadBtn.style.display = 'flex';
                 dlText.innerText = `Download ${fileType}`;
+            } else { downloadBtn.style.display = 'none'; }
+        }
+
+        function renderMarkdownExtras() {
+            // Fix GitHub Alerts
+            document.querySelectorAll('.markdown-body blockquote').forEach(bq => {
+                const p = bq.firstElementChild;
+                if (p && p.tagName === 'P') {
+                    const match = p.innerHTML.trim().match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
+                    if (match) {
+                        const type = match[1].toLowerCase();
+                        bq.classList.add(`alert-${type}`);
+                        let icon = 'info-circle', titleText = 'Note';
+                        if (type === 'tip') { icon = 'lightbulb'; titleText = 'Tip'; }
+                        else if (type === 'important') { icon = 'exclamation-circle'; titleText = 'Important'; }
+                        else if (type === 'warning') { icon = 'exclamation-triangle'; titleText = 'Warning'; }
+                        else if (type === 'caution') { icon = 'skull-crossbones'; titleText = 'Caution'; }
+                        p.innerHTML = p.innerHTML.trim().replace(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(<br>)?\s*/i, '');
+                        const titleDiv = document.createElement('div');
+                        titleDiv.className = 'alert-title';
+                        titleDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${titleText}`;
+                        bq.insertBefore(titleDiv, p);
+                    }
+                }
+            });
+            // Math Equations
+            renderMathInElement(markdownContent, {
+                delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ],
+                throwOnError: false
+            });
+            // Mermaid
+            document.querySelectorAll('code.language-mermaid').forEach(el => {
+                let div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = el.textContent;
+                el.parentNode.replaceWith(div);
+            });
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+        }
+
+        function handleRouting() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const note = urlParams.get('note'), pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img'), yt = urlParams.get('yt'), urlEmbed = urlParams.get('url'); 
+            
+            markdownContent.innerHTML = '';
+            mediaContent.innerHTML = '';
+            markdownContent.style.display = 'none';
+
+            if (note) {
+                let fetchUrl = note.endsWith('.md') ? note : note + '.md';
+                let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
+                showContentLayout(encodedUrl, "Note");
+                loadingDiv.style.display = 'block';
+                fetch(encodedUrl)
+                    .then(response => { if (!response.ok) throw new Error('File not found'); return response.text(); })
+                    .then(text => {
+                        markdownContent.innerHTML = marked.parse(text);
+                        renderMarkdownExtras();
+                        loadingDiv.style.display = 'none';
+                        markdownContent.style.display = 'block';
+                        document.title = fetchUrl.split('/').pop() + " - Batch Kuppi";
+                    }).catch(error => {
+                        loadingDiv.style.display = 'none';
+                        mediaContent.innerHTML = '<h2>❌ Error!</h2><p>අදාළ සටහන සොයාගත නොහැක.</p>';
+                        downloadBtn.style.display = 'none';
+                    });
+            } else if (pdf) {
+                let encodedUrl = (pdf.endsWith('.pdf') ? pdf : pdf + '.pdf').split('/').map(part => encodeURIComponent(part)).join('/');
+                showContentLayout(encodedUrl, "PDF");
+                mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${encodedUrl}"></iframe>`;
+                document.title = "PDF Viewer - Batch Kuppi";
+            } else if (video) {
+                let encodedUrl = video.split('/').map(part => encodeURIComponent(part)).join('/');
+                showContentLayout(encodedUrl, "Video");
+                mediaContent.innerHTML = `<video controls autoplay><source src="${encodedUrl}" type="video/mp4">Browser does not support video.</video>`;
+                document.title = "Video Player - Batch Kuppi";
+            } else if (img) {
+                let encodedUrl = img.split('/').map(part => encodeURIComponent(part)).join('/');
+                showContentLayout(encodedUrl, "Image");
+                mediaContent.innerHTML = `<img src="${encodedUrl}" alt="Learning Material">`;
+                document.title = "Image Viewer - Batch Kuppi";
+            } else if (yt) {
+                showContentLayout(null, ""); 
+                mediaContent.innerHTML = `<div class="yt-container"><iframe src="https://www.youtube.com/embed/${yt}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                document.title = "YouTube Lecture - Batch Kuppi";
+            } else if (urlEmbed) {
+                showContentLayout(null, ""); 
+                mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${urlEmbed}" allowfullscreen></iframe>`;
+                document.title = "External Resource - Batch Kuppi";
             } else {
-                downloadBtn.style.display = 'none'; 
+                homePageDiv.style.display = 'block';
+                contentWrapper.style.display = 'none';
+                document.title = "Batch Kuppi Initiative";
             }
         }
 
-        if (noteParam) {
-            let fetchUrl = noteParam.endsWith('.md') ? noteParam : noteParam + '.md';
-            let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
-            
-            showContentLayout(encodedUrl, "Note");
-            loadingDiv.style.display = 'block';
-            
-            fetch(encodedUrl)
-                .then(response => { if (!response.ok) throw new Error('File not found'); return response.text(); })
-                .then(text => {
-                    // Parse Markdown to HTML
-                    markdownContent.innerHTML = marked.parse(text);
-                    
-                    // --- 1. Fix GitHub Alerts [!NOTE], [!WARNING], etc. ---
-                    document.querySelectorAll('.markdown-body blockquote').forEach(bq => {
-                        const p = bq.firstElementChild;
-                        if (p && p.tagName === 'P') {
-                            const match = p.innerHTML.trim().match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
-                            if (match) {
-                                const type = match[1].toLowerCase();
-                                bq.classList.add(`alert-${type}`);
-                                
-                                let icon = 'info-circle';
-                                let titleText = 'Note';
-                                if (type === 'tip') { icon = 'lightbulb'; titleText = 'Tip'; }
-                                else if (type === 'important') { icon = 'exclamation-circle'; titleText = 'Important'; }
-                                else if (type === 'warning') { icon = 'exclamation-triangle'; titleText = 'Warning'; }
-                                else if (type === 'caution') { icon = 'skull-crossbones'; titleText = 'Caution'; }
-
-                                // Remove the [!TYPE] text (and any following <br> or spaces) from the paragraph
-                                p.innerHTML = p.innerHTML.trim().replace(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(<br>)?\s*/i, '');
-                                
-                                // Insert the custom title at the top of the blockquote
-                                const titleDiv = document.createElement('div');
-                                titleDiv.className = 'alert-title';
-                                titleDiv.innerHTML = `<i class="fas fa-${icon}"></i> ${titleText}`;
-                                bq.insertBefore(titleDiv, p);
-                            }
-                        }
-                    });
-
-                    // --- 2. Render Math Equations (KaTeX) ---
-                    // This handles $2^5$ and $$ math blocks $$ natively like VS Code!
-                    renderMathInElement(markdownContent, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false},
-                            {left: '\\(', right: '\\)', display: false},
-                            {left: '\\[', right: '\\]', display: true}
-                        ],
-                        throwOnError: false
-                    });
-
-                    // --- 3. Fix Mermaid Diagrams ---
-                    document.querySelectorAll('code.language-mermaid').forEach(el => {
-                        let div = document.createElement('div');
-                        div.className = 'mermaid';
-                        div.textContent = el.textContent;
-                        el.parentNode.replaceWith(div);
-                    });
-                    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-
-                    loadingDiv.style.display = 'none';
-                    markdownContent.style.display = 'block';
-                    document.title = fetchUrl.split('/').pop() + " - Batch Kuppi";
-                })
-                .catch(error => {
-                    loadingDiv.style.display = 'none';
-                    mediaContent.innerHTML = '<h2>❌ Error!</h2><p>අදාළ සටහන සොයාගත නොහැක.</p>';
-                    downloadBtn.style.display = 'none';
-                });
-
-        } else if (pdfParam) {
-            let pdfUrl = pdfParam.endsWith('.pdf') ? pdfParam : pdfParam + '.pdf';
-            let encodedPdfUrl = pdfUrl.split('/').map(part => encodeURIComponent(part)).join('/');
-            showContentLayout(encodedPdfUrl, "PDF");
-            mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${encodedPdfUrl}"></iframe>`;
-            document.title = "PDF Viewer - Batch Kuppi";
-
-        } else if (videoParam) {
-            let encodedVidUrl = videoParam.split('/').map(part => encodeURIComponent(part)).join('/');
-            showContentLayout(encodedVidUrl, "Video");
-            mediaContent.innerHTML = `<video controls autoplay><source src="${encodedVidUrl}" type="video/mp4">Browser does not support video.</video>`;
-            document.title = "Video Player - Batch Kuppi";
-
-        } else if (imgParam) {
-            let encodedImgUrl = imgParam.split('/').map(part => encodeURIComponent(part)).join('/');
-            showContentLayout(encodedImgUrl, "Image");
-            mediaContent.innerHTML = `<img src="${encodedImgUrl}" alt="Learning Material">`;
-            document.title = "Image Viewer - Batch Kuppi";
-
-        } else if (ytParam) {
-            showContentLayout(null, ""); 
-            mediaContent.innerHTML = `<div class="yt-container"><iframe src="https://www.youtube.com/embed/${ytParam}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-            document.title = "YouTube Lecture - Batch Kuppi";
-
-        } else if (urlEmbedParam) {
-            showContentLayout(null, ""); 
-            mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${urlEmbedParam}" allowfullscreen></iframe>`;
-            document.title = "External Resource - Batch Kuppi";
-
-        } else {
-            homePageDiv.style.display = 'block';
+        // --- Custom SPA Back Button ---
+        function goHome() {
+            const url = new URL(window.location);
+            url.search = '';
+            window.history.pushState({}, document.title, url);
+            handleRouting();
         }
+
+        // --- Search Feature Logic (GitHub API) ---
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const searchLoading = document.getElementById('search-loading');
+        let fileCache = null; 
+        let noteContentCache = {};
+
+        async function fetchRepoTree() {
+            if (fileCache) return fileCache;
+            try {
+                const res = await fetch('https://api.github.com/repos/pathum-official/Batch-Kuppi-Initiative/git/trees/main?recursive=1');
+                if (!res.ok) throw new Error("Failed to fetch tree");
+                const data = await res.json();
+                fileCache = data.tree.filter(item => item.type === 'blob' && (item.path.endsWith('.md') || item.path.endsWith('.pdf') || item.path.endsWith('.mp4') || item.path.endsWith('.jpg') || item.path.endsWith('.png')));
+                return fileCache;
+            } catch (e) { return []; }
+        }
+
+        async function getNoteContent(path) {
+            if (noteContentCache[path]) return noteContentCache[path];
+            try {
+                const res = await fetch(`https://raw.githubusercontent.com/pathum-official/Batch-Kuppi-Initiative/main/${path}`);
+                if (!res.ok) return "";
+                const text = await res.text();
+                noteContentCache[path] = text;
+                return text;
+            } catch(e) { return ""; }
+        }
+
+        let searchTimeout;
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                searchResults.style.display = 'none';
+                searchLoading.style.display = 'block';
+
+                searchTimeout = setTimeout(async () => {
+                    const files = await fetchRepoTree();
+                    if (files.length === 0) {
+                        searchLoading.style.display = 'none';
+                        return;
+                    }
+
+                    let resultsHTML = '';
+                    let matchCount = 0;
+
+                    for (let file of files) {
+                        if (matchCount >= 10) break;
+                        if (file.path.toLowerCase().includes('readme.md')) continue;
+                        
+                        const fileName = file.path.split('/').pop();
+                        const ext = fileName.split('.').pop().toLowerCase();
+                        const title = fileName.replace('.' + ext, '').replace(/_/g, ' ');
+                        
+                        let icon = 'fa-file-alt', typeParam = 'note';
+                        if (ext === 'pdf') { icon = 'fa-file-pdf'; typeParam = 'pdf'; }
+                        else if (ext === 'mp4') { icon = 'fa-video'; typeParam = 'video'; }
+                        else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
+
+                        let fileParamPath = file.path.replace('.' + ext, '');
+                        let matchesFilename = title.toLowerCase().includes(query);
+                        let snippet = '';
+
+                        if (ext === 'md') {
+                            const content = await getNoteContent(file.path);
+                            const contentLower = content.toLowerCase();
+                            const idx = contentLower.indexOf(query);
+                            
+                            if (idx !== -1) {
+                                let start = Math.max(0, idx - 40);
+                                let end = Math.min(content.length, idx + query.length + 40);
+                                snippet = content.substring(start, end).replace(/\n/g, ' ');
+                                const regex = new RegExp(`(${query})`, 'gi');
+                                snippet = snippet.replace(regex, '<span class="search-highlight">$1</span>');
+                                snippet = `...${snippet}...`;
+                            } else if (!matchesFilename) {
+                                continue;
+                            }
+                        } else {
+                            if (!matchesFilename) continue;
+                        }
+                        
+                        resultsHTML += `
+                            <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="search-result-item" onclick="openSearchResult(event, '${typeParam}', '${fileParamPath}')">
+                                <div class="search-result-title"><i class="fas ${icon}"></i> ${title}</div>
+                                ${snippet ? `<div class="search-result-snippet">${snippet}</div>` : ''}
+                            </a>
+                        `;
+                        matchCount++;
+                    }
+
+                    searchLoading.style.display = 'none';
+                    if (resultsHTML) {
+                        searchResults.innerHTML = resultsHTML;
+                        searchResults.style.display = 'block';
+                    } else {
+                        searchResults.innerHTML = '<div style="padding: 15px; color: #666; text-align: center;">කිසිදු ප්‍රතිඵලයක් හමු නොවීය. (No results found)</div>';
+                        searchResults.style.display = 'block';
+                    }
+                }, 500);
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (searchInput && searchResults && !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        window.openSearchResult = function(e, type, path) {
+            e.preventDefault();
+            searchResults.style.display = 'none';
+            searchInput.value = '';
+            const url = new URL(window.location);
+            url.search = `?${type}=${encodeURIComponent(path)}`;
+            window.history.pushState({}, '', url);
+            handleRouting();
+        };
+
+        // Initialize Router
+        handleRouting();
+        window.addEventListener('popstate', handleRouting);
     </script>
 
     <!--Start of Tawk.to Script-->
