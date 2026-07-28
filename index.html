@@ -113,7 +113,7 @@
             color: white; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3);
             position: relative;
         }
-        .hero::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); }
+        .hero::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); pointer-events: none; }
         .hero h1 { font-size: 2.8em; margin-bottom: 15px; font-weight: 800; position: relative; z-index: 1; }
         .hero p { font-size: 1.1em; opacity: 0.9; max-width: 600px; margin: 0 auto 30px; position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: rgba(255, 215, 0, 0.2); color: #ffd700; padding: 5px 15px; border-radius: 50px; font-size: 0.9em; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255, 215, 0, 0.5); position: relative; z-index: 1; }
@@ -497,7 +497,7 @@
             }
 
             if (note) {
-                let fetchUrl = note.endsWith('.md') ? note : note + '.md';
+                let fetchUrl = note.includes('.') ? note : note + '.md';
                 let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
                 showContentLayout(encodedUrl, "Note");
                 loadingDiv.style.display = 'block';
@@ -572,7 +572,7 @@
                 const res = await fetch('https://api.github.com/repos/pathum-official/Batch-Kuppi-Initiative/git/trees/main?recursive=1');
                 if (!res.ok) throw new Error("Failed to fetch tree");
                 const data = await res.json();
-                fileCache = data.tree.filter(item => item.type === 'blob' && (item.path.endsWith('.md') || item.path.endsWith('.pdf') || item.path.endsWith('.mp4') || item.path.endsWith('.jpg') || item.path.endsWith('.png')));
+                fileCache = data.tree.filter(item => item.type === 'blob' && !item.path.startsWith('.') && item.path.toLowerCase() !== 'readme.md');
                 return fileCache;
             } catch (e) { return []; }
         }
