@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive CPU Pipeline Simulator</title>
+    <style>
+        :root {
+            --color-if: #00a88f;
+            --color-id: #4caf50;
+            --color-ex: #ff7043;
+            --color-mem: #42a5f5;
+            --color-wb: #ab47bc;
+            --bg-card: #ffffff;
+            --bg-body: #f4f7f6;
+            --border-color: #e0e0e0;
+            --text-main: #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            color: #1a252f;
+        }
+
+        header p {
+            color: #666;
+        }
+
+        /* --- Card Containers --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Hardware Schematic --- */
+        .hardware-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            position: relative;
+        }
+
+        .hw-block {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px 10px;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hw-block .stage-tag {
+            font-weight: 800;
+            font-size: 1.2em;
+            margin-bottom: 4px;
+        }
+
+        .hw-block .hw-name {
+            font-size: 0.8em;
+            color: #666;
+            min-height: 32px;
+        }
+
+        .hw-block .occupant {
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 700;
+            color: white;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .hw-block.active {
+            border-color: currentColor;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            background: #fff;
+        }
+
+        .hw-block.active .occupant {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stage Colors */
+        .is-if { color: var(--color-if); }
+        .is-id { color: var(--color-id); }
+        .is-ex { color: var(--color-ex); }
+        .is-mem { color: var(--color-mem); }
+        .is-wb { color: var(--color-wb); }
+
+        .bg-if { background-color: var(--color-if); }
+        .bg-id { background-color: var(--color-id); }
+        .bg-ex { background-color: var(--color-ex); }
+        .bg-mem { background-color: var(--color-mem); }
+        .bg-wb { background-color: var(--color-wb); }
+
+        /* --- Controls --- */
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            background: #2c3e50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:active { transform: scale(0.96); }
+
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; }
+        
+        .btn-success { background: #2ecc71; color: white; }
+        .btn-success:hover { background: #27ae60; }
+        
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-danger:hover { background: #c0392b; }
+
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+
+        .cycle-badge {
+            background: #1a252f;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border: 1px solid #455a64;
+        }
+
+        /* --- Pipeline Timing Grid --- */
+        .grid-wrapper {
+            overflow-x: auto;
+        }
+
+        table.pipeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table.pipeline-table th, table.pipeline-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 6px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        table.pipeline-table th {
+            background: #f8f9fa;
+            color: #777;
+        }
+
+        table.pipeline-table th.active-col {
+            background: #2c3e50;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        td.instr-label {
+            font-weight: bold;
+            background: #fafafa;
+            text-align: left;
+            padding-left: 12px;
+            white-space: nowrap;
+        }
+
+        td.stage-cell {
+            font-weight: bold;
+            color: white;
+            font-family: monospace;
+            font-size: 1em;
+            border-radius: 4px;
+        }
+
+        /* --- Live Inspector Log --- */
+        .inspector-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .inspector-item {
+            background: #f8f9fa;
+            border-left: 4px solid #ccc;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .inspector-item strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* --- Kitchen Analogy Footer --- */
+        .analogy-banner {
+            background: #eef9f5;
+            border: 1px solid #bcead8;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95em;
+        }
+
+        .analogy-icon {
+            font-size: 1.8em;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>CPU Instruction Pipeline Visualizer</h1>
+        <p>Watch how a 5-stage CPU processes multiple instructions simultaneously every clock cycle.</p>
+    </header>
+
+    <!-- Interactive Hardware Schematic -->
+    <div class="card">
+        <div class="card-title">
+            <span>Live CPU Hardware Execution</span>
+            <span style="font-size: 0.8em; font-weight: normal; color: #888;">Active units glow during cycle execution</span>
+        </div>
+        <div class="hardware-flow">
+            <div class="hw-block is-if" id="hw-if">
+                <div class="stage-tag">IF</div>
+                <div class="hw-name">Instruction Memory / PC</div>
+                <div class="occupant bg-if" id="occ-if">-</div>
+            </div>
+            <div class="hw-block is-id" id="hw-id">
+                <div class="stage-tag">ID</div>
+                <div class="hw-name">Register File (Read) & Decoder</div>
+                <div class="occupant bg-id" id="occ-id">-</div>
+            </div>
+            <div class="hw-block is-ex" id="hw-ex">
+                <div class="stage-tag">EX</div>
+                <div class="hw-name">Arithmetic Logic Unit (ALU)</div>
+                <div class="occupant bg-ex" id="occ-ex">-</div>
+            </div>
+            <div class="hw-block is-mem" id="hw-mem">
+                <div class="stage-tag">MEM</div>
+                <div class="hw-name">Data Memory / Cache</div>
+                <div class="occupant bg-mem" id="occ-mem">-</div>
+            </div>
+            <div class="hw-block is-wb" id="hw-wb">
+                <div class="stage-tag">WB</div>
+                <div class="hw-name">Register File (Write)</div>
+                <div class="occupant bg-wb" id="occ-wb">-</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="control-panel">
+        <div class="btn-group">
+            <button class="btn-primary" id="btn-prev">‹ Step Back</button>
+            <button class="btn-success" id="btn-play">▶ Play Pipeline</button>
+            <button class="btn-primary" id="btn-next">Step Forward ›</button>
+            <button class="btn-danger" id="btn-reset">↺ Reset</button>
+        </div>
+        <div class="slider-group">
+            <label for="speed-slider">Speed:</label>
+            <input type="range" id="speed-slider" min="300" max="2000" value="900" step="100" style="direction: rtl;">
+        </div>
+        <div class="cycle-badge">
+            Clock Cycle: <span id="cycle-num">0</span> / 9
+        </div>
+    </div>
+
+    <!-- Pipeline Grid -->
+    <div class="card">
+        <div class="card-title">Instruction Pipeline Matrix</div>
+        <div class="grid-wrapper">
+            <table class="pipeline-table" id="matrix">
+                <thead>
+                    <tr id="header-row">
+                        <th>Instruction</th>
+                        <!-- Cycle headers populated by JS -->
+                    </tr>
+                </thead>
+                <tbody id="matrix-body">
+                    <!-- Dynamic Rows -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Live Inspector -->
+    <div class="card">
+        <div class="card-title">Cycle Stage Activity Inspector</div>
+        <ul class="inspector-list" id="inspector">
+            <!-- Dynamic Inspector Cards -->
+        </ul>
+    </div>
+
+    <!-- Chef Analogy -->
+    <div class="analogy-banner">
+        <div class="analogy-icon">👨‍🍳</div>
+        <div>
+            <strong>The Kitchen Analogy:</strong> Think of pipelining like 5 chefs working an assembly line. Chef 1 preps raw ingredients (Fetch), Chef 2 chops them (Decode), Chef 3 cooks on the stove (Execute), Chef 4 plates the food (Memory), and Chef 5 sends it out to the dining room (Writeback). Once the pipeline is full, a complete meal leaves the kitchen on <em>every single clock tick</em>.
+        </div>
+    </div>
+</div>
+
+<script>
+    const stages = ['IF', 'ID', 'EX', 'MEM', 'WB'];
+    const stageClasses = ['bg-if', 'bg-id', 'bg-ex', 'bg-mem', 'bg-wb'];
+    const borderClasses = ['is-if', 'is-id', 'is-ex', 'is-mem', 'is-wb'];
+    
+    const instructions = [
+        { id: 1, name: "I1: ADD R1, R2, R3" },
+        { id: 2, name: "I2: SUB R4, R1, R5" },
+        { id: 3, name: "I3: LW  R6, 0(R4)" },
+        { id: 4, name: "I4: SW  R7, 4(R6)" },
+        { id: 5, name: "I5: AND R8, R2, R3" }
+    ];
+
+    const totalCycles = 9;
+    let currentCycle = 0;
+    let timer = null;
+
+    // DOM Elements
+    const cycleNum = document.getElementById('cycle-num');
+    const headerRow = document.getElementById('header-row');
+    const matrixBody = document.getElementById('matrix-body');
+    const inspector = document.getElementById('inspector');
+    const btnPlay = document.getElementById('btn-play');
+    const speedSlider = document.getElementById('speed-slider');
+
+    // Build Initial Grid
+    function buildMatrix() {
+        // Headers
+        for (let c = 1; c <= totalCycles; c++) {
+            const th = document.createElement('th');
+            th.textContent = `C${c}`;
+            th.id = `th-cycle-${c}`;
+            headerRow.appendChild(th);
+        }
+
+        // Rows
+        instructions.forEach((instr, iIndex) => {
+            const tr = document.createElement('tr');
+            const tdName = document.createElement('td');
+            tdName.className = 'instr-label';
+            tdName.textContent = instr.name;
+            tr.appendChild(tdName);
+
+            for (let c = 1; c <= totalCycles; c++) {
+                const td = document.createElement('td');
+                td.id = `cell-${iIndex + 1}-${c}`;
+                tr.appendChild(td);
+            }
+            matrixBody.appendChild(tr);
+        });
+    }
+
+    // Main Render Loop
+    function render() {
+        cycleNum.textContent = currentCycle;
+
+        // Highlight Active Header Column
+        for (let c = 1; c <= totalCycles; c++) {
+            const th = document.getElementById(`th-cycle-${c}`);
+            if (c === currentCycle) {
+                th.classList.add('active-col');
+            } else {
+                th.classList.remove('active-col');
+            }
+        }
+
+        // Reset Hardware & Occupants
+        stages.forEach(st => {
+            const hwBlock = document.getElementById(`hw-${st.toLowerCase()}`);
+            const occ = document.getElementById(`occ-${st.toLowerCase()}`);
+            hwBlock.classList.remove('active');
+            occ.textContent = '-';
+        });
+
+        // Clear Inspector
+        inspector.innerHTML = '';
+
+        // Update Matrix & Hardware Occupants
+        instructions.forEach((instr, iIndex) => {
+            const instrNum = iIndex + 1;
+
+            for (let c = 1; c <= totalCycles; c++) {
+                const cell = document.getElementById(`cell-${instrNum}-${c}`);
+                const stageIdx = c - instrNum;
+
+                // Reset cell
+                cell.className = '';
+                cell.textContent = '';
+
+                // Is instruction active in cycle `c`?
+                if (stageIdx >= 0 && stageIdx < 5) {
+                    const stageName = stages[stageIdx];
+                    const stageClass = stageClasses[stageIdx];
+
+                    // Render past & present matrix cells
+                    if (c <= currentCycle) {
+                        cell.textContent = stageName;
+                        cell.classList.add('stage-cell', stageClass);
+                        if (c === currentCycle) {
+                            cell.style.opacity = '1';
+                            cell.style.transform = 'scale(1.05)';
+                        } else {
+                            cell.style.opacity = '0.6';
+                            cell.style.transform = 'scale(1)';
+                        }
+                    }
+
+                    // Hardware & Inspector state for CURRENT cycle
+                    if (c === currentCycle) {
+                        // Hardware block highlight
+                        const hwBlock = document.getElementById(`hw-${stageName.toLowerCase()}`);
+                        const occ = document.getElementById(`occ-${stageName.toLowerCase()}`);
+                        
+                        hwBlock.classList.add('active');
+                        occ.textContent = `I${instrNum}`;
+
+                        // Inspector card
+                        const li = document.createElement('li');
+                        li.className = `inspector-item ${borderClasses[stageIdx]}`;
+                        li.style.borderLeftColor = `var(--color-${stageName.toLowerCase()})`;
+                        li.innerHTML = `<strong>Stage ${stageName}: Instruction ${instrNum}</strong>${getStageDescription(stageName, instr.name)}`;
+                        inspector.appendChild(li);
+                    }
+                }
+            }
+        });
+
+        if (currentCycle === 0) {
+            inspector.innerHTML = '<li class="inspector-item" style="grid-column: 1/-1; text-align:center; color:#888;">Pipeline is idle. Press <strong>Step Forward</strong> or <strong>Play</strong> to begin.</li>';
+        }
+    }
+
+    function getStageDescription(stage, name) {
+        switch(stage) {
+            case 'IF': return `Fetching code for <em>${name}</em> from memory.`;
+            case 'ID': return `Decoding opcode & reading register values for <em>${name}</em>.`;
+            case 'EX': return `ALU calculating result/address for <em>${name}</em>.`;
+            case 'MEM': return `Reading/writing data cache for <em>${name}</em>.`;
+            case 'WB': return `Writing calculated result back to register.`;
+        }
+    }
+
+    // Controller Functions
+    function stepForward() {
+        if (currentCycle < totalCycles) {
+            currentCycle++;
+            render();
+        } else {
+            pause();
+        }
+    }
+
+    function stepBackward() {
+        if (currentCycle > 0) {
+            currentCycle--;
+            render();
+        }
+    }
+
+    function reset() {
+        pause();
+        currentCycle = 0;
+        render();
+    }
+
+    function togglePlay() {
+        if (timer) {
+            pause();
+        } else {
+            if (currentCycle >= totalCycles) currentCycle = 0;
+            btnPlay.textContent = "❚❚ Pause";
+            btnPlay.classList.replace('btn-success', 'btn-danger');
+            
+            const speed = parseInt(speedSlider.value);
+            timer = setInterval(() => {
+                if (currentCycle < totalCycles) {
+                    stepForward();
+                } else {
+                    pause();
+                }
+            }, speed);
+        }
+    }
+
+    function pause() {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+            btnPlay.textContent = "▶ Play Pipeline";
+            btnPlay.classList.replace('btn-danger', 'btn-success');
+        }
+    }
+
+    // Event Listeners
+    document.getElementById('btn-next').addEventListener('click', () => { pause(); stepForward(); });
+    document.getElementById('btn-prev').addEventListener('click', () => { pause(); stepBackward(); });
+    document.getElementById('btn-reset').addEventListener('click', reset);
+    btnPlay.addEventListener('click', togglePlay);
+
+    speedSlider.addEventListener('input', () => {
+        if (timer) {
+            pause();
+            togglePlay();
+        }
+    });
+
+    // Initialize
+    buildMatrix();
+    render();
+</script>
+
+</body>
+</html>
