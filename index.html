@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>Batch Kuppi Initiative</title>
+    <!-- GitHub Markdown CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5em;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .home-btn {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s;
+            text-align: center;
+        }
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Container */
+        main {
+            flex-grow: 1;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+
+        /* Footer Styling */
+        footer {
+            background: #1e293b;
+            color: #adb5bd;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        /* Home Page Styling */
+        #home-page {
+            display: none;
+            line-height: 1.6;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+        }
+        .hero h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 800; }
+        .hero h3 { margin-top: 0; color: #ffd700; }
+        .hero p {
+            font-size: 1.2em;
+            font-style: italic;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-top: 15px;
+        }
+        
+        .section-title {
+            color: #764ba2;
+            font-weight: 700;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 1.5em;
+        }
+        
+        .mission-box {
+            background-color: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-size: 1.1em;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        .method-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        .method-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #667eea;
+        }
+        .method-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .method-card h3 { color: #2c3e50; margin-top: 0; font-size: 1.2em; }
+        .method-card h3 small { color: #6c757d; font-size: 0.8em; display: block; margin-top: 5px; }
+        
+        .benefits-list { list-style: none; padding: 0; margin-top: 25px; }
+        .benefits-list li {
+            margin-bottom: 15px; background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 6px solid #28a745;
+        }
+        .benefits-list li strong { color: #155724; font-size: 1.1em; display: block; margin-bottom: 5px; }
+        
+        .cta-text {
+            text-align: center; font-weight: 800; font-size: 1.3em; color: #2c3e50;
+            background: #e2e8f0; padding: 20px; border-radius: 50px; margin-top: 40px;
+        }
+
+        /* Toolbar (Back & Download) */
+        .content-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #e2e8f0;
+            gap: 10px;
+        }
+        .toolbar-btn {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+        }
+        .back-btn { background-color: #6c757d; flex: 1; justify-content: center; max-width: 150px; }
+        .back-btn:hover { background-color: #5a6268; }
+        .download-btn { background-color: #28a745; flex: 1; justify-content: center; max-width: 200px; }
+        .download-btn:hover { background-color: #218838; }
+
+        /* Dynamic Content Styling */
+        #content-wrapper { display: none; width: 100%; }
+        .markdown-body { box-sizing: border-box; width: 100%; margin: 0 auto; overflow-wrap: break-word; }
+        .markdown-body blockquote { border-left: 4px solid #667eea; background-color: #f8f9fa; padding: 15px 20px; }
+        
+        /* Make Markdown tables responsive on mobile */
+        .markdown-body table { display: block; width: 100%; overflow-x: auto; }
+        
+        .media-container { text-align: center; margin-top: 20px; width: 100%; }
+        
+        /* Regular Iframes (PDFs, Websites) */
+        .pdf-iframe { width: 100%; height: 75vh; border: none; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* YouTube Responsive Iframe (16:9 Aspect Ratio) */
+        .yt-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .yt-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .media-container video, .media-container img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        #loading { text-align: center; font-size: 1.5em; color: #667eea; display: none; margin: 50px 0; font-weight: bold; }
+
+        /* ================= RESPONSIVE DESIGN (Mobiles & Tablets) ================= */
+        @media (max-width: 768px) {
+            main {
+                padding: 15px 10px;
+            }
+            .container {
+                padding: 25px 15px;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .logo {
+                font-size: 1.2em;
+            }
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            .hero p {
+                font-size: 1em;
+                padding: 8px 15px;
+            }
+            .section-title {
+                font-size: 1.3em;
+            }
+            .content-toolbar {
+                flex-direction: column;
+                border-bottom: none;
+                gap: 15px;
+            }
+            .toolbar-btn {
+                width: 100%;
+                max-width: none;
+            }
+            .pdf-iframe {
+                height: 60vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero {
+                padding: 25px 15px;
+            }
+            .cta-text {
+                font-size: 1.1em;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Area -->
+    <header>
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-graduation-cap"></i> Batch Kuppi Portal</div>
+            <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            
+            <!-- Loading Indicator -->
+            <div id="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+
+            <!-- Home Page Content -->
+            <div id="home-page">
+                <div class="hero">
+                    <h1>🚀 Batch Kuppi Initiative</h1>
+                    <h3>(Semester 01)</h3>
+                    <p>"එකෙක්වත් Repeat නොවන, මුළු Batch එකම එකතු වෙන Master Plan එක!"</p>
+                </div>
+
+                <h2 class="section-title"><i class="fas fa-bullseye"></i> අපේ අරමුණ (Our Mission)</h2>
+                <div class="mission-box">
+                    අපේ පළවෙනි සෙමෙස්ටර් අවසාන විභාගය ඉතා ආසන්නයේම පවතින අතර, මේ වන විට අප සියලු දෙනාම Study Leave ලබා ගෙවල් වල සිට පාඩම් කරමින් සිටිමු.<br><br>
+                    පාඩම් කිරීමේදී විවිධ ප්‍රශ්න සහ ගැටලු මතුවීම සාමාන්‍ය දෙයකි. ඇතැම් විෂය කරුණු සම්බන්ධයෙන් ඔබ <b>"බිංදුව මට්ටමේ"</b> සිටියද, කිසිසේත්ම පසුබට විය යුතු නැත! අපේ 52 දෙනෙකුගෙන් යුත් මුළු Batch එකම කිසිවෙකුත් අතනොහැර, එකමුතුව සහ පරාර්ථකාමීව විභාගයට මුහුණ දී <b>100% Pass Rate</b> එකක් ලබා ගැනීම අපගේ ප්‍රධානම අරමුණයි.<br><br>
+                    අප සියලු දෙනාම සාමූහිකව හොඳින් Perform කළහොත්, අප හට <b>ICT Special Degree</b> අවස්ථාවද ලබා ගැනීමට මඟ පෑදෙනු ඇත! 🎯
+                </div>
+
+                <h2 class="section-title"><i class="fas fa-cogs"></i> අපගේ අධ්‍යයන ක්‍රමවේදය (How We Work)</h2>
+                <div class="methods-grid">
+                    <div class="method-card">
+                        <h3>1️⃣ බෙදාගෙන පාඩම් කිරීම <small>(Smart Task Allocation)</small></h3>
+                        <p>සියලුම Lecture Notes පිටු කුඩා කොටස් වලට වෙන් කර ඇත. තනිවම හෝ 2-3 දෙනෙකුගේ කණ්ඩායමක් ලෙස තමන් කැමති පිටු ප්‍රමාණයක් භාරගෙන (Assign) පාඩම් කර Summary එකක් සකස් කරනු ලබයි.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3>2️⃣ දිනපතා රෑ Zoom Discussions <small>(Daily Night Sessions)</small></h3>
+                        <p>දිනපතා රාත්‍රී 9.00 සිට Uninterrupted Zoom Meetings මඟින් කණ්ඩායම සෙට් වේ. තමන් පාඩම් කළ පිටු පිළිබඳව අන් අයට පැහැදිලි කර දීම (Kuppiya) සිදු කෙරේ.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3>3️⃣ සෙන්ට්‍රලයිස්ඩ් Google Drive <small>(Shared Resources)</small></h3>
+                        <p>සියලුම Notes, AI Generated Content, Prompts, Past Papers සහ Slides එකම Shared Drive එකක ගබඩා කෙරේ.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3>4️⃣ Active WhatsApp Q&A <small>(24/7 Channel)</small></h3>
+                        <p>විභාග කාලය ඉවර වන තෙක්ම 24/7 ක්‍රියාත්මක WhatsApp Group එකක්. Voice Messages, Hand-written Notes, Screenshots මඟින් ප්‍රශ්න අසා නිරවුල් කර ගැනීමේ හැකියාව ඇත.</p>
+                    </div>
+                </div>
+
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Live Progress Tracker</h2>
+                <div style="background: #fff; border-left: 4px solid #3498db; padding: 15px 25px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 15px;">
+                    <ul style="line-height: 1.8; color: #495057;">
+                        <li><i class="fas fa-user-check" style="color: #3498db; width: 25px;"></i> <b>Assignees:</b> අදාළ කොටස භාරගත් සාමාජිකයන්ගේ නම්.</li>
+                        <li><i class="fas fa-book-open" style="color: #3498db; width: 25px;"></i> <b>Topic:</b> පිටු 5 ඇතුළත් ප්‍රධාන මාතෘකාව.</li>
+                        <li><i class="fas fa-spinner" style="color: #3498db; width: 25px;"></i> <b>Status Tracking:</b> වැඩ ප්‍රගතිය පෙන්වන Indicator එක.</li>
+                    </ul>
+                </div>
+
+                <h2 class="section-title"><i class="fas fa-trophy"></i> ප්‍රතිලාභ (Benefits)</h2>
+                <ul class="benefits-list">
+                    <li><strong><i class="fas fa-check-circle"></i> Zero Repeats</strong> එක් අයෙකුටවත් අසමත් වීමට ඉඩ නොතැබීම.</li>
+                    <li><strong><i class="fas fa-clock"></i> Time Savings</strong> Notes කියවීමට යන කාලය ඉතිරි වීම.</li>
+                    <li><strong><i class="fas fa-users"></i> Strong Batch Unity</strong> ශක්තිමත් පරාර්ථකාමී එකමුතුකම.</li>
+                    <li><strong><i class="fas fa-graduation-cap"></i> ICT Special Degree Offer</strong> ඉහළ සාමූහික ප්‍රතිඵලයක් ලබා ගැනීම.</li>
+                </ul>
+                
+                <div class="cta-text">
+                    අදම Google Sheet එකෙන් ඔයාගේ කොටස Assign කරගන්න, රෑ Zoom Session එකට සෙට් වෙන්න! 🇱🇰💪
+                </div>
+            </div>
+
+            <!-- Dynamic Content Container -->
+            <div id="content-wrapper">
+                
+                <!-- Toolbar for Viewer -->
+                <div class="content-toolbar">
+                    <a href="index.html" class="toolbar-btn back-btn"><i class="fas fa-arrow-left"></i> ආපසු (Back)</a>
+                    <a href="#" id="download-btn" class="toolbar-btn download-btn" download><i class="fas fa-download"></i> <span id="dl-text">Download</span></a>
+                </div>
+
+                <div id="media-content" class="media-container"></div>
+                <article id="markdown-content" class="markdown-body"></article>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Footer Area -->
+    <footer>
+        <p>"තනිවම යනවාට වඩා, එකතු වී යාමෙන් අපට බොහෝ දුර යා හැකිය!"</p>
+        <small>© 2026 Batch Kuppi Initiative - Developed for Semester 01 Students</small>
+    </footer>
+
+    <!-- Marked.js for parsing Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const noteParam = urlParams.get('note');    // For .md files
+        const pdfParam = urlParams.get('pdf');      // For .pdf files
+        const videoParam = urlParams.get('video');  // For local videos
+        const imgParam = urlParams.get('img');      // For local images
+        const ytParam = urlParams.get('yt');        // For YouTube Videos (e.g. ?yt=dQw4w9WgXcQ)
+        const urlEmbedParam = urlParams.get('url'); // For Website links (e.g. ?url=https://...)
+
+        const loadingDiv = document.getElementById('loading');
+        const homePageDiv = document.getElementById('home-page');
+        const contentWrapper = document.getElementById('content-wrapper');
+        const markdownContent = document.getElementById('markdown-content');
+        const mediaContent = document.getElementById('media-content');
+        const downloadBtn = document.getElementById('download-btn');
+        const dlText = document.getElementById('dl-text');
+
+        function showContentLayout(downloadUrl, fileType) {
+            homePageDiv.style.display = 'none';
+            contentWrapper.style.display = 'block';
+            
+            // Handle Download Button visibility and text
+            if (downloadUrl) {
+                downloadBtn.href = downloadUrl;
+                downloadBtn.style.display = 'flex';
+                dlText.innerText = `Download ${fileType}`;
+            } else {
+                downloadBtn.style.display = 'none'; // Cannot download external embeds easily
+            }
+        }
+
+        if (noteParam) {
+            let fetchUrl = noteParam.endsWith('.md') ? noteParam : noteParam + '.md';
+            let encodedUrl = fetchUrl.split('/').map(part => encodeURIComponent(part)).join('/');
+            
+            showContentLayout(encodedUrl, "Note");
+            loadingDiv.style.display = 'block';
+            
+            fetch(encodedUrl)
+                .then(response => { if (!response.ok) throw new Error('File not found'); return response.text(); })
+                .then(text => {
+                    markdownContent.innerHTML = marked.parse(text);
+                    loadingDiv.style.display = 'none';
+                    markdownContent.style.display = 'block';
+                    document.title = fetchUrl.split('/').pop() + " - Batch Kuppi";
+                })
+                .catch(error => {
+                    loadingDiv.style.display = 'none';
+                    mediaContent.innerHTML = '<h2>❌ Error!</h2><p>අදාළ සටහන සොයාගත නොහැක.</p>';
+                    downloadBtn.style.display = 'none';
+                });
+
+        } else if (pdfParam) {
+            let pdfUrl = pdfParam.endsWith('.pdf') ? pdfParam : pdfParam + '.pdf';
+            let encodedPdfUrl = pdfUrl.split('/').map(part => encodeURIComponent(part)).join('/');
+            showContentLayout(encodedPdfUrl, "PDF");
+            mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${encodedPdfUrl}"></iframe>`;
+            document.title = "PDF Viewer - Batch Kuppi";
+
+        } else if (videoParam) {
+            let encodedVidUrl = videoParam.split('/').map(part => encodeURIComponent(part)).join('/');
+            showContentLayout(encodedVidUrl, "Video");
+            mediaContent.innerHTML = `<video controls autoplay><source src="${encodedVidUrl}" type="video/mp4">Browser does not support video.</video>`;
+            document.title = "Video Player - Batch Kuppi";
+
+        } else if (imgParam) {
+            let encodedImgUrl = imgParam.split('/').map(part => encodeURIComponent(part)).join('/');
+            showContentLayout(encodedImgUrl, "Image");
+            mediaContent.innerHTML = `<img src="${encodedImgUrl}" alt="Learning Material">`;
+            document.title = "Image Viewer - Batch Kuppi";
+
+        } else if (ytParam) {
+            showContentLayout(null, ""); // No local download for YouTube
+            mediaContent.innerHTML = `<div class="yt-container"><iframe src="https://www.youtube.com/embed/${ytParam}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+            document.title = "YouTube Lecture - Batch Kuppi";
+
+        } else if (urlEmbedParam) {
+            showContentLayout(null, ""); // No local download for Web pages
+            mediaContent.innerHTML = `<iframe class="pdf-iframe" src="${urlEmbedParam}" allowfullscreen></iframe>`;
+            document.title = "External Resource - Batch Kuppi";
+
+        } else {
+            homePageDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
