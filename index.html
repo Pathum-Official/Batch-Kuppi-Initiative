@@ -111,19 +111,32 @@
             text-align: center; padding: 60px 20px;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3);
-            position: relative; overflow: hidden;
+            position: relative;
         }
         .hero::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); }
         .hero h1 { font-size: 2.8em; margin-bottom: 15px; font-weight: 800; position: relative; z-index: 1; }
         .hero p { font-size: 1.1em; opacity: 0.9; max-width: 600px; margin: 0 auto 30px; position: relative; z-index: 1; }
         .hero-badge { display: inline-block; background: rgba(255, 215, 0, 0.2); color: #ffd700; padding: 5px 15px; border-radius: 50px; font-size: 0.9em; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255, 215, 0, 0.5); position: relative; z-index: 1; }
         
-        .quick-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
-        .ql-card { display: flex; align-items: center; background: #fff; padding: 20px; border-radius: 12px; text-decoration: none; color: #333; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 1px solid #eee; }
-        .ql-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: #667eea; }
-        .ql-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.5em; margin-right: 15px; flex-shrink: 0; }
-        .ql-content h3 { margin: 0 0 5px 0; font-size: 1.1em; color: #1e3c72; }
-        .ql-content p { margin: 0; font-size: 0.85em; color: #666; }
+        /* Folder Browser Styling */
+        .fb-container { background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-top: 20px; overflow: hidden; text-align: left; }
+        .fb-breadcrumb { background: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #495057; display: flex; gap: 8px; align-items: center; overflow-x: auto; white-space: nowrap; }
+        .fb-crumb { cursor: pointer; color: #1e3c72; text-decoration: none; transition: color 0.2s; }
+        .fb-crumb:hover { color: #667eea; text-decoration: underline; }
+        .fb-crumb-separator { color: #adb5bd; font-size: 0.9em; }
+        .fb-list { list-style: none; padding: 0; margin: 0; max-height: 500px; overflow-y: auto; }
+        .fb-item { display: flex; align-items: center; padding: 12px 20px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.2s; color: #333; text-decoration: none; }
+        .fb-item:last-child { border-bottom: none; }
+        .fb-item:hover { background: #f8f9fa; }
+        .fb-icon { width: 30px; font-size: 1.2em; color: #667eea; text-align: center; margin-right: 15px; }
+        .fb-icon.folder { color: #f6c23e; }
+        .fb-name { font-weight: 500; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        body.dark-mode .fb-container { background: #161b22; border-color: #30363d; }
+        body.dark-mode .fb-breadcrumb { background: #0d1117; border-bottom-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .fb-crumb { color: #58a6ff; }
+        body.dark-mode .fb-item { border-bottom-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .fb-item:hover { background: #21262d; }
 
         /* Toolbar (Back & Download) */
         .content-toolbar {
@@ -182,10 +195,7 @@
         body.dark-mode header { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border-bottom: 1px solid #30363d; }
         body.dark-mode .container { background: #161b22; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #30363d; }
         body.dark-mode .hero { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        body.dark-mode .ql-card { background: #161b22; border-color: #30363d; color: #c9d1d9; }
-        body.dark-mode .ql-card:hover { border-color: #58a6ff; }
-        body.dark-mode .ql-content h3 { color: #58a6ff; }
-        body.dark-mode .ql-content p { color: #8b949e; }
+
         body.dark-mode footer { background: #0d1117; border-top: 1px solid #30363d; }
         body.dark-mode .home-btn { background: rgba(255, 255, 255, 0.1); }
         body.dark-mode .home-btn:hover { background: rgba(255, 255, 255, 0.2); }
@@ -293,7 +303,6 @@
             <!-- Home Page Content -->
             <div id="home-page">
                 <div class="hero">
-                    <div class="hero-badge">Semester 01 - Final Exams Prep</div>
                     <h1>Batch Kuppi Portal</h1>
                     <p>Search for notes, slides, past papers, and video lectures instantly.</p>
                     
@@ -305,28 +314,13 @@
                     </div>
                 </div>
 
-                <div class="quick-links-grid">
-                    <a href="?note=00_Table_of_Contents" class="ql-card">
-                        <div class="ql-icon" style="background: rgba(102, 126, 234, 0.1); color: #667eea;"><i class="fas fa-list-ul"></i></div>
-                        <div class="ql-content">
-                            <h3>Table of Contents</h3>
-                            <p>Browse all structured notes sequentially</p>
-                        </div>
-                    </a>
-                    <a href="https://github.com/pathum-official/Batch-Kuppi-Initiative/discussions" target="_blank" class="ql-card">
-                        <div class="ql-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;"><i class="fas fa-comments"></i></div>
-                        <div class="ql-content">
-                            <h3>Discussions & Q&A</h3>
-                            <p>Ask questions and discuss topics with the batch</p>
-                        </div>
-                    </a>
-                    <a href="https://github.com/pathum-official/Batch-Kuppi-Initiative" target="_blank" class="ql-card">
-                        <div class="ql-icon" style="background: rgba(118, 75, 162, 0.1); color: #764ba2;"><i class="fab fa-github"></i></div>
-                        <div class="ql-content">
-                            <h3>GitHub Repository</h3>
-                            <p>View raw files, contribute, and fork</p>
-                        </div>
-                    </a>
+                <div id="folder-browser-container" class="fb-container">
+                    <div id="fb-breadcrumb" class="fb-breadcrumb">
+                        <i class="fas fa-home"></i> <span class="fb-crumb" onclick="renderFolder('')">Home</span>
+                    </div>
+                    <ul id="fb-list" class="fb-list">
+                        <div style="padding: 20px; text-align: center; color: #666;"><i class="fas fa-spinner fa-spin"></i> Loading Repository...</div>
+                    </ul>
                 </div>
             </div>
 
@@ -670,6 +664,125 @@
                 }
             });
         }
+
+        // --- Folder Browser Logic ---
+        const fbBreadcrumb = document.getElementById('fb-breadcrumb');
+        const fbList = document.getElementById('fb-list');
+
+        async function initFolderBrowser() {
+            repoTreeData = await fetchRepoTree();
+            renderFolder('');
+        }
+
+        function renderFolder(currentPath) {
+            if (!repoTreeData || !repoTreeData.length) return;
+            
+            // Build Breadcrumb
+            let breadcrumbHTML = `<i class="fas fa-home" style="margin-right:5px;"></i> <span class="fb-crumb" onclick="renderFolder('')">Home</span>`;
+            if (currentPath) {
+                const parts = currentPath.split('/');
+                let cumulativePath = '';
+                parts.forEach((part, index) => {
+                    cumulativePath += (index === 0 ? part : '/' + part);
+                    breadcrumbHTML += `<span class="fb-crumb-separator"><i class="fas fa-chevron-right"></i></span> <span class="fb-crumb" onclick="renderFolder('${cumulativePath.replace(/'/g, "\\'")}')">${part}</span>`;
+                });
+            }
+            fbBreadcrumb.innerHTML = breadcrumbHTML;
+
+            // Find items in current folder
+            const items = new Map(); 
+            const currentPrefix = currentPath ? currentPath + '/' : '';
+
+            repoTreeData.forEach(file => {
+                if (currentPath && !file.path.startsWith(currentPrefix)) return;
+                if (file.path.toLowerCase() === 'readme.md') return;
+
+                const relativePath = currentPath ? file.path.substring(currentPrefix.length) : file.path;
+                if (!relativePath) return;
+
+                const parts = relativePath.split('/');
+                const isFolder = parts.length > 1;
+                const name = parts[0];
+                const fullItemPath = currentPrefix + name;
+
+                if (!items.has(name)) {
+                    items.set(name, {
+                        name: name,
+                        isFolder: isFolder,
+                        fullPath: fullItemPath
+                    });
+                }
+            });
+
+            // Sort: Folders first, then alphabetically
+            const sortedItems = Array.from(items.values()).sort((a, b) => {
+                if (a.isFolder === b.isFolder) return a.name.localeCompare(b.name);
+                return a.isFolder ? -1 : 1;
+            });
+
+            // Render List
+            let listHTML = '';
+            if (currentPath) {
+                const parentPath = currentPath.includes('/') ? currentPath.substring(0, currentPath.lastIndexOf('/')) : '';
+                listHTML += `
+                    <li class="fb-item" onclick="renderFolder('${parentPath.replace(/'/g, "\\'")}')">
+                        <div class="fb-icon folder"><i class="fas fa-level-up-alt"></i></div>
+                        <div class="fb-name">.. (Go Back)</div>
+                    </li>
+                `;
+            }
+
+            sortedItems.forEach(item => {
+                if (item.isFolder) {
+                    listHTML += `
+                        <li class="fb-item" onclick="renderFolder('${item.fullPath.replace(/'/g, "\\'")}')">
+                            <div class="fb-icon folder"><i class="fas fa-folder"></i></div>
+                            <div class="fb-name">${item.name}</div>
+                        </li>
+                    `;
+                } else {
+                    const ext = item.name.split('.').pop().toLowerCase();
+                    const title = item.name.replace('.' + ext, '').replace(/_/g, ' ');
+                    
+                    let icon = 'fa-file-alt', typeParam = 'note';
+                    if (ext === 'pdf') { icon = 'fa-file-pdf'; typeParam = 'pdf'; }
+                    else if (ext === 'mp4') { icon = 'fa-video'; typeParam = 'video'; }
+                    else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
+                    
+                    let fileParamPath = item.fullPath.replace('.' + ext, '');
+
+                    listHTML += `
+                        <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="fb-item fb-file-link" data-type="${typeParam}" data-path="${fileParamPath.replace(/"/g, '&quot;')}">
+                            <div class="fb-icon"><i class="fas ${icon}"></i></div>
+                            <div class="fb-name">${title}</div>
+                        </a>
+                    `;
+                }
+            });
+
+            if (sortedItems.length === 0) {
+                listHTML += `<li class="fb-item"><div class="fb-name" style="text-align:center; width:100%; color:#666;">Empty Folder</div></li>`;
+            }
+
+            fbList.innerHTML = listHTML;
+        }
+
+        if (fbList) {
+            fbList.addEventListener('click', (e) => {
+                const fileLink = e.target.closest('.fb-file-link');
+                if (fileLink) {
+                    e.preventDefault();
+                    const type = fileLink.getAttribute('data-type');
+                    const path = fileLink.getAttribute('data-path');
+                    const url = new URL(window.location);
+                    url.search = `?${type}=${encodeURIComponent(path)}`;
+                    window.history.pushState({}, '', url);
+                    handleRouting();
+                }
+            });
+        }
+        
+        initFolderBrowser();
 
         // Initialize Router
         handleRouting();
