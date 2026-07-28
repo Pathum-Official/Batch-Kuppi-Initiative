@@ -648,7 +648,7 @@
                         else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
                         else if (['html', 'htm'].includes(ext)) { icon = 'fa-globe'; typeParam = 'html'; }
 
-                        let fileParamPath = file.path.replace('.' + ext, '');
+                        let fileParamPath = (typeParam === 'img' || typeParam === 'video') ? file.path : file.path.replace('.' + ext, '');
                         let matchesFilename = title.toLowerCase().includes(query);
                         let snippet = '';
 
@@ -804,7 +804,7 @@
                     else if (['jpg','jpeg','png'].includes(ext)) { icon = 'fa-image'; typeParam = 'img'; }
                     else if (['html', 'htm'].includes(ext)) { icon = 'fa-globe'; typeParam = 'html'; }
                     
-                    let fileParamPath = item.fullPath.replace('.' + ext, '');
+                    let fileParamPath = (typeParam === 'img' || typeParam === 'video') ? item.fullPath : item.fullPath.replace('.' + ext, '');
 
                     listHTML += `
                         <a href="?${typeParam}=${encodeURIComponent(fileParamPath)}" class="fb-item fb-file-link" data-type="${typeParam}" data-path="${fileParamPath.replace(/"/g, '&quot;')}">
