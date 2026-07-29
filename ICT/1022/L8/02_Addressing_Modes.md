@@ -13,7 +13,7 @@
 3. **Indirect (වක්‍ර):** යාලුවා කියනවා "කඩේ මුදලාලි හම්බෙන්න" කියලා. කඩේට ගියාම මුදලාලි තමයි යාලුවගේ ගෙදර Address එක කියන්නේ.
 
 <div align="center">
-  <img src="addressing_modes_analogy.png" alt="Addressing Modes Analogy" width="100%" style="max-width: 600px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
+  <img src="ICT/1022/L8/addressing_modes_analogy.png" alt="Addressing Modes Analogy" width="100%" style="max-width: 600px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
   <br>
   <em><small style="color: #64748b;">රූප සටහන 1: Immediate, Direct, සහ Indirect යන ක්‍රම වල සරල විවරණය</small></em>
 </div>
