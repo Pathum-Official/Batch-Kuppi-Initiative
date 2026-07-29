@@ -13,7 +13,7 @@
 * **Operand (කාටද/මොකටද කරන්නේ?):** මේක හරියට "ළූණු", "මස්", "කැරට්" වගේ පාවිච්චි කරන **අමුද්‍රව්‍ය (Ingredients)** වගේ.
 
 <div align="center">
-  <img src="instruction_format_analogy.png" alt="Instruction Format Analogy" width="100%" style="max-width: 600px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
+  <img src="ICT/1022/L8/instruction_format_analogy.png" alt="Instruction Format Analogy" width="100%" style="max-width: 600px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
   <br>
   <em><small style="color: #64748b;">රූප සටහන 1: Opcode (ක්‍රියාව) සහ Operands (අමුද්‍රව්‍ය)</small></em>
 </div>
