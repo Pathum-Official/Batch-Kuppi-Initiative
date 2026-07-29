@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSA Mind Map - L8</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-radius: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0f172a;
+                --container-bg: #1e293b;
+                --text-color: #e2e8f0;
+                --accent-color: #38bdf8;
+                --accent-hover: #0ea5e9;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: var(--container-bg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 i {
+            color: var(--accent-color);
+        }
+
+        .back-btn {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .markmap-container {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* The SVG container */
+        svg.markmap {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+        
+        svg.markmap:active {
+            cursor: grabbing;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><i class="fas fa-project-diagram"></i> CSA Interactive Mind Map (L8)</h1>
+        <div class="controls">
+            <span><i class="fas fa-mouse-pointer"></i> Drag to move</span>
+            <span><i class="fas fa-search-plus"></i> Scroll to zoom</span>
+            <span><i class="fas fa-hand-pointer"></i> Click nodes to expand/collapse</span>
+        </div>
+        <a href="00_Table_of_Contents.md" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Notes</a>
+    </div>
+
+    <div class="markmap-container">
+        <!-- We provide the markdown to Markmap inside this script tag -->
+        <script type="text/template" class="markmap-data">
+# 💻 ICT 1022 - Computer Systems Architecture
+
+## 🧩 Instruction Format
+### Anatomy of an Instruction
+- **Opcode (Action):** What to do (e.g., ADD, LOAD)
+- **Operand (Data/Location):** Where/What to do it on
+
+### Instruction Types
+- **0-address (Implied):** Opcode only (e.g., HALT)
+- **1-address (Accumulator):** Opcode + 1 location
+- **2-address (Memory/Registers):** Opcode + 2 locations
+- **Register-Memory:** Reg + Mem interaction
+- **Register-Register (Fastest):** Uses only CPU registers
+
+### 32-bit Instruction Encoding
+- **Opcode Field:** Determines the operation (e.g., 6 bits)
+- **Destination Register:** Where result goes
+- **Source Registers:** The inputs
+- **Immediate Data / ALU Function:** Constant values or specific math function
+
+## 🎯 Addressing Modes
+- **Immediate:** Data in Instruction (Fastest)
+- **Direct:** Single Memory Access
+- **Indirect:** Pointer/Two Memory Accesses (Slower)
+- **Register:** Internal CPU Memory
+- **Register Indirect:** Pointer in Register
+- **Relative:** PC + Offset (Relocatable Code)
+- **Indexed:** Base + Index (Array Access)
+- **Stack:** Top of Stack implicitly
+
+## ⚖️ CISC vs RISC Architecture
+### CISC (Complex)
+- Variable-length instructions
+- Hardware-driven complexity
+- Many addressing modes
+- Fewer registers (e.g., VAX)
+
+### RISC (Reduced)
+- Fixed-length instructions (32-bit)
+- Software-driven (Compiler handles complexity)
+- Load-Store architecture (Only LD/ST touch memory)
+- Many registers (e.g., 32 GPRs in MIPS)
+- Pipelining focus (Speed)
+
+### Intel Hybrid Strategy
+- x86 dominates desktop/server
+- Translates CISC instructions into RISC-like micro-ops internally
+
+## ⚙️ MIPS32 Architecture
+### CPU Registers
+- **General Purpose (GPRs):** 32-bit, 32 of them
+- **Program Counter (PC):** Address of next instruction
+- **HI & LO:** For Multiply/Divide answers
+
+### Assembly Conventions
+- **$zero (R0):** Hard-wired zero (0)
+- **$v0, $v1:** Function return values
+- **$a0-$a3:** Function arguments
+- **$t0-$t9:** Temporary values
+- **$s0-$s7:** Saved values
+- **$sp (R29):** Stack pointer
+- **$ra (R31):** Return address
+
+### MIPS Philosophy
+- Simplicity favors regularity
+- No dedicated PUSH/POP
+- No dedicated Flag registers (prevents pipeline stalls)
+        </script>
+    </div>
+
+    <!-- Markmap libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.16.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.16.0"></script>
+
+    <script>
+        // Customizations for markmap appearance can go here if needed.
+        // The autoloader automatically finds <script type="text/template"> and renders it!
+        
+        // Wait for rendering to complete, then style the SVG slightly for theme matching
+        setTimeout(() => {
+            const svg = document.querySelector('svg.markmap');
+            if(svg) {
+                // Determine if we are in dark mode to adjust line colors
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    svg.style.color = '#e2e8f0'; // Light text for dark mode
+                } else {
+                    svg.style.color = '#333333'; // Dark text for light mode
+                }
+            }
+        }, 500);
+    </script>
+</body>
+</html>
