@@ -15,7 +15,7 @@
   ඔයා ගේ හදන්න **සාමාන්‍ය කම්කරුවන් කණ්ඩායමකට (Assembly workers)** දෙනවා. එයාලා "ගේ හදන්න" දන්නේ නෑ. ඔයා එයාලට සරල Instructions දහස් ගාණක් දෙන්න ඕනේ: *"මේ ගඩොල තියන්න"*, *"සිමෙන්ති අනන්න"*. ඔයා (Compiler එක) ගොඩක් මහන්සි වෙලා Instructions දුන්නට, කම්කරුවෝ සරල වැඩේ ඉතාමත් වේගයෙන් සහ කාර්යක්ෂමව (Pipelining) ඉවර කරනවා!
 
 <div align="center">
-  <img src="cisc_vs_risc_analogy.png" alt="CISC vs RISC Concept" width="100%" style="max-width: 750px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
+  <img src="ICT/1022/L8/cisc_vs_risc_analogy.png" alt="CISC vs RISC Concept" width="100%" style="max-width: 750px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
   <br>
   <em><small style="color: #64748b;">රූප සටහන 1: CISC (තනි දක්ෂ බාස්) සහ RISC (කම්කරුවන් කණ්ඩායම)</small></em>
 </div>
