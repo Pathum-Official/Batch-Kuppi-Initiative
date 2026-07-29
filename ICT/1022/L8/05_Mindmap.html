@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSA Mind Map - L8</title>
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>NotebookLM Clone - CSA Mind Map L8</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
     <style>
         :root {
-            --bg-color: #f4f7f6;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --border-radius: 12px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0f172a;
-                --container-bg: #1e293b;
-                --text-color: #e2e8f0;
-                --accent-color: #38bdf8;
-                --accent-hover: #0ea5e9;
-            }
+            --bg-color: #131314; /* Exact NotebookLM Dark BG */
+            --text-color: #e8eaed; /* NotebookLM Text */
+            --node-bg: #28292a;
+            --node-border: #5f6368;
+            --link-color: #5f6368;
+            --accent-green: #81c995;
+            --accent-blue: #8ab4f8;
         }
 
         body {
@@ -34,7 +27,7 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+            font-family: 'Google Sans', 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -45,189 +38,320 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
-            background: var(--container-bg);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 12px 24px;
+            background: #1f1f1f;
+            border-bottom: 1px solid #333;
             z-index: 10;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 1.25rem;
-            font-weight: 800;
+            font-size: 1.1rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .header h1 i {
-            color: var(--accent-color);
+            gap: 12px;
+            color: var(--text-color);
         }
 
         .back-btn {
-            background-color: var(--accent-color);
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--border-radius);
-            font-weight: 600;
+            background: transparent;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.9rem;
             font-family: inherit;
             cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.2s ease;
+            transition: background 0.2s;
         }
 
         .back-btn:hover {
-            background-color: var(--accent-hover);
+            background: rgba(138, 180, 248, 0.1);
         }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .markmap-container {
+        #mindmap-container {
             flex: 1;
             width: 100%;
             height: 100%;
             position: relative;
-        }
-
-        /* The SVG container */
-        svg.markmap {
-            width: 100%;
-            height: 100%;
             cursor: grab;
         }
         
-        svg.markmap:active {
+        #mindmap-container:active {
             cursor: grabbing;
         }
 
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            .controls {
-                display: none;
-            }
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node-text {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 15px;
+            fill: var(--text-color);
+            user-select: none;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1><i class="fas fa-project-diagram"></i> CSA Interactive Mind Map (L8)</h1>
-        <div class="controls">
-            <span><i class="fas fa-mouse-pointer"></i> Drag to move</span>
-            <span><i class="fas fa-search-plus"></i> Scroll to zoom</span>
-            <span><i class="fas fa-hand-pointer"></i> Click nodes to expand/collapse</span>
-        </div>
+        <h1><i class="fas fa-book"></i> ICT 1022 - Computer Systems Architecture</h1>
         <a href="00_Table_of_Contents.md" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Notes</a>
     </div>
 
-    <div class="markmap-container">
-        <!-- We provide the markdown to Markmap inside this script tag -->
-        <script type="text/template" class="markmap-data">
-# 💻 ICT 1022 - Computer Systems Architecture
-
-## 🧩 Instruction Format
-### Anatomy of an Instruction
-- **Opcode (Action):** What to do (e.g., ADD, LOAD)
-- **Operand (Data/Location):** Where/What to do it on
-
-### Instruction Types
-- **0-address (Implied):** Opcode only (e.g., HALT)
-- **1-address (Accumulator):** Opcode + 1 location
-- **2-address (Memory/Registers):** Opcode + 2 locations
-- **Register-Memory:** Reg + Mem interaction
-- **Register-Register (Fastest):** Uses only CPU registers
-
-### 32-bit Instruction Encoding
-- **Opcode Field:** Determines the operation (e.g., 6 bits)
-- **Destination Register:** Where result goes
-- **Source Registers:** The inputs
-- **Immediate Data / ALU Function:** Constant values or specific math function
-
-## 🎯 Addressing Modes
-- **Immediate:** Data in Instruction (Fastest)
-- **Direct:** Single Memory Access
-- **Indirect:** Pointer/Two Memory Accesses (Slower)
-- **Register:** Internal CPU Memory
-- **Register Indirect:** Pointer in Register
-- **Relative:** PC + Offset (Relocatable Code)
-- **Indexed:** Base + Index (Array Access)
-- **Stack:** Top of Stack implicitly
-
-## ⚖️ CISC vs RISC Architecture
-### CISC (Complex)
-- Variable-length instructions
-- Hardware-driven complexity
-- Many addressing modes
-- Fewer registers (e.g., VAX)
-
-### RISC (Reduced)
-- Fixed-length instructions (32-bit)
-- Software-driven (Compiler handles complexity)
-- Load-Store architecture (Only LD/ST touch memory)
-- Many registers (e.g., 32 GPRs in MIPS)
-- Pipelining focus (Speed)
-
-### Intel Hybrid Strategy
-- x86 dominates desktop/server
-- Translates CISC instructions into RISC-like micro-ops internally
-
-## ⚙️ MIPS32 Architecture
-### CPU Registers
-- **General Purpose (GPRs):** 32-bit, 32 of them
-- **Program Counter (PC):** Address of next instruction
-- **HI & LO:** For Multiply/Divide answers
-
-### Assembly Conventions
-- **$zero (R0):** Hard-wired zero (0)
-- **$v0, $v1:** Function return values
-- **$a0-$a3:** Function arguments
-- **$t0-$t9:** Temporary values
-- **$s0-$s7:** Saved values
-- **$sp (R29):** Stack pointer
-- **$ra (R31):** Return address
-
-### MIPS Philosophy
-- Simplicity favors regularity
-- No dedicated PUSH/POP
-- No dedicated Flag registers (prevents pipeline stalls)
-        </script>
-    </div>
-
-    <!-- Markmap libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.16.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.16.0"></script>
+    <div id="mindmap-container"></div>
 
     <script>
-        // Customizations for markmap appearance can go here if needed.
-        // The autoloader automatically finds <script type="text/template"> and renders it!
-        
-        // Wait for rendering to complete, then style the SVG slightly for theme matching
-        setTimeout(() => {
-            const svg = document.querySelector('svg.markmap');
-            if(svg) {
-                // Determine if we are in dark mode to adjust line colors
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    svg.style.color = '#e2e8f0'; // Light text for dark mode
-                } else {
-                    svg.style.color = '#333333'; // Dark text for light mode
+        // Data Structure
+        const data = {
+            name: "ICT 1022 - Computer Systems Architecture",
+            children: [
+                {
+                    name: "Instruction Format",
+                    children: [
+                        { name: "Anatomy of an Instruction", children: [{name:"Opcode (Action): What to do"}, {name:"Operand (Data): Where/What"}] },
+                        { name: "Instruction Types", children: [{name:"0-address (Implied)"}, {name:"1-address (Accumulator)"}, {name:"2-address (Memory/Reg)"}, {name:"Register-Memory"}, {name:"Register-Register (Fastest)"}] },
+                        { name: "32-bit Encoding", children: [{name:"Opcode Field (6 bits)"}, {name:"Destination Register"}, {name:"Source Registers"}, {name:"Immediate Data / ALU"}] }
+                    ]
+                },
+                {
+                    name: "Addressing Modes",
+                    children: [
+                        { name: "Immediate (Data in Instruction)" }, 
+                        { name: "Direct (Single Memory Access)" }, 
+                        { name: "Indirect (Two Memory Accesses)" }, 
+                        { name: "Register (Internal CPU Memory)" },
+                        { name: "Register Indirect" }, 
+                        { name: "Relative (PC + Offset)" }, 
+                        { name: "Indexed (Base + Index)" }, 
+                        { name: "Stack (Top of Stack)" }
+                    ]
+                },
+                {
+                    name: "CISC vs RISC Architecture",
+                    children: [
+                        { name: "CISC (Complex)", children: [{name:"Variable-length instructions"}, {name:"Hardware-driven complexity"}, {name:"Many addressing modes"}, {name:"Fewer registers"}] },
+                        { name: "RISC (Reduced)", children: [{name:"Fixed-length (32-bit)"}, {name:"Software-driven (Compiler)"}, {name:"Load-Store architecture"}, {name:"Many registers (32 GPRs)"}, {name:"Pipelining focus"}] },
+                        { name: "Intel Hybrid Strategy", children: [{name:"x86 dominates desktop"}, {name:"Translates CISC to RISC micro-ops"}] }
+                    ]
+                },
+                {
+                    name: "MIPS32 Architecture",
+                    children: [
+                        { name: "CPU Registers", children: [{name:"32 GPRs (32-bit)"}, {name:"PC (Program Counter)"}, {name:"HI & LO (Multiply/Divide)"}] },
+                        { name: "Assembly Conventions", children: [{name:"$zero (R0): Constant 0"}, {name:"$v0, $v1: Return values"}, {name:"$a0-$a3: Arguments"}, {name:"$t0-$t9: Temporaries"}, {name:"$s0-$s7: Saved values"}, {name:"$sp (R29): Stack pointer"}, {name:"$ra (R31): Return addr"}] },
+                        { name: "MIPS Philosophy", children: [{name:"Simplicity favors regularity"}, {name:"No dedicated PUSH/POP"}, {name:"No dedicated Flag registers"}] }
+                    ]
                 }
+            ]
+        };
+
+        // D3 setup
+        const container = document.getElementById('mindmap-container');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        const dx = 55; // Vertical distance between nodes (prevents overlap)
+        const dy = 320; // Horizontal distance between branches
+
+        const margin = {top: 20, right: 120, bottom: 20, left: 40};
+        const tree = d3.tree().nodeSize([dx, dy]);
+        const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
+
+        const root = d3.hierarchy(data);
+        root.x0 = height / 2;
+        root.y0 = 0;
+
+        // Start with only the first level expanded (Collapse all depth >= 1)
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth && d.depth >= 1) d.children = null;
+        });
+
+        const svg = d3.select("#mindmap-container").append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .style("user-select", "none");
+
+        const g = svg.append("g");
+
+        // Pan and Zoom
+        const zoom = d3.zoom()
+            .scaleExtent([0.1, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+            
+        svg.call(zoom);
+        
+        // Initial center position
+        svg.call(zoom.transform, d3.zoomIdentity.translate(width/3, height/2).scale(0.8));
+
+        const gLink = g.append("g")
+            .attr("fill", "none")
+            .attr("stroke", "var(--link-color)")
+            .attr("stroke-width", 2);
+
+        const gNode = g.append("g")
+            .attr("cursor", "pointer")
+            .attr("pointer-events", "all");
+
+        function update(source) {
+            const duration = 400;
+            const nodes = root.descendants().reverse();
+            const links = root.links();
+
+            // Compute the new tree layout.
+            tree(root);
+
+            // Push children further away from root to give more breathing room
+            nodes.forEach(d => {
+                if (d.depth > 0) {
+                    d.y = d.y + 150; 
+                }
+            });
+
+            let left = root;
+            let right = root;
+            root.eachBefore(node => {
+                if (node.x < left.x) left = node;
+                if (node.x > right.x) right = node;
+            });
+
+            // Update links
+            const link = gLink.selectAll("path").data(links, d => d.target.id);
+            
+            // Custom bezier curve to connect from right edge of parent rect to left edge of child
+            function linkPath(s, t) {
+                // Approximate rect width (dynamic in reality, hardcoded approximation for links)
+                const sourceOffset = s.data.name.length * 8 + 30; 
+                return `M ${s.y + sourceOffset} ${s.x} C ${(s.y + sourceOffset + t.y) / 2} ${s.x}, ${(s.y + sourceOffset + t.y) / 2} ${t.x}, ${t.y} ${t.x}`;
             }
-        }, 500);
+
+            const linkEnter = link.enter().append("path")
+                .attr("d", d => {
+                    const o = {x: source.x0, y: source.y0, data: {name: ""}};
+                    return linkPath(o, o);
+                });
+
+            link.merge(linkEnter).transition().duration(duration)
+                .attr("d", d => linkPath(d.source, d.target));
+
+            link.exit().transition().duration(duration)
+                .attr("d", d => {
+                    const o = {x: source.x, y: source.y, data: {name: ""}};
+                    return linkPath(o, o);
+                })
+                .remove();
+
+            // Update nodes
+            const node = gNode.selectAll("g.node").data(nodes, d => d.id);
+
+            const nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .attr("transform", d => `translate(${source.y0},${source.x0})`)
+                .attr("fill-opacity", 0)
+                .attr("stroke-opacity", 0)
+                .on("click", (event, d) => {
+                    d.children = d.children ? null : d._children;
+                    update(d);
+                    
+                    // Auto-center the clicked node smoothly (NotebookLM style)
+                    const currentScale = d3.zoomTransform(svg.node()).k;
+                    const targetScale = Math.max(0.7, currentScale); // Ensure it's readable
+                    const tx = (width / 3) - (d.y * targetScale);
+                    const ty = (height / 2) - (d.x * targetScale);
+                    
+                    svg.transition()
+                        .duration(duration * 1.5)
+                        .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(targetScale));
+                });
+
+            // We render text first to measure its width, but visually rect goes behind.
+            // SVG draws in order, so we draw rect first, then text, but calculate width.
+            
+            nodeEnter.append("rect")
+                .attr("rx", 8)
+                .attr("ry", 8)
+                .attr("height", 40)
+                .attr("y", -20)
+                .attr("fill", "var(--node-bg)")
+                .attr("stroke", "var(--node-border)")
+                .attr("stroke-width", 1)
+                .style("transition", "stroke 0.2s");
+                
+            nodeEnter.append("text")
+                .attr("class", "node-text")
+                .attr("dy", "0.32em")
+                .attr("x", 15)
+                .text(d => d.data.name);
+
+            // Dynamic rect width based on text length
+            nodeEnter.selectAll("rect")
+                .attr("width", d => d.data.name.length * 8 + 30);
+
+            // Expand/Collapse Indicator Circle
+            nodeEnter.append("circle")
+                .attr("class", "indicator-circle")
+                .attr("cx", d => d.data.name.length * 8 + 30)
+                .attr("cy", 0)
+                .attr("r", 10)
+                .attr("fill", "var(--bg-color)")
+                .attr("stroke", "var(--accent-green)")
+                .attr("stroke-width", 1.5)
+                .style("display", d => d._children ? "inline" : "none");
+
+            nodeEnter.append("text")
+                .attr("class", "indicator-icon")
+                .attr("x", d => d.data.name.length * 8 + 30)
+                .attr("y", 1)
+                .attr("dy", "0.32em")
+                .attr("text-anchor", "middle")
+                .attr("fill", "var(--accent-green)")
+                .style("font-size", "14px")
+                .style("font-weight", "bold")
+                .style("pointer-events", "none")
+                .style("display", d => d._children ? "inline" : "none")
+                .text(d => d.children ? "<" : ">"); // NotebookLM style arrows
+
+            // Hover effects
+            nodeEnter.on("mouseover", function() {
+                d3.select(this).select("rect").attr("stroke", "var(--text-color)");
+            }).on("mouseout", function() {
+                d3.select(this).select("rect").attr("stroke", "var(--node-border)");
+            });
+
+            const nodeUpdate = node.merge(nodeEnter).transition().duration(duration)
+                .attr("transform", d => `translate(${d.y},${d.x})`)
+                .attr("fill-opacity", 1)
+                .attr("stroke-opacity", 1);
+                
+            nodeUpdate.select(".indicator-icon")
+                .text(d => d.children ? "<" : ">"); // Change icon on expand/collapse
+
+            const nodeExit = node.exit().transition().duration(duration)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .attr("fill-opacity", 0)
+                .attr("stroke-opacity", 0)
+                .remove();
+
+            // Store old positions for transition
+            nodes.forEach(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+        }
+
+        update(root);
     </script>
 </body>
 </html>
