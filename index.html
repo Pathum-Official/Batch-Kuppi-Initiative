@@ -2,7 +2,7 @@
 <html lang="si">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batch Kuppi Initiative</title>
     <link rel="icon" type="image/x-icon" href="logo.ico">
     <!-- Dynamic CSS Links for Light/Dark Mode -->
@@ -262,16 +262,18 @@
 
         /* ================= RESPONSIVE DESIGN (Mobiles & Tablets) ================= */
         @media (max-width: 768px) {
-            main { padding: 15px 10px; }
-            .container { padding: 25px 15px; }
-            .header-content { flex-direction: column; gap: 15px; }
-            .logo { font-size: 1.2em; }
+            main { padding: 10px 5px; }
+            .container { padding: 15px 10px; }
+            .header-content { flex-direction: column; gap: 10px; }
+            .logo { font-size: 1.2em; text-align: center; }
+            .hero { padding: 40px 15px; }
             .hero h1 { font-size: 1.8em; }
-            .hero p { font-size: 1em; padding: 8px 15px; }
-            .section-title { font-size: 1.3em; }
-            .content-toolbar { flex-direction: column; border-bottom: none; gap: 15px; }
+            .hero p { font-size: 0.95em; padding: 5px 10px; }
+            .search-input { font-size: 1em; padding: 12px 15px 12px 40px; }
+            .content-toolbar { flex-direction: column; border-bottom: none; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; }
             .toolbar-btn { width: 100%; max-width: none; }
-            .pdf-iframe { height: 60vh; }
+            .pdf-iframe { height: 85vh; border-radius: 4px; }
+            .markdown-body { font-size: 14px; }
         }
 
         @media (max-width: 480px) {
