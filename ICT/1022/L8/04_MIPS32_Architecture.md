@@ -13,7 +13,7 @@ CPU එක ඇතුලේ තියෙන **Registers** කියන්නේ �
 * **HI & LO:** මේ කබඩ් දෙක ලොකු ගණන් හදද්දි උත්තරේ කෑලි දෙකට කඩලා දාන්න වෙන් කරපු විශේෂ කබඩ් දෙකක්.
 
 <div align="center">
-  <img src="mips32_registers.png" alt="MIPS32 Registers Analogy" width="100%" style="max-width: 650px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
+  <img src="ICT/1022/L8/mips32_registers.png" alt="MIPS32 Registers Analogy" width="100%" style="max-width: 650px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 20px 0 10px;">
   <br>
   <em><small style="color: #64748b;">රූප සටහන 1: CPU එක ඇතුළත ඇති Registers (Lockers)</small></em>
 </div>
