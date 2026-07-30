@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L12 - Input-Output Systems Quiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --correct-bg: #d1fae5;
+            --wrong-bg: #fee2e2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #6366f1;
+                --primary-hover: #4f46e5;
+                --bg-color: transparent;
+                --card-bg: #1e293b;
+                --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
+                --correct-bg: rgba(16, 185, 129, 0.2);
+                --wrong-bg: rgba(239, 68, 68, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            padding: 30px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-wrapper {
+            padding: 40px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 2px solid var(--text-muted);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn .opt-letter {
+            font-weight: 800;
+            margin-right: 15px;
+            background: var(--text-muted);
+            color: var(--card-bg);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:hover:not(:disabled) .opt-letter {
+            background: var(--primary);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--correct-bg);
+            color: var(--success);
+        }
+        .option-btn.correct .opt-letter { background: var(--success); color: #fff; }
+
+        .option-btn.wrong {
+            border-color: var(--danger);
+            background: var(--wrong-bg);
+            color: var(--danger);
+        }
+        .option-btn.wrong .opt-letter { background: var(--danger); color: #fff; }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: slideDown 0.4s ease;
+        }
+        .explanation-box.show {
+            display: block;
+        }
+        .explanation-box.success {
+            background: var(--correct-bg);
+            border-left: 4px solid var(--success);
+            color: var(--text-main);
+        }
+        .explanation-box.error {
+            background: var(--wrong-bg);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .next-btn-container {
+            margin-top: 30px;
+            text-align: right;
+            display: none;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .next-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-screen i {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        .result-screen h2 { font-size: 2rem; margin-bottom: 10px; }
+        .result-screen p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
+        
+        .restart-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .restart-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>L12: Input-Output Systems MCQ Quiz</h1>
+            <p id="quiz-status">Question 1 of 10</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="quiz-body" class="question-wrapper">
+            <div id="question-text" class="question-text">Loading question...</div>
+            <div id="options-list" class="options-list"></div>
+            
+            <div id="explanation-box" class="explanation-box">
+                <h4 style="margin-bottom: 5px;" id="explanation-title"></h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <div id="next-btn-container" class="next-btn-container">
+                <button id="next-btn" class="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-screen">
+            <i class="fas fa-trophy"></i>
+            <h2>Quiz Completed!</h2>
+            <p>You scored <strong id="final-score">0</strong> out of <span id="total-questions">10</span>.</p>
+            <button class="restart-btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                        "question": "01. පරිගණකයක මතකය (Memory) සම්බන්ධ කරනවාට වඩා I/O උපාංග (බාහිර උපාංග) සම්බන්ධ කිරීම සංකීර්ණ වන්නේ ඇයි?",
+                        "options": [
+                                    "I/O උපාංග ඉතා වේගවත් බැවින්",
+                                    "I/O උපාංග මිලෙන් අධික බැවින්",
+                                    "විවිධාකාරයේ උපාංග රාශියක් තිබීම, ඒවායේ වේගයන් එකිනෙකට වෙනස් වීම සහ දත්ත හුවමාරු කරන ප්‍රමාණ වෙනස් වීම නිසා",
+                                    "ඒවාට විදුලිය වැඩියෙන් අවශ්‍ය බැවින්",
+                                    "ප්‍රොසෙසරයට ඒවා තේරුම් ගත නොහැකි බැවින්"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "I/O උපාංග යනු කීබෝඩ්, මවුස්, ප්‍රින්ටර් ආදී එකිනෙකට සම්පූර්ණයෙන්ම වෙනස් උපාංගයි. ඒවායේ වේගය සහ ක්‍රියාකාරීත්වය විවිධ නිසා Interface එකක් (I/O Module) අනිවාර්ය වේ."
+            },
+            {
+                        "question": "02. I/O Module එකක ප්‍රධාන කාර්යය කුමක්ද?",
+                        "options": [
+                                    "ප්‍රොසෙසරයට විදුලිය සැපයීම",
+                                    "මතකයේ දත්ත ගබඩා කිරීම",
+                                    "ප්‍රොසෙසරය/මතකය සහ බාහිර උපාංග අතර අතරමැදියෙකු (Bridge) ලෙස ක්‍රියා කරමින් දත්ත හුවමාරුව කළමනාකරණය කිරීම",
+                                    "OS එක Load කිරීම",
+                                    "අන්තර්ජාලයට සම්බන්ධ කිරීම"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "I/O Module එක මඟින් ප්‍රොසෙසරයේ වේගයට සහ උපාංගයේ වේගයට ගැලපෙන පරිදි දත්ත හුවමාරුව පාලනය කරමින් අතරමැදියෙකු ලෙස කටයුතු කරයි."
+            },
+            {
+                        "question": "03. Output Port එකක් (දත්ත පිටතට යවන) මූලික වශයෙන් සමන්විත වන්නේ කුමන ඉලෙක්ට්‍රොනික කොටසකින්ද?",
+                        "options": [
+                                    "Multiplexer",
+                                    "Tri-state Buffer",
+                                    "PIPO (Parallel-In Parallel-Out) Register එකකින්",
+                                    "ALU",
+                                    "Cache Memory"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Output port එකක් යනු ප්‍රොසෙසරයෙන් යවන දත්ත උපාංගයට යැවීමට පෙර තාවකාලිකව රඳවා ගන්නා PIPO Register එකකි."
+            },
+            {
+                        "question": "04. Input Port එකක් (දත්ත ඇතුළට ගන්නා) මූලික වශයෙන් සමන්විත වන්නේ කුමන කොටසකින්ද?",
+                        "options": [
+                                    "PIPO Register",
+                                    "Tri-state Bus Driver එකකින්",
+                                    "ALU",
+                                    "Program Counter",
+                                    "ROM"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Input port එකක් යනු Tri-state buffer එකකි. උපාංගයෙන් එන දත්තය දත්ත බස් එකට (Data bus) මුදා හරින්නේ අදාළ සංඥාව (Enable) ලැබුණු විට පමණි."
+            },
+            {
+                        "question": "05. 'Memory-Mapped I/O' ක්‍රමයේ ප්‍රධාන ලක්ෂණයක් කුමක්ද?",
+                        "options": [
+                                    "I/O උපාංග සඳහා වෙනමම උපදෙස් (IN, OUT) භාවිතා කිරීම",
+                                    "මතකයට (Memory) සහ I/O උපාංග වලට ඇත්තේ එකම ලිපින පරාසයක් (Single Address Space) වීම සහ එකම උපදෙස් (LOAD, STORE) භාවිතා කිරීම",
+                                    "මතකය කිසිසේත් භාවිතා නොකිරීම",
+                                    "OS එකට I/O පාලනය කළ නොහැකි වීම",
+                                    "Hardware අතිශය සංකීර්ණ වීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Memory-mapped I/O වලදී I/O උපාංග, මතකයේම (Memory) තවත් ස්ථාන (Locations) ලෙස සලකයි. ඒ සඳහා Memory වලට ලබා දී ඇති ලිපින වලින් කොටසක් භාවිතා කරන අතර එකම උපදෙස් භාවිතා කරයි."
+            },
+            {
+                        "question": "06. 'I/O-Mapped I/O' (හෝ Isolated I/O) ක්‍රමයේ ඇති වාසියක් කුමක්ද?",
+                        "options": [
+                                    "Hardware ඉතා සරල වීම",
+                                    "I/O සඳහා වෙනම උපදෙස් නොමැති වීම",
+                                    "I/O උපාංග සඳහා වෙනමම ලිපින පරාසයක් ඇති බැවින්, මතකයේ සම්පූර්ණ ලිපින ප්‍රමාණයම (Full memory address space) කිසිදු අඩුවකින් තොරව භාවිතා කළ හැකි වීම",
+                                    "OS එක අනවශ්‍ය වීම",
+                                    "ප්‍රොසෙසරය වේගවත් වීම"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "I/O-Mapped I/O වලදී මතකයට සහ I/O වලට වෙන වෙනම Address space දෙකක් ඇත (එමනිසා IN, OUT වැනි වෙනම උපදෙස් භාවිතා වේ). මෙයින් මතකයේ ඉඩ අපතේ නොයයි."
+            },
+            {
+                        "question": "07. Direct Memory Access (DMA) භාවිතා කිරීමේ ප්‍රධානතම අරමුණ කුමක්ද?",
+                        "options": [
+                                    "OS එක ආරක්ෂා කිරීම",
+                                    "Hard disk වැනි වේගවත් I/O උපාංග වලින් දත්ත මතකයට ගැනීමේදී, ප්‍රොසෙසරයේ (CPU) මැදිහත් වීමකින් තොරව එය කෙලින්ම සිදු කිරීමට ඉඩ සලස්වා වේගය වැඩි කිරීම",
+                                    "මවුස් සහ කීබෝඩ් සම්බන්ධ කිරීම",
+                                    "පරිගණකය ON කිරීම",
+                                    "මතකය Format කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "විශාල දත්ත ප්‍රමාණයක් (Large blocks) මාරු කිරීමේදී ප්‍රොසෙසරය හරහා යැවීම ප්‍රොසෙසරයට විශාල වදයක් (Overhead) බැවින්, CPU එක මඟහැර කෙලින්ම මතකයට දත්ත යැවීමට DMA භාවිතා කරයි."
+            },
+            {
+                        "question": "08. DMA ක්‍රියාවලියේදී 'DMA-RQ' (DMA Request) සංඥාව යවන්නේ කවුරුන් විසින් කාහටද?",
+                        "options": [
+                                    "CPU විසින් Memory එකට",
+                                    "Memory විසින් CPU එකට",
+                                    "DMA Controller විසින් ප්‍රොසෙසරයට (CPU) යවනු ලැබේ, බස් එකේ පාලනය ලබා ගැනීම සඳහා",
+                                    "OS එක විසින් User ට",
+                                    "Hard disk විසින් Printer එකට"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "DMA Controller එකට දත්ත හුවමාරු කිරීමට අවශ්‍ය වූ විට, ප්‍රොසෙසරයෙන් System Bus එකේ පාලනය ලබාගැනීම සඳහා DMA-RQ සංඥාව යවයි."
+            },
+            {
+                        "question": "09. DMA හි 'Cycle Stealing Mode' (චක්‍ර සොරකම් කිරීම) යනු කුමක්ද?",
+                        "options": [
+                                    "ප්‍රොසෙසරය අක්‍රිය කර දැමීම",
+                                    "DMA Controller එක බස් එක සම්පූර්ණයෙන්ම තමා සතු කරගැනීම",
+                                    "ප්‍රොසෙසරය මතකය භාවිතා නොකරන වෙලාවල් බලා, එක්වරකට ඔරලෝසු චක්‍ර (Cycles) 1ක් හෝ 2ක් වැනි කුඩා කාලයකට බස් එක ලබාගෙන දත්ත යැවීම",
+                                    "OS එකේ දත්ත සොරකම් කිරීම",
+                                    "Hardware වෙනස් කිරීම"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Cycle Stealing හිදී DMA එක ප්‍රොසෙසරයට නොදැනෙන්නට මෙන් ඉතා කෙටි කාල පරාස වලට (1 or 2 cycles) බස් එක ලබාගෙන දත්ත මාරු කරයි. ප්‍රොසෙසරයට Idle වීමට සිදුවන්නේ නැත."
+            },
+            {
+                        "question": "10. DMA හි 'Block Transfer Mode' (කාණ්ඩ ලෙස යැවීම) යනු කුමක්ද?",
+                        "options": [
+                                    "කුඩා දත්ත පමණක් යැවීම",
+                                    "DMA Controller එක බස් එක ලබාගත් පසු, සම්පූර්ණ දත්ත කාණ්ඩයම (Whole data block) යවා අවසන් වනතුරු බස් එක ප්‍රොසෙසරයට ලබා නොදීම",
+                                    "ප්‍රොසෙසරය සමඟ එකවර වැඩ කිරීම",
+                                    "කීබෝඩ් එකෙන් දත්ත ගැනීම",
+                                    "දත්ත යැවීම ප්‍රතික්ෂේප කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Block Transfer හිදී අඛණ්ඩව (without interruption) මුළු දත්ත ප්‍රමාණයම යවන අතර, එම කාලය පුරාවටම ප්‍රොසෙසරයට බස් එක භාවිතා කළ නොහැකි බැවින් එයට Idle වීමට සිදුවේ. නමුත් මෙහිදී උපරිම වේගයක් ලැබේ."
+            }
+];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const explanationBox = document.getElementById('explanation-box');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationText = document.getElementById('explanation-text');
+        const nextBtnContainer = document.getElementById('next-btn-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const quizStatus = document.getElementById('quiz-status');
+        const quizBody = document.getElementById('quiz-body');
+        const resultScreen = document.getElementById('result-screen');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = q.question;
+            optionsList.innerHTML = '';
+            explanationBox.className = 'explanation-box';
+            nextBtnContainer.style.display = 'none';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="opt-letter">${letters[index]}</span> <span>${opt}</span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsList.appendChild(btn);
+            });
+
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            quizStatus.innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            const q = quizData[currentQuestion];
+            const isCorrect = (selectedIndex === q.correctIndex);
+            
+            // Disable all buttons
+            const allBtns = optionsList.querySelectorAll('.option-btn');
+            allBtns.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                explanationBox.classList.add('success');
+                explanationTitle.innerHTML = '<i class="fas fa-check-circle"></i> හරියටම හරි! (Correct)';
+            } else {
+                btnElement.classList.add('wrong');
+                explanationBox.classList.add('error');
+                explanationTitle.innerHTML = '<i class="fas fa-times-circle"></i> වැරදියි! (Incorrect)';
+            }
+
+            explanationText.innerText = q.explanation;
+            explanationBox.classList.add('show');
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = 'View Results <i class="fas fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = 'Next Question <i class="fas fa-arrow-right"></i>';
+            }
+            nextBtnContainer.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizBody.style.display = 'none';
+            resultScreen.style.display = 'block';
+            progressBar.style.width = '100%';
+            quizStatus.innerText = 'Quiz Completed!';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-questions').innerText = quizData.length;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            quizBody.style.display = 'block';
+            resultScreen.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize first question
+        loadQuestion();
+    </script>
+</body>
+</html>
