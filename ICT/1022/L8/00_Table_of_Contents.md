@@ -31,7 +31,7 @@
 * මහාචාර්ය මට්ටමේ Exam Q&A
 
 ---
-### 🧠 [05. Interactive Mind Map (සම්පූර්ණ සාරාංශය) 🌟](05_Mindmap.html)
+### 🧠 [05. Interactive Mind Map (සම්පූර්ණ සාරාංශය) 🌟](?html=ICT/1022/L8/05_Mindmap.html)
 * මුළු පාඩමම එකම තැනකින් (Zoom/Pan/Click කළ හැකි)
 
 ---
