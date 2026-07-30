@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L9 - MIPS32 Instruction Set Quiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --correct-bg: #d1fae5;
+            --wrong-bg: #fee2e2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #6366f1;
+                --primary-hover: #4f46e5;
+                --bg-color: transparent;
+                --card-bg: #1e293b;
+                --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
+                --correct-bg: rgba(16, 185, 129, 0.2);
+                --wrong-bg: rgba(239, 68, 68, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            padding: 30px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-wrapper {
+            padding: 40px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 2px solid var(--text-muted);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn .opt-letter {
+            font-weight: 800;
+            margin-right: 15px;
+            background: var(--text-muted);
+            color: var(--card-bg);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:hover:not(:disabled) .opt-letter {
+            background: var(--primary);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--correct-bg);
+            color: var(--success);
+        }
+        .option-btn.correct .opt-letter { background: var(--success); color: #fff; }
+
+        .option-btn.wrong {
+            border-color: var(--danger);
+            background: var(--wrong-bg);
+            color: var(--danger);
+        }
+        .option-btn.wrong .opt-letter { background: var(--danger); color: #fff; }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: slideDown 0.4s ease;
+        }
+        .explanation-box.show {
+            display: block;
+        }
+        .explanation-box.success {
+            background: var(--correct-bg);
+            border-left: 4px solid var(--success);
+            color: var(--text-main);
+        }
+        .explanation-box.error {
+            background: var(--wrong-bg);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .next-btn-container {
+            margin-top: 30px;
+            text-align: right;
+            display: none;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .next-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-screen i {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        .result-screen h2 { font-size: 2rem; margin-bottom: 10px; }
+        .result-screen p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
+        
+        .restart-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .restart-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>L9: MIPS32 Instruction Set MCQ Quiz</h1>
+            <p id="quiz-status">Question 1 of 10</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="quiz-body" class="question-wrapper">
+            <div id="question-text" class="question-text">Loading question...</div>
+            <div id="options-list" class="options-list"></div>
+            
+            <div id="explanation-box" class="explanation-box">
+                <h4 style="margin-bottom: 5px;" id="explanation-title"></h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <div id="next-btn-container" class="next-btn-container">
+                <button id="next-btn" class="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-screen">
+            <i class="fas fa-trophy"></i>
+            <h2>Quiz Completed!</h2>
+            <p>You scored <strong id="final-score">0</strong> out of <span id="total-questions">10</span>.</p>
+            <button class="restart-btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                        "question": "01. MIPS32 Architecture එකෙහි ඇති General Purpose Registers (GPR) ප්‍රමාණය කොපමණද?",
+                        "options": [
+                                    "8",
+                                    "16",
+                                    "32",
+                                    "64",
+                                    "128"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "MIPS32 හි සාමාන්‍ය කටයුතු සඳහා භාවිතා කළ හැකි රෙජිස්ටර් 32 ක් පවතී (R0 සිට R31 දක්වා). සෑම රෙජිස්ටරයක්ම බිට් 32 කින් සමන්විත වේ."
+            },
+            {
+                        "question": "02. 'lw $t0, 4($s0)' යන MIPS විධානයෙන් සිදුවන්නේ කුමක්ද?",
+                        "options": [
+                                    "$t0 හි අගය 4 කින් වැඩි කිරීම",
+                                    "මතකයේ ලිපිනය ($s0 + 4) හි ඇති දත්තය $t0 රෙජිස්ටරයට ගෙන ඒම (Load Word)",
+                                    "$t0 හි ඇති දත්තය මතකයේ ගබඩා කිරීම",
+                                    "$s0 ට 4 ක් එකතු කිරීම",
+                                    "$t0 සහ $s0 එකතු කර 4 හි ගබඩා කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "මෙය Load Word (lw) විධානයයි. මෙහිදී Base Address එක $s0 වන අතර Offset එක 4 වේ. එම මතක ස්ථානයේ ඇති අගය $t0 වෙත Load කරයි."
+            },
+            {
+                        "question": "03. MIPS හි ගුණ කිරීම් (Multiply) සහ බෙදීම් (Divide) වල පිළිතුරු ගබඩා කිරීමට භාවිතා කරන විශේෂ රෙජිස්ටර් දෙක කුමක්ද?",
+                        "options": [
+                                    "R1 සහ R2",
+                                    "HI සහ LO",
+                                    "$t0 සහ $t1",
+                                    "PC සහ IR",
+                                    "$v0 සහ $v1"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "ගුණ කිරීමේදී ලැබෙන 64-bit පිළිතුරේ ඉහළ කොටස HI වලද, පහළ කොටස LO වලද ගබඩා වේ. බෙදීමේදී ඉතිරිය HI වලද, ලබ්ධිය LO වලද ගබඩා වේ."
+            },
+            {
+                        "question": "04. MIPS Instruction Formats ප්‍රධාන වශයෙන් වර්ග 3 කට බෙදේ. ඒවා මොනවාද?",
+                        "options": [
+                                    "ALU, Memory, Control",
+                                    "Add, Sub, Mul",
+                                    "R-type, I-type, J-type",
+                                    "Fetch, Decode, Execute",
+                                    "Direct, Indirect, Indexed"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "MIPS විධාන (Instructions) යන්ත්‍ර භාෂාවට හැරවීමේදී ඒවා R-type (Register), I-type (Immediate) සහ J-type (Jump) ලෙස ආකෘති 3 කට වෙන් කෙරේ."
+            },
+            {
+                        "question": "05. 'addi $t0, $t1, 10' යන විධානය අයත් වන්නේ කුමන Format එකටද?",
+                        "options": [
+                                    "R-type",
+                                    "I-type",
+                                    "J-type",
+                                    "M-type",
+                                    "A-type"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "මෙහි 10 නමැති නියත අගයක් (Immediate value) උපදෙස ඇතුළතම ලබා දී ඇති බැවින් මෙය I-type (Immediate) Format එකට අයත් වේ."
+            },
+            {
+                        "question": "06. 'beq $t0, $t1, Label' යන විධානයෙන් අදහස් කරන්නේ කුමක්ද?",
+                        "options": [
+                                    "$t0 සහ $t1 සමාන නම් Label වෙත යන්න (Branch if Equal)",
+                                    "$t0 සහ $t1 එකතු කරන්න",
+                                    "$t0 සහ $t1 අසමාන නම් පනින්න",
+                                    "Label හි අගය $t0 ට ලබා දෙන්න",
+                                    "$t0 සහ $t1 සමාන කිරීම"
+                        ],
+                        "correctIndex": 0,
+                        "explanation": "beq යනු 'Branch on Equal' යන්නයි. රෙජිස්ටර් දෙකේ අගයන් සමාන නම් පමණක් සඳහන් කර ඇති Label එකට Jump කරයි."
+            },
+            {
+                        "question": "07. MIPS හි R-type Instruction එකක් කොටස් කීයකට (Fields) බෙදී ඇත්ද?",
+                        "options": [
+                                    "2",
+                                    "3",
+                                    "4",
+                                    "5",
+                                    "6"
+                        ],
+                        "correctIndex": 3,
+                        "explanation": "R-type එකක් කොටස් 6 කට බෙදේ: opcode(6), rs(5), rt(5), rd(5), shamt(5), funct(6). සම්පූර්ණ බිට් ගණන 32 කි."
+            },
+            {
+                        "question": "08. J-type (Jump) Instruction එකක අඩංගු වන්නේ කුමන කොටස්ද?",
+                        "options": [
+                                    "Opcode සහ Target Address",
+                                    "Opcode, rs, rt, rd",
+                                    "Opcode සහ Immediate value",
+                                    "Registers පමණි",
+                                    "Opcode පමණි"
+                        ],
+                        "correctIndex": 0,
+                        "explanation": "J-type එකක් අතිශය සරලයි. එහි ඇත්තේ බිට් 6 ක Opcode එකක් සහ බිට් 26 ක Target Address එකක් පමණි."
+            },
+            {
+                        "question": "09. MIPS Architecture එකෙහි 'Load-Store Architecture' ලක්ෂණය මනාව පෙන්වන කරුණක් වන්නේ:",
+                        "options": [
+                                    "ඕනෑම විධානයකට Memory Access කළ හැකි වීම",
+                                    "Hardware අතිශය සංකීර්ණ වීම",
+                                    "Memory එකට Data යැවීමට සහ ගැනීමට හැක්කේ Load (lw) සහ Store (sw) විධාන වලින් පමණක් වීම සහ අනෙකුත් සියලු ගණනය කිරීම් Registers තුළ සිදු වීම",
+                                    "Stack Memory එකක් නොතිබීම",
+                                    "Memory එකට පිවිසීමට නොහැකි වීම"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "MIPS (RISC) හි ප්‍රධානතම ලක්ෂණය වන්නේ ගණිතමය විධාන (ADD, SUB) වලට කෙලින්ම Memory එක සමග ගනුදෙනු කළ නොහැකි වීමයි. ඒ සඳහා Load සහ Store විධාන භාවිතා කළ යුතුය."
+            },
+            {
+                        "question": "10. 'slt $t0, $s1, $s2' (Set on Less Than) විධානයේ ප්‍රතිඵලය කුමක්ද?",
+                        "options": [
+                                    "$s1 සහ $s2 එකතු කිරීම",
+                                    "$s1 < $s2 නම් $t0 හි අගය 1 කිරීම, නැතිනම් 0 කිරීම",
+                                    "$s1 > $s2 නම් $t0 හි අගය 1 කිරීම",
+                                    "$s1 සහ $s2 සමාන කිරීම",
+                                    "මතකයේ ගබඩා කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "SLT විධානය මඟින් පළමු අගය ($s1) දෙවන අගයට ($s2) වඩා කුඩා නම් (Less Than), Destination ($t0) එකට 1 අගය ලබා දෙයි. එසේ නොමැති නම් 0 අගය ලබා දෙයි."
+            }
+];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const explanationBox = document.getElementById('explanation-box');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationText = document.getElementById('explanation-text');
+        const nextBtnContainer = document.getElementById('next-btn-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const quizStatus = document.getElementById('quiz-status');
+        const quizBody = document.getElementById('quiz-body');
+        const resultScreen = document.getElementById('result-screen');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = q.question;
+            optionsList.innerHTML = '';
+            explanationBox.className = 'explanation-box';
+            nextBtnContainer.style.display = 'none';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="opt-letter">${letters[index]}</span> <span>${opt}</span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsList.appendChild(btn);
+            });
+
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            quizStatus.innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            const q = quizData[currentQuestion];
+            const isCorrect = (selectedIndex === q.correctIndex);
+            
+            // Disable all buttons
+            const allBtns = optionsList.querySelectorAll('.option-btn');
+            allBtns.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                explanationBox.classList.add('success');
+                explanationTitle.innerHTML = '<i class="fas fa-check-circle"></i> හරියටම හරි! (Correct)';
+            } else {
+                btnElement.classList.add('wrong');
+                explanationBox.classList.add('error');
+                explanationTitle.innerHTML = '<i class="fas fa-times-circle"></i> වැරදියි! (Incorrect)';
+            }
+
+            explanationText.innerText = q.explanation;
+            explanationBox.classList.add('show');
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = 'View Results <i class="fas fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = 'Next Question <i class="fas fa-arrow-right"></i>';
+            }
+            nextBtnContainer.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizBody.style.display = 'none';
+            resultScreen.style.display = 'block';
+            progressBar.style.width = '100%';
+            quizStatus.innerText = 'Quiz Completed!';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-questions').innerText = quizData.length;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            quizBody.style.display = 'block';
+            resultScreen.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize first question
+        loadQuestion();
+    </script>
+</body>
+</html>
