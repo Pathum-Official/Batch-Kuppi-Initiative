@@ -1,6 +1,4 @@
-<div align="center">
-  <img src="kuppi_cover_l8.png" alt="Computer Architecture Cover" width="100%" style="max-width: 800px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px;">
-</div>
+
 
 # 📚 ICT 1022 - Computer Systems Architecture (L8 Kuppi Notes)
 
