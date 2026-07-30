@@ -18,5 +18,5 @@
 
 ---
 
-### 🧠 [Interactive Mind Map එක බලන්න](?note=ICT/1022/L2/04_Mindmap.html)
+### 🧠 [Interactive Mind Map එක බලන්න](?html=ICT/1022/L2/04_Mindmap.html)
 පාඩමේ සියලුම කරුණු එකම රූපයකින් මතක තියාගන්න, මෙම අන්තර්ක්‍රියාකාරී (Interactive) Mind Map එක භාවිතා කරන්න.
