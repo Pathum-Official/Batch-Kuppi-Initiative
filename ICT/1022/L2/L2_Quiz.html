@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L2 - Digital Computer and Organization Quiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --correct-bg: #d1fae5;
+            --wrong-bg: #fee2e2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #6366f1;
+                --primary-hover: #4f46e5;
+                --bg-color: transparent;
+                --card-bg: #1e293b;
+                --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
+                --correct-bg: rgba(16, 185, 129, 0.2);
+                --wrong-bg: rgba(239, 68, 68, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            padding: 30px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-wrapper {
+            padding: 40px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 2px solid var(--text-muted);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn .opt-letter {
+            font-weight: 800;
+            margin-right: 15px;
+            background: var(--text-muted);
+            color: var(--card-bg);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:hover:not(:disabled) .opt-letter {
+            background: var(--primary);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--correct-bg);
+            color: var(--success);
+        }
+        .option-btn.correct .opt-letter { background: var(--success); color: #fff; }
+
+        .option-btn.wrong {
+            border-color: var(--danger);
+            background: var(--wrong-bg);
+            color: var(--danger);
+        }
+        .option-btn.wrong .opt-letter { background: var(--danger); color: #fff; }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: slideDown 0.4s ease;
+        }
+        .explanation-box.show {
+            display: block;
+        }
+        .explanation-box.success {
+            background: var(--correct-bg);
+            border-left: 4px solid var(--success);
+            color: var(--text-main);
+        }
+        .explanation-box.error {
+            background: var(--wrong-bg);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .next-btn-container {
+            margin-top: 30px;
+            text-align: right;
+            display: none;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .next-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-screen i {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        .result-screen h2 { font-size: 2rem; margin-bottom: 10px; }
+        .result-screen p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
+        
+        .restart-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .restart-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>L2: Digital Computer and Organization MCQ Quiz</h1>
+            <p id="quiz-status">Question 1 of 10</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="quiz-body" class="question-wrapper">
+            <div id="question-text" class="question-text">Loading question...</div>
+            <div id="options-list" class="options-list"></div>
+            
+            <div id="explanation-box" class="explanation-box">
+                <h4 style="margin-bottom: 5px;" id="explanation-title"></h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <div id="next-btn-container" class="next-btn-container">
+                <button id="next-btn" class="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-screen">
+            <i class="fas fa-trophy"></i>
+            <h2>Quiz Completed!</h2>
+            <p>You scored <strong id="final-score">0</strong> out of <span id="total-questions">10</span>.</p>
+            <button class="restart-btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                        "question": "01. පරිගණකයක ප්‍රධාන කාර්යභාරයන් ඉටු කරන ප්‍රධාන ඒකක (Components) 3 කුමක්ද?",
+                        "options": [
+                                    "CPU, Memory, I/O Devices",
+                                    "ALU, Control Unit, Registers",
+                                    "Hardware, Software, Firmware",
+                                    "Keyboard, Mouse, Monitor",
+                                    "Motherboard, Hard Disk, RAM"
+                        ],
+                        "correctIndex": 0,
+                        "explanation": "පරිගණකයක මූලික සංවිධානය සෑදී ඇත්තේ ප්‍රොසෙසරය (CPU), මතකය (Memory) සහ බාහිර උපාංග (I/O Devices) එකට සම්බන්ධ වීමෙනි."
+            },
+            {
+                        "question": "02. High-level Language (උදා: C, Java) එකක් යන්ත්‍ර භාෂාවට (Machine Language) පරිවර්තනය කිරීමට භාවිතා කරන මෘදුකාංගය කුමක්ද?",
+                        "options": [
+                                    "Assembler",
+                                    "Compiler",
+                                    "Operating System",
+                                    "Text Editor",
+                                    "Linker"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Compiler එකක් මඟින් High-level Language එකකින් ලියූ සම්පූර්ණ වැඩසටහනක්ම පරිගණකයට තේරෙන 1 සහ 0 වලින් සමන්විත Machine Language එකට පරිවර්තනය කරයි."
+            },
+            {
+                        "question": "03. Assembly Language එකක් Machine Language බවට පත් කිරීමට භාවිතා කරන මෘදුකාංගය කුමක්ද?",
+                        "options": [
+                                    "Compiler",
+                                    "Interpreter",
+                                    "Assembler",
+                                    "Debugger",
+                                    "Loader"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Assembly Language යනු මිනිසාට තරමක් කියවිය හැකි (ADD, SUB) භාෂාවකි. එය Machine Language බවට පත් කරන්නේ Assembler නම් මෘදුකාංගය මඟිනි."
+            },
+            {
+                        "question": "04. Multilevel Machine සංකල්පයේ Level 0 (පහළම මට්ටම) ලෙස හඳුන්වන්නේ කුමක්ද?",
+                        "options": [
+                                    "Operating System Machine Level",
+                                    "Instruction Set Architecture (ISA) Level",
+                                    "Digital Logic Level",
+                                    "Assembly Language Level",
+                                    "High-Level Language Level"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Level 0 යනු Digital Logic Level එකයි. මෙහි ඇත්තේ පරිගණකයේ භෞතික ඉලෙක්ට්‍රොනික පරිපථ (Logic gates) වේ."
+            },
+            {
+                        "question": "05. Interpreter එකක් සහ Compiler එකක් අතර ඇති ප්‍රධාන වෙනස කුමක්ද?",
+                        "options": [
+                                    "Interpreter එකක් මුළු කේතයම එකවර පරිවර්තනය කරයි",
+                                    "Compiler එකක් පේළියෙන් පේළිය පරිවර්තනය කරයි",
+                                    "Interpreter එකක් කේතය පේළියෙන් පේළිය (line by line) පරිවර්තනය කරමින් ක්‍රියාත්මක කරයි",
+                                    "Compiler එකක් භාවිතා කරන්නේ Assembly Language සඳහා පමණි",
+                                    "වෙනසක් නොමැත, දෙකම එකම කාර්යය කරයි"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Compiler එකක් මුළු කේතයම එකවර පරිවර්තනය කරන අතර (Translation), Interpreter එකක් කේතය පේළියෙන් පේළිය කියවමින් ක්‍රියාත්මක කරයි (Interpretation)."
+            },
+            {
+                        "question": "06. Multilevel Machine සංකල්පයේ Level 3 ලෙස සාමාන්‍යයෙන් සැලකෙන්නේ කුමක්ද?",
+                        "options": [
+                                    "Microarchitecture Level",
+                                    "Instruction Set Architecture Level",
+                                    "Operating System Machine Level",
+                                    "Assembly Language Level",
+                                    "Problem-oriented Language Level"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Level 0: Digital Logic, Level 1: Microarchitecture, Level 2: ISA, Level 3: Operating System, Level 4: Assembly, Level 5: High-Level Language ලෙස මට්ටම් බෙදේ."
+            },
+            {
+                        "question": "07. Hardware සහ Software අතර සම්බන්ධය ගොඩනඟන ප්‍රධාන මට්ටම (Level) කුමක්ද?",
+                        "options": [
+                                    "Digital Logic Level",
+                                    "Instruction Set Architecture (ISA) Level",
+                                    "High-Level Language Level",
+                                    "Assembly Language Level",
+                                    "Problem-oriented Language Level"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "ISA (Instruction Set Architecture) Level එක මඟින් Hardware වලට තේරෙන Machine Language විධාන නිර්වචනය කරන අතර, එය Hardware සහ Software අතර පාලමක් ලෙස ක්‍රියා කරයි."
+            },
+            {
+                        "question": "08. Translation (පරිවර්තනය) ක්‍රියාවලියේදී සිදුවන්නේ කුමක්ද?",
+                        "options": [
+                                    "උහළ මට්ටමේ වැඩසටහනක් වෙනත් මෘදුකාංගයක් හරහා පේළියෙන් පේළිය ක්‍රියාත්මක කිරීම",
+                                    "L0 මට්ටමේ පරිපථ L1 මට්ටමට වෙනස් කිරීම",
+                                    "ඉහළ මට්ටමේ (L n) භාෂාවකින් ලියූ සම්පූර්ණ වැඩසටහන පහළ මට්ටමේ (L n-1) භාෂාවකට සම්පූර්ණයෙන්ම වෙනස් කිරීම",
+                                    "පරිගණකයට අලුත් භාෂාවක් ඉගැන්වීම",
+                                    "Hardware කොටස් වෙනස් කිරීම"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Translation හිදී සිදුවන්නේ L n මට්ටමේ භාෂාවකින් ඇති සම්පූර්ණ කේතයම L n-1 මට්ටමේ භාෂාවකට (එනම් 0 සහ 1 වලට) සම්පූර්ණයෙන්ම පරිවර්තනය කර ඉන්පසු ක්‍රියාත්මක කිරීමයි."
+            },
+            {
+                        "question": "09. Interpretation (අර්ථකථනය) ක්‍රියාවලියේදී සිදුවන්නේ කුමක්ද?",
+                        "options": [
+                                    "සම්පූර්ණ කේතයම එකවරම යන්ත්‍ර භාෂාවට හැරවීම",
+                                    "L n මට්ටමේ පේළියක් කියවා, ඊට අදාළ L n-1 මට්ටමේ විධාන ඒ මොහොතේම ක්‍රියාත්මක කර ඊළඟ පේළියට යාම",
+                                    "අලුත්ම Compiler එකක් නිර්මාණය කිරීම",
+                                    "Assembly කේතය C++ බවට හැරවීම",
+                                    "පරිගණකය ක්‍රියාවිරහිත කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Interpretation හිදී කේතය සම්පූර්ණයෙන් පරිවර්තනය කර Save කරගන්නේ නැත. එය පේළියෙන් පේළිය කියවමින් (fetch), තේරුම් ගනිමින් (decode) ඒ මොහොතේම ක්‍රියාත්මක (execute) කරයි."
+            },
+            {
+                        "question": "10. Instruction Set Architecture (ISA) එකක් වැදගත් වන්නේ ඇයි?",
+                        "options": [
+                                    "එය පරිගණකයේ මිල තීරණය කරයි",
+                                    "එය පරිගණකයේ තිරයේ ප්‍රමාණය තීරණය කරයි",
+                                    "එය Programmer කෙනෙකුට පරිගණකය පෙනෙන ආකාරය සහ පරිගණකය තේරුම් ගන්නා විධාන මාලාව නිර්වචනය කරයි",
+                                    "එය අන්තර්ජාල වේගය වැඩි කරයි",
+                                    "එය මවුස් එකේ ක්‍රියාකාරීත්වය පාලනය කරයි"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "ISA එකක් මඟින් ප්‍රොසෙසරයට තේරුම් ගත හැකි විධාන (Instructions), රෙජිස්ටර් සහ මතක ව්‍යුහය නිර්වචනය කරන අතර එය පරිගණකයේ මූලික සන්නිවේදන භාෂාව වේ."
+            }
+];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const explanationBox = document.getElementById('explanation-box');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationText = document.getElementById('explanation-text');
+        const nextBtnContainer = document.getElementById('next-btn-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const quizStatus = document.getElementById('quiz-status');
+        const quizBody = document.getElementById('quiz-body');
+        const resultScreen = document.getElementById('result-screen');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = q.question;
+            optionsList.innerHTML = '';
+            explanationBox.className = 'explanation-box';
+            nextBtnContainer.style.display = 'none';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="opt-letter">${letters[index]}</span> <span>${opt}</span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsList.appendChild(btn);
+            });
+
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            quizStatus.innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            const q = quizData[currentQuestion];
+            const isCorrect = (selectedIndex === q.correctIndex);
+            
+            // Disable all buttons
+            const allBtns = optionsList.querySelectorAll('.option-btn');
+            allBtns.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                explanationBox.classList.add('success');
+                explanationTitle.innerHTML = '<i class="fas fa-check-circle"></i> හරියටම හරි! (Correct)';
+            } else {
+                btnElement.classList.add('wrong');
+                explanationBox.classList.add('error');
+                explanationTitle.innerHTML = '<i class="fas fa-times-circle"></i> වැරදියි! (Incorrect)';
+            }
+
+            explanationText.innerText = q.explanation;
+            explanationBox.classList.add('show');
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = 'View Results <i class="fas fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = 'Next Question <i class="fas fa-arrow-right"></i>';
+            }
+            nextBtnContainer.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizBody.style.display = 'none';
+            resultScreen.style.display = 'block';
+            progressBar.style.width = '100%';
+            quizStatus.innerText = 'Quiz Completed!';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-questions').innerText = quizData.length;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            quizBody.style.display = 'block';
+            resultScreen.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize first question
+        loadQuestion();
+    </script>
+</body>
+</html>
