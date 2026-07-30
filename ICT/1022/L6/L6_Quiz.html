@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L6 - Instruction Set Architecture (ISA) Quiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --correct-bg: #d1fae5;
+            --wrong-bg: #fee2e2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #6366f1;
+                --primary-hover: #4f46e5;
+                --bg-color: transparent;
+                --card-bg: #1e293b;
+                --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
+                --correct-bg: rgba(16, 185, 129, 0.2);
+                --wrong-bg: rgba(239, 68, 68, 0.2);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            padding: 30px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-wrapper {
+            padding: 40px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 2px solid var(--text-muted);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn .opt-letter {
+            font-weight: 800;
+            margin-right: 15px;
+            background: var(--text-muted);
+            color: var(--card-bg);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:hover:not(:disabled) .opt-letter {
+            background: var(--primary);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--correct-bg);
+            color: var(--success);
+        }
+        .option-btn.correct .opt-letter { background: var(--success); color: #fff; }
+
+        .option-btn.wrong {
+            border-color: var(--danger);
+            background: var(--wrong-bg);
+            color: var(--danger);
+        }
+        .option-btn.wrong .opt-letter { background: var(--danger); color: #fff; }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: slideDown 0.4s ease;
+        }
+        .explanation-box.show {
+            display: block;
+        }
+        .explanation-box.success {
+            background: var(--correct-bg);
+            border-left: 4px solid var(--success);
+            color: var(--text-main);
+        }
+        .explanation-box.error {
+            background: var(--wrong-bg);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .next-btn-container {
+            margin-top: 30px;
+            text-align: right;
+            display: none;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        .next-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-screen i {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        .result-screen h2 { font-size: 2rem; margin-bottom: 10px; }
+        .result-screen p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
+        
+        .restart-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .restart-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>L6: Instruction Set Architecture (ISA) MCQ Quiz</h1>
+            <p id="quiz-status">Question 1 of 10</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="quiz-body" class="question-wrapper">
+            <div id="question-text" class="question-text">Loading question...</div>
+            <div id="options-list" class="options-list"></div>
+            
+            <div id="explanation-box" class="explanation-box">
+                <h4 style="margin-bottom: 5px;" id="explanation-title"></h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <div id="next-btn-container" class="next-btn-container">
+                <button id="next-btn" class="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-screen">
+            <i class="fas fa-trophy"></i>
+            <h2>Quiz Completed!</h2>
+            <p>You scored <strong id="final-score">0</strong> out of <span id="total-questions">10</span>.</p>
+            <button class="restart-btn" onclick="restartQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                        "question": "01. Instruction Set Architecture (ISA) යන්නෙන් මූලිකවම අදහස් කරන්නේ කුමක්ද?",
+                        "options": [
+                                    "ප්‍රොසෙසරයේ භෞතික ප්‍රමාණය",
+                                    "Programmer කෙනෙකුට පෙනෙන පරිගණකයේ අතුරු මුහුණත (උපදෙස් මාලාව, Registers සහ මතක ව්‍යුහය)",
+                                    "Operating System එකේ වර්ගය",
+                                    "Assembly Language එක C++ බවට හැරවීම",
+                                    "Motherboard එකේ නිර්මාණය"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "ISA යනු Hardware සහ Software අතර ඇති ගිවිසුමයි. Programmer කෙනෙකුට Hardware භාවිතා කළ හැකි ආකාරය (Instructions, Registers) මෙයින් නිර්වචනය වේ."
+            },
+            {
+                        "question": "02. මුල් කාලීන පරිගණක වල භාවිතා වූ, ගණනය කිරීම් සඳහා එකම එක් Register එකක් පමණක් තිබූ Architecture එක කුමක්ද?",
+                        "options": [
+                                    "Stack Architecture",
+                                    "Memory-Memory Architecture",
+                                    "Accumulator Architecture",
+                                    "Register-Register Architecture",
+                                    "Superscalar Architecture"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Accumulator Architecture (උදා: පැරණි පරිගණක) හි තිබුණේ එක් ප්‍රධාන Register එකක් (Accumulator) පමණි. සියලුම ගණනය කිරීම් සිදුවූයේ එය මුල්කරගෙනය."
+            },
+            {
+                        "question": "03. 'PUSH' සහ 'POP' යන විධාන බහුලව භාවිතා වන්නේ කුමන ISA වර්ගයේද?",
+                        "options": [
+                                    "Accumulator Architecture",
+                                    "Stack Architecture",
+                                    "Register-Memory Architecture",
+                                    "Load-Store Architecture",
+                                    "Single Bus Architecture"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Stack Architecture හි Registers නැත. ගණනය කිරීම් සිදු කරන්නේ Stack එකේ ඉහළින්ම ඇති (Top of the stack) දත්ත දෙක ලබාගැනීමෙනි (Pop) සහ පිළිතුර නැවත Stack එකට දැමීමෙනි (Push)."
+            },
+            {
+                        "question": "04. Memory-Memory Architecture හි ප්‍රධාන ලක්ෂණය කුමක්ද?",
+                        "options": [
+                                    "සියලුම ගණනය කිරීම් Registers තුළ සිදු වීම",
+                                    "Registers කිසිවක් භාවිතා නොකර, Memory එකේ ඇති දත්ත අරගෙන එකතු කර නැවත Memory එකේම ගබඩා කිරීම",
+                                    "Load සහ Store විධාන පමණක් තිබීම",
+                                    "ප්‍රොසෙසරය ඉතා වේගවත් වීම",
+                                    "Stack එක පමණක් භාවිතා කිරීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Memory-Memory ක්‍රමයේදී (උදා: ADD Mem1, Mem2, Mem3), Memory එකට 3 වතාවක් යෑමට සිදුවන බැවින් Memory Access විශාල වේ. මෙය ඉතා මන්දගාමීය."
+            },
+            {
+                        "question": "05. 'Load-Store Architecture' (Register-Register) වල විශේෂත්වය කුමක්ද?",
+                        "options": [
+                                    "ඕනෑම විධානයකට Memory එකට පිවිසිය හැක",
+                                    "Memory එක සමග ගනුදෙනු කළ හැක්කේ Load සහ Store විධාන වලට පමණි. සියලු ගණනය කිරීම් Registers තුළ පමණක් සිදුවේ.",
+                                    "Registers නොමැත",
+                                    "Hardware ඉතා සංකීර්ණ වේ",
+                                    "Accumulator එකක් පමණක් ඇත"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "Load-Store Architecture හිදී ගණනය කිරීම් වේගවත් කිරීම සඳහා Memory Access එක අවම කර ඇත. දත්ත Registers වලට (Load) ගෙන එහිදී ගණනය කර නැවත Memory එකට (Store) දමයි."
+            },
+            {
+                        "question": "06. General-Purpose Registers (GPRs) භාවිතා කිරීමේ ප්‍රධාන වාසිය කුමක්ද?",
+                        "options": [
+                                    "Hardware මිල අඩු වීම",
+                                    "Compiler එකකට Variables ගබඩා කිරීමට Registers පහසුවෙන් භාවිතා කළ හැකි වීම නිසා Memory එකට යන වාර ගණන අඩු වී වේගය වැඩි වීම",
+                                    "OS එකට ඉඩ ලබා දීම",
+                                    "Instruction set එක කුඩා වීම",
+                                    "Memory එක අනවශ්‍ය වීම"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "GPRs (සාමාන්‍ය කටයුතු සඳහා ඇති රෙජිස්ටර්) නිසා Memory Access එකට වඩා ඉතා වේගයෙන් දත්ත ලබාගැනීමට ප්‍රොසෙසරයට හැකි වේ."
+            },
+            {
+                        "question": "07. Memory එකට පිවිසීමට (Access) ගතවන කාලය Registers වලට පිවිසීමට ගතවන කාලයට වඩා...",
+                        "options": [
+                                    "සමාන වේ",
+                                    "ඉතා අඩු වේ (ප්‍රොසෙසරය වේගවත් වේ)",
+                                    "ඉතා වැඩි වේ (ප්‍රොසෙසරයට බලා සිටීමට සිදුවේ)",
+                                    "Hardware මත රඳා පවතී",
+                                    "වෙනස් නොවේ"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Memory (RAM) එක ප්‍රොසෙසරයෙන් පිටත ඇති බැවින් එයට ප්‍රවේශ වීම, ප්‍රොසෙසරය තුළම ඇති Registers වලට ප්‍රවේශ වීමට වඩා අතිශයින් මන්දගාමී වේ."
+            },
+            {
+                        "question": "08. 'ALU Instruction' එකක් සඳහා අනිවාර්යයෙන්ම අවශ්‍ය වන දේවල් මොනවාද?",
+                        "options": [
+                                    "Memory Addresses පමණි",
+                                    "Opcode එක, Input Operands (දෙකක්) සහ Output Operand (එකක්)",
+                                    "Keyboard සහ Mouse",
+                                    "Operating System එක",
+                                    "Compiler සහ Interpreter"
+                        ],
+                        "correctIndex": 1,
+                        "explanation": "ADD R1, R2, R3 වැනි ගණිතමය විධානයක ක්‍රියාව (Opcode), ඊට අවශ්‍ය දත්ත (Source Operands) සහ පිළිතුර දැමිය යුතු තැන (Destination Operand) තිබිය යුතුය."
+            },
+            {
+                        "question": "09. MIPS සහ ARM වැනි නවීන ප්‍රොසෙසර අයත් වන්නේ කුමන Architecture වර්ගයටද?",
+                        "options": [
+                                    "Accumulator Architecture",
+                                    "Stack Architecture",
+                                    "Memory-Memory Architecture",
+                                    "Load-Store (Register-Register) Architecture",
+                                    "CISC Architecture"
+                        ],
+                        "correctIndex": 3,
+                        "explanation": "නවීන ප්‍රොසෙසර බොහොමයක් RISC පදනම් කරගත් Load-Store Architecture භාවිතා කරයි. එහි Memory Access අවම කර ඇත."
+            },
+            {
+                        "question": "10. 'Endianness' සංකල්පයෙන් අදහස් කරන්නේ කුමක්ද?",
+                        "options": [
+                                    "Memory එකේ Size එක",
+                                    "ප්‍රොසෙසරයේ වේගය",
+                                    "Word එකක ඇති බයිට් (Bytes), Memory එකේ ගබඩා කරන පිළිවෙළ (MSB ද LSB ද මුලින්ම තබන්නේ යන්න)",
+                                    "OS එකේ වර්ගය",
+                                    "Assembly Language එකේ වර්ගය"
+                        ],
+                        "correctIndex": 2,
+                        "explanation": "Endianness (Big-endian හෝ Little-endian) යනු බහු-බයිට් (Multi-byte) දත්තයක් මතකයේ ලිපිනවල ගබඩා කරන අනුපිළිවෙලයි."
+            }
+];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const explanationBox = document.getElementById('explanation-box');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationText = document.getElementById('explanation-text');
+        const nextBtnContainer = document.getElementById('next-btn-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const quizStatus = document.getElementById('quiz-status');
+        const quizBody = document.getElementById('quiz-body');
+        const resultScreen = document.getElementById('result-screen');
+
+        function loadQuestion() {
+            const q = quizData[currentQuestion];
+            questionText.innerText = q.question;
+            optionsList.innerHTML = '';
+            explanationBox.className = 'explanation-box';
+            nextBtnContainer.style.display = 'none';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="opt-letter">${letters[index]}</span> <span>${opt}</span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsList.appendChild(btn);
+            });
+
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            quizStatus.innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            const q = quizData[currentQuestion];
+            const isCorrect = (selectedIndex === q.correctIndex);
+            
+            // Disable all buttons
+            const allBtns = optionsList.querySelectorAll('.option-btn');
+            allBtns.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                explanationBox.classList.add('success');
+                explanationTitle.innerHTML = '<i class="fas fa-check-circle"></i> හරියටම හරි! (Correct)';
+            } else {
+                btnElement.classList.add('wrong');
+                explanationBox.classList.add('error');
+                explanationTitle.innerHTML = '<i class="fas fa-times-circle"></i> වැරදියි! (Incorrect)';
+            }
+
+            explanationText.innerText = q.explanation;
+            explanationBox.classList.add('show');
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = 'View Results <i class="fas fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = 'Next Question <i class="fas fa-arrow-right"></i>';
+            }
+            nextBtnContainer.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizBody.style.display = 'none';
+            resultScreen.style.display = 'block';
+            progressBar.style.width = '100%';
+            quizStatus.innerText = 'Quiz Completed!';
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-questions').innerText = quizData.length;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            quizBody.style.display = 'block';
+            resultScreen.style.display = 'none';
+            loadQuestion();
+        }
+
+        // Initialize first question
+        loadQuestion();
+    </script>
+</body>
+</html>
