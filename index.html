@@ -495,6 +495,7 @@
         /* Responsive Chat */
         @media (max-width: 480px) {
             .chat-widget { width: 90%; right: 5%; bottom: 80px; height: 70vh; }
+            .chat-btn { bottom: max(30px, env(safe-area-inset-bottom)); right: 15px; width: 55px; height: 55px; font-size: 22px; z-index: 2147483647; }
         }
 
         /* ================= RESPONSIVE DESIGN (Mobiles & Tablets) ================= */
@@ -1445,7 +1446,7 @@ CRITICAL RULES FOR YOU:
 - If users specifically ask to contact the admin (Main Admin: PKG P Apekshana) or report a site issue, tell them to send a WhatsApp message to +94773535384 using this clickable link: <a href="https://wa.me/94773535384" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a>. 
 - IMPORTANT: DO NOT mention the admin or provide the WhatsApp link in every response. Only do so when genuinely necessary (e.g., bug reports, explicit requests to submit materials).
 - The site is hosted on GitHub Pages. If users face generic technical issues, try your best to provide technical support yourself first.
-- AGENTIC SEARCH: If the user asks for resources, notes, past papers, or information that might be in the portal, you MUST search the portal. To search, output EXACTLY this tag and nothing else: <search_portal query="keyword1 keyword2 keyword3" /> (use multiple space-separated English keywords to broaden the search). The system will intercept this and return the matching files to you in a follow-up prompt. Wait for the system to reply with the search results before giving your final answer to the user.`;
+- AGENTIC SEARCH: If the user asks for resources, notes, past papers, or information that might be in the portal, you MUST search the portal. To search, output EXACTLY this tag and nothing else: <search_portal query="keyword1 keyword2 keyword3" /> (use multiple space-separated English keywords to broaden the search). The system will intercept this and return the matching files to you in a follow-up prompt. Wait for the system to reply with the search results before giving your final answer to the user.
 
 IF you need to provide a very long explanation, a full code file, an HTML page, or detailed Markdown that is better viewed as a separate full page, output the following EXACT XML-like tag in your response instead of printing the long content directly:
 <temp_page type="html" title="Your Title Here">
