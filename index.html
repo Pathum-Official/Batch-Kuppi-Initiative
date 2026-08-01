@@ -431,6 +431,67 @@
         body.dark-mode .chat-attachments-list { background: #21262d; border-color: #30363d; }
         body.dark-mode .attachment-chip { background: #0d1117; border-color: #30363d; color: #c9d1d9; }
         
+        /* Fullscreen Chat */
+        .chat-widget.fullscreen {
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+            right: 0;
+            border-radius: 0;
+            max-height: 100vh;
+            z-index: 9999;
+        }
+
+        /* Repo File Picker Modal */
+        .repo-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .repo-modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .repo-modal-header {
+            padding: 15px 20px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        .repo-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .repo-file-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .repo-file-item:hover { background: #f8f9fa; }
+        
+        body.dark-mode .repo-modal-content { background: #161b22; color: #c9d1d9; border: 1px solid #30363d; }
+        body.dark-mode .repo-modal-header { background: #21262d; border-bottom: 1px solid #30363d; }
+        body.dark-mode .repo-file-item { border-bottom-color: #30363d; }
+        body.dark-mode .repo-file-item:hover { background: #21262d; }
+        
         /* Responsive Chat */
         @media (max-width: 480px) {
             .chat-widget { width: 90%; right: 5%; bottom: 80px; height: 70vh; }
@@ -1032,6 +1093,7 @@
         <div class="chat-header">
             <span><i class="fas fa-robot"></i> AI Teacher</span>
             <div class="chat-header-actions">
+                <span onclick="toggleFullscreen()" title="Fullscreen"><i class="fas fa-expand"></i></span>
                 <span onclick="clearChat()" title="Clear Chat"><i class="fas fa-trash-alt"></i></span>
                 <span onclick="toggleChat()" title="Close"><i class="fas fa-times"></i></span>
             </div>
@@ -1046,11 +1108,27 @@
         </div>
         <div class="chat-input-container">
             <input type="file" id="chatFileInput" accept=".txt,.md,.html,.js,.css,.py,.java,.c,.cpp,image/*,audio/*,application/pdf" onchange="handleFileSelect(event)">
-            <button class="chat-attach-btn" onclick="document.getElementById('chatFileInput').click()" title="Attach a File">
+            <button class="chat-attach-btn" onclick="document.getElementById('chatFileInput').click()" title="Attach from PC">
                 <i class="fas fa-paperclip"></i>
+            </button>
+            <button class="chat-attach-btn" onclick="openRepoModal()" title="Attach from Website">
+                <i class="fas fa-folder-open"></i>
             </button>
             <input type="text" id="userInput" placeholder="ඔබේ ප්‍රශ්නය අසන්න..." onkeypress="handleKeyPress(event)">
             <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Repo File Picker Modal -->
+    <div id="repoModal" class="repo-modal">
+        <div class="repo-modal-content">
+            <div class="repo-modal-header">
+                <span><i class="fas fa-folder-open"></i> Attach from Website</span>
+                <span onclick="closeRepoModal()" style="cursor:pointer;"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="repo-modal-body" id="repoModalBody">
+                <div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+            </div>
         </div>
     </div>
 
@@ -1083,6 +1161,36 @@
         function toggleChat() {
             const widget = document.getElementById('chatWidget');
             widget.style.display = widget.style.display === 'flex' ? 'none' : 'flex';
+            if (widget.style.display === 'flex') {
+                const messages = document.getElementById('chatMessages');
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        function toggleFullscreen() {
+            const widget = document.getElementById('chatWidget');
+            widget.classList.toggle('fullscreen');
+        }
+
+        function saveChatState() {
+            const messagesHtml = document.getElementById('chatMessages').innerHTML;
+            localStorage.setItem('kuppi_chatHistory', JSON.stringify(chatHistory));
+            localStorage.setItem('kuppi_chatMessages', messagesHtml);
+            localStorage.setItem('kuppi_tempPages', JSON.stringify(tempPages));
+        }
+
+        function loadChatState() {
+            const savedHistory = localStorage.getItem('kuppi_chatHistory');
+            const savedMessages = localStorage.getItem('kuppi_chatMessages');
+            const savedPages = localStorage.getItem('kuppi_tempPages');
+            
+            if (savedHistory && savedMessages) {
+                chatHistory = JSON.parse(savedHistory);
+                document.getElementById('chatMessages').innerHTML = savedMessages;
+            }
+            if (savedPages) {
+                tempPages = JSON.parse(savedPages);
+            }
         }
 
         function clearChat() {
@@ -1094,7 +1202,9 @@
                     </div>
                 `;
                 attachedFiles = [];
+                tempPages = {};
                 renderAttachments();
+                saveChatState();
             }
         }
 
@@ -1161,10 +1271,94 @@
             `).join('');
         }
 
+        async function openRepoModal() {
+            document.getElementById('repoModal').style.display = 'flex';
+            const files = await fetchRepoTree(); // Assumes fetchRepoTree is globally available
+            const modalBody = document.getElementById('repoModalBody');
+            
+            if (files.length === 0) {
+                modalBody.innerHTML = '<div style="padding: 20px; text-align: center;">කිසිදු ගොනුවක් හමු නොවීය.</div>';
+                return;
+            }
+
+            let html = '';
+            files.forEach(file => {
+                if (file.path.toLowerCase().includes('readme.md')) return;
+                
+                const fileName = file.path.split('/').pop();
+                const ext = fileName.split('.').pop().toLowerCase();
+                let icon = 'fa-file-alt';
+                if (ext === 'pdf') icon = 'fa-file-pdf';
+                else if (ext === 'mp4') icon = 'fa-video';
+                else if (['jpg','jpeg','png'].includes(ext)) icon = 'fa-image';
+                else if (['html', 'htm'].includes(ext)) icon = 'fa-globe';
+
+                html += `
+                    <div class="repo-file-item" onclick="attachRepoFile('${file.path.replace(/'/g, "\\'")}')">
+                        <i class="fas ${icon} fa-fw"></i> 
+                        <div style="flex-grow: 1;">
+                            <div>${fileName}</div>
+                            <div style="font-size: 0.8em; color: #888;">${file.path}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            modalBody.innerHTML = html;
+        }
+
+        function closeRepoModal() {
+            document.getElementById('repoModal').style.display = 'none';
+        }
+
+        async function attachRepoFile(path) {
+            closeRepoModal();
+            const fileName = path.split('/').pop();
+            const ext = fileName.split('.').pop().toLowerCase();
+            
+            const sendBtn = document.getElementById('sendBtn');
+            const originalIcon = sendBtn.innerHTML;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            sendBtn.disabled = true;
+
+            try {
+                if (['jpg', 'jpeg', 'png', 'pdf'].includes(ext)) {
+                    const res = await fetch(`https://raw.githubusercontent.com/pathum-official/Batch-Kuppi-Initiative/main/${path}`);
+                    const blob = await res.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        const base64data = reader.result.split(',')[1];
+                        attachedFiles.push({ type: 'inlineData', mimeType: blob.type, data: base64data, name: fileName });
+                        renderAttachments();
+                        sendBtn.innerHTML = originalIcon;
+                        sendBtn.disabled = false;
+                        const widget = document.getElementById('chatWidget');
+                        if (widget.style.display !== 'flex') toggleChat();
+                    }
+                    reader.readAsDataURL(blob);
+                } else {
+                    const content = await getNoteContent(path);
+                    attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_FILE_NAME: ${fileName}]\n[FILE_CONTENT_START]\n${content}\n[FILE_CONTENT_END]`, name: fileName });
+                    renderAttachments();
+                    sendBtn.innerHTML = originalIcon;
+                    sendBtn.disabled = false;
+                    const widget = document.getElementById('chatWidget');
+                    if (widget.style.display !== 'flex') toggleChat();
+                }
+            } catch (err) {
+                alert("Error fetching file: " + err.message);
+                sendBtn.innerHTML = originalIcon;
+                sendBtn.disabled = false;
+            }
+        }
+
         function attachCurrentViewerToChat() {
             const mc = document.getElementById('markdown-content');
             if (mc && mc.style.display !== 'none' && mc.innerText.trim().length > 0) {
-                attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_NOTE_CONTENT]\n${mc.innerText.substring(0, 10000)}`, name: 'Current Note' });
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentFilePath = urlParams.get('note') || urlParams.get('htmlParam') || 'Current Note';
+                const fileName = currentFilePath.split('/').pop() + (currentFilePath === 'Current Note' ? '' : '.md');
+                
+                attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_NOTE_CONTENT: ${currentFilePath}]\n${mc.innerText.substring(0, 10000)}`, name: fileName });
                 renderAttachments();
                 const widget = document.getElementById('chatWidget');
                 if(widget.style.display !== 'flex') toggleChat();
@@ -1184,7 +1378,7 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
 <temp_page type="html" title="Your Title Here">
 ... content here ...
 </temp_page>
-(You can use type="html" or type="markdown"). Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user.`;
+(You can use type="html" or type="markdown"). You can embed YouTube videos, web pages, or external resources using <iframe> inside your HTML temp_pages. Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user.`;
 
             let userParts = [{ text: promptText }];
             
@@ -1354,11 +1548,15 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
                 botMsgDiv.innerHTML = `<span style="color:red"><i class="fas fa-exclamation-triangle"></i> ${err.message || 'සම්බන්ධතාවයේ දෝෂයක් සිදු විය.'}</span>`;
             }
 
+            saveChatState();
             input.disabled = false;
             sendBtn.disabled = false;
             input.focus();
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+
+        // Initialize Chat State on load
+        window.addEventListener('load', loadChatState);
     </script>
 
     <!--Start of Tawk.to Script-->
