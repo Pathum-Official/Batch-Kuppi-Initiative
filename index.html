@@ -1442,9 +1442,10 @@
 
 CRITICAL RULES FOR YOU:
 - Never say you are only for "ICT 1022". You must act as the ultimate teacher for ALL subjects and take the entire burden of the system on your shoulders.
-- If users want to contact the admin (Main Admin: PKG P Apekshana), ask them to send a WhatsApp message to +94773535384. Give them this clickable link: <a href="https://wa.me/94773535384" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a> or call link <a href="tel:+94773535384" style="color: #007bff; font-weight: bold;"><i class="fas fa-phone"></i> Call Admin</a>. Tell them to contact admin for any site issues.
-- Encourage users to send their own notes/materials to the admin to add to the system, and ask for their feedback/suggestions. If they upload a file, figure out if it is already in our system or from outside. If it's a good external file, politely ask them to submit it to our system to help others.
-- The site is hosted on GitHub Pages. If users face generic technical issues, try your best to provide technical support.
+- If users specifically ask to contact the admin (Main Admin: PKG P Apekshana) or report a site issue, tell them to send a WhatsApp message to +94773535384 using this clickable link: <a href="https://wa.me/94773535384" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a>. 
+- IMPORTANT: DO NOT mention the admin or provide the WhatsApp link in every response. Only do so when genuinely necessary (e.g., bug reports, explicit requests to submit materials).
+- The site is hosted on GitHub Pages. If users face generic technical issues, try your best to provide technical support yourself first.
+- AGENTIC SEARCH: If the user asks for resources, notes, past papers, or information that might be in the portal, you MUST search the portal. To search, output EXACTLY this tag and nothing else: <search_portal query="keyword1 keyword2 keyword3" /> (use multiple space-separated English keywords to broaden the search). The system will intercept this and return the matching files to you in a follow-up prompt. Wait for the system to reply with the search results before giving your final answer to the user.`;
 
 IF you need to provide a very long explanation, a full code file, an HTML page, or detailed Markdown that is better viewed as a separate full page, output the following EXACT XML-like tag in your response instead of printing the long content directly:
 <temp_page type="html" title="Your Title Here">
@@ -1592,11 +1593,65 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
-                const result = await fetchWithFallback(text || "Please review the attached files.");
+                let currentPromptText = text || "Please review the attached files.";
+                let result;
+                let botText = "";
+                let searchAttempts = 0;
+                let isSearching = true;
+
+                while (isSearching && searchAttempts < 3) {
+                    searchAttempts++;
+                    result = await fetchWithFallback(currentPromptText);
+                    botText = result.text;
+                    
+                    const searchRegex = /<search_portal\s+query="([^"]+)"\s*\/>/;
+                    const searchMatch = botText.match(searchRegex);
+                    
+                    if (searchMatch) {
+                        const query = searchMatch[1].toLowerCase().trim();
+                        botMsgDiv.innerHTML = `<i class="fas fa-search"></i> පද්ධතියේ ගොනු පරීක්ෂා කරමින්... (${query})`;
+                        
+                        const files = await fetchRepoTree();
+                        let availableFilesStr = "";
+                        let queryTerms = query.split(' ');
+                        
+                        if (files && files.length > 0) {
+                            files.forEach(file => {
+                                 let filePathLower = file.path.toLowerCase();
+                                 if (!filePathLower.includes('readme.md')) {
+                                     let isMatch = queryTerms.some(term => filePathLower.includes(term));
+                                     if (isMatch) {
+                                         const ext = file.path.split('.').pop().toLowerCase();
+                                         if (['md', 'pdf', 'mp4', 'jpg', 'png', 'jpeg', 'html', 'htm'].includes(ext)) {
+                                             let typeParam = 'note';
+                                             if(ext === 'pdf') typeParam = 'pdf';
+                                             else if(ext === 'mp4') typeParam = 'video';
+                                             else if(['jpg','png','jpeg'].includes(ext)) typeParam = 'img';
+                                             else if(['html','htm'].includes(ext)) typeParam = 'html';
+                                             let paramPath = (typeParam === 'img' || typeParam === 'video') ? file.path : file.path.replace('.' + ext, '');
+                                             availableFilesStr += `- ${file.path.split('/').pop()} (Path: ${file.path}) -> [මෙතනින් බලන්න](?${typeParam}=${encodeURIComponent(paramPath)})\n`;
+                                         }
+                                     }
+                                 }
+                            });
+                        }
+                        
+                        if (availableFilesStr === "") {
+                            availableFilesStr = "No matching files found in the portal for this query.";
+                        }
+                        
+                        // Set up hidden follow-up prompt
+                        currentPromptText = `[SYSTEM MESSAGE: Search Results for '${query}']\n${availableFilesStr}\n\nBased on these results, provide your final answer to the user. Do NOT output the <search_portal> tag again.`;
+                        
+                        // Clear attachedFiles so we don't re-upload them in the hidden turn
+                        attachedFiles = [];
+                    } else {
+                        isSearching = false;
+                    }
+                }
+                
                 attachedFiles = [];
                 renderAttachments();
-
-                let botText = result.text;
                 
                 // Parse for <temp_page>...</temp_page>
                 const tempPageRegex = /<temp_page\s+type="([^"]+)"\s+title="([^"]+)">([\s\S]*?)<\/temp_page>/g;
