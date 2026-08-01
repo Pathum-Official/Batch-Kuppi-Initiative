@@ -1123,8 +1123,11 @@
     <div id="repoModal" class="repo-modal">
         <div class="repo-modal-content">
             <div class="repo-modal-header">
-                <span><i class="fas fa-folder-open"></i> Attach from Website</span>
-                <span onclick="closeRepoModal()" style="cursor:pointer;"><i class="fas fa-times"></i></span>
+                <div style="flex-grow:1;">
+                    <div style="margin-bottom: 5px;"><i class="fas fa-folder-open"></i> Attach from Website</div>
+                    <div id="repoModalBreadcrumb" style="font-size: 0.85em; font-weight: normal; color: #f8f9fa;"></div>
+                </div>
+                <span onclick="closeRepoModal()" style="cursor:pointer; align-self: flex-start; margin-left: 10px;"><i class="fas fa-times"></i></span>
             </div>
             <div class="repo-modal-body" id="repoModalBody">
                 <div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
@@ -1271,39 +1274,101 @@
             `).join('');
         }
 
+        let repoModalData = null;
+
         async function openRepoModal() {
             document.getElementById('repoModal').style.display = 'flex';
-            const files = await fetchRepoTree(); // Assumes fetchRepoTree is globally available
+            if (!repoModalData) {
+                const modalBody = document.getElementById('repoModalBody');
+                modalBody.innerHTML = '<div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+                repoModalData = await fetchRepoTree();
+            }
+            renderRepoModalFolder('');
+        }
+
+        function renderRepoModalFolder(currentPath) {
             const modalBody = document.getElementById('repoModalBody');
+            const breadcrumb = document.getElementById('repoModalBreadcrumb');
             
-            if (files.length === 0) {
+            if (!repoModalData || repoModalData.length === 0) {
                 modalBody.innerHTML = '<div style="padding: 20px; text-align: center;">කිසිදු ගොනුවක් හමු නොවීය.</div>';
                 return;
             }
 
-            let html = '';
-            files.forEach(file => {
-                if (file.path.toLowerCase().includes('readme.md')) return;
-                
-                const fileName = file.path.split('/').pop();
-                const ext = fileName.split('.').pop().toLowerCase();
-                let icon = 'fa-file-alt';
-                if (ext === 'pdf') icon = 'fa-file-pdf';
-                else if (ext === 'mp4') icon = 'fa-video';
-                else if (['jpg','jpeg','png'].includes(ext)) icon = 'fa-image';
-                else if (['html', 'htm'].includes(ext)) icon = 'fa-globe';
+            // Build Breadcrumb
+            let bcHTML = `<span onclick="renderRepoModalFolder('')" style="cursor:pointer; text-decoration:underline;">Home</span>`;
+            if (currentPath) {
+                const parts = currentPath.split('/');
+                let cumulativePath = '';
+                parts.forEach((part, index) => {
+                    cumulativePath += (index === 0 ? part : '/' + part);
+                    bcHTML += ` <i class="fas fa-chevron-right" style="font-size:0.8em; margin:0 5px;"></i> <span onclick="renderRepoModalFolder('${cumulativePath.replace(/'/g, "\\'")}')" style="cursor:pointer; text-decoration:underline;">${part}</span>`;
+                });
+            }
+            if(breadcrumb) breadcrumb.innerHTML = bcHTML;
 
-                html += `
-                    <div class="repo-file-item" onclick="attachRepoFile('${file.path.replace(/'/g, "\\'")}')">
-                        <i class="fas ${icon} fa-fw"></i> 
-                        <div style="flex-grow: 1;">
-                            <div>${fileName}</div>
-                            <div style="font-size: 0.8em; color: #888;">${file.path}</div>
-                        </div>
+            // Find items in current folder
+            const items = new Map(); 
+            const currentPrefix = currentPath ? currentPath + '/' : '';
+
+            repoModalData.forEach(file => {
+                if (currentPath && !file.path.startsWith(currentPrefix)) return;
+                if (file.path.toLowerCase() === 'readme.md') return;
+
+                const relativePath = currentPath ? file.path.substring(currentPrefix.length) : file.path;
+                if (!relativePath) return;
+
+                const parts = relativePath.split('/');
+                const isFolder = parts.length > 1;
+                const name = parts[0];
+                const fullItemPath = currentPrefix + name;
+
+                if (!items.has(name)) {
+                    items.set(name, { name: name, isFolder: isFolder, fullPath: fullItemPath });
+                }
+            });
+
+            const sortedItems = Array.from(items.values()).sort((a, b) => {
+                if (a.isFolder === b.isFolder) return a.name.localeCompare(b.name);
+                return a.isFolder ? -1 : 1;
+            });
+
+            let listHTML = '';
+            if (currentPath) {
+                const parentPath = currentPath.includes('/') ? currentPath.substring(0, currentPath.lastIndexOf('/')) : '';
+                listHTML += `
+                    <div class="repo-file-item" onclick="renderRepoModalFolder('${parentPath.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-level-up-alt fa-fw" style="color: #007bff;"></i> 
+                        <div style="flex-grow: 1;"><div>.. (Go Back)</div></div>
                     </div>
                 `;
+            }
+
+            sortedItems.forEach(item => {
+                if (item.isFolder) {
+                    listHTML += `
+                        <div class="repo-file-item" onclick="renderRepoModalFolder('${item.fullPath.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-folder fa-fw" style="color: #ffc107;"></i> 
+                            <div style="flex-grow: 1;"><div>${item.name}</div></div>
+                        </div>
+                    `;
+                } else {
+                    const ext = item.name.split('.').pop().toLowerCase();
+                    let icon = 'fa-file-alt';
+                    if (ext === 'pdf') icon = 'fa-file-pdf';
+                    else if (ext === 'mp4') icon = 'fa-video';
+                    else if (['jpg','jpeg','png'].includes(ext)) icon = 'fa-image';
+                    else if (['html', 'htm'].includes(ext)) icon = 'fa-globe';
+
+                    listHTML += `
+                        <div class="repo-file-item" onclick="attachRepoFile('${item.fullPath.replace(/'/g, "\\'")}')">
+                            <i class="fas ${icon} fa-fw"></i> 
+                            <div style="flex-grow: 1;"><div>${item.name}</div></div>
+                        </div>
+                    `;
+                }
             });
-            modalBody.innerHTML = html;
+            modalBody.innerHTML = listHTML;
         }
 
         function closeRepoModal() {
