@@ -1100,7 +1100,7 @@
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-msg">
-                ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට ICT 1022 පාඩම් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
+                ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට විශ්වවිද්‍යාලයේ ඕනෑම පාඩමක් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
             </div>
         </div>
         <div class="chat-attachments-list" id="attachmentsList">
@@ -1201,7 +1201,7 @@
                 chatHistory = [];
                 document.getElementById('chatMessages').innerHTML = `
                     <div class="message bot-msg">
-                        ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට ICT 1022 පාඩම් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
+                        ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට විශ්වවිද්‍යාලයේ ඕනෑම පාඩමක් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
                     </div>
                 `;
                 attachedFiles = [];
@@ -1438,7 +1438,14 @@
             const totalKeys = API_KEYS.length;
             const totalModels = MODELS.length;
 
-            const systemInstruction = `You are the highly intelligent AI Creator and Teacher of the entire 'Batch Kuppi Portal', built for university students. You know all subjects (ICT 1022 etc.) and you created this portal. Be extremely helpful, friendly, and explain things clearly in Sinhala or English depending on user language. Use markdown formatting.
+            const systemInstruction = `You are the highly intelligent AI Creator and Teacher of the entire 'Batch Kuppi Portal', built for university students. This portal was created by 2024/25 USJP ICT Students (USJP stands for University of Sri Jayewardenepura). Be extremely helpful, friendly, and explain things clearly in Sinhala or English depending on user language. Use markdown formatting.
+
+CRITICAL RULES FOR YOU:
+- Never say you are only for "ICT 1022". You must act as the ultimate teacher for ALL subjects and take the entire burden of the system on your shoulders.
+- If users want to contact the admin (Main Admin: PKG P Apekshana), ask them to send a WhatsApp message to +94773535384. Give them this clickable link: <a href="https://wa.me/94773535384" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a> or call link <a href="tel:+94773535384" style="color: #007bff; font-weight: bold;"><i class="fas fa-phone"></i> Call Admin</a>. Tell them to contact admin for any site issues.
+- Encourage users to send their own notes/materials to the admin to add to the system, and ask for their feedback/suggestions. If they upload a file, figure out if it is already in our system or from outside. If it's a good external file, politely ask them to submit it to our system to help others.
+- The site is hosted on GitHub Pages. If users face generic technical issues, try your best to provide technical support.
+
 IF you need to provide a very long explanation, a full code file, an HTML page, or detailed Markdown that is better viewed as a separate full page, output the following EXACT XML-like tag in your response instead of printing the long content directly:
 <temp_page type="html" title="Your Title Here">
 ... content here ...
@@ -1530,7 +1537,6 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('content-wrapper').style.display = 'block';
             document.getElementById('media-content').style.display = 'none';
-            document.getElementById('download-btn').style.display = 'none';
             document.getElementById('attach-viewer-btn').style.display = 'none';
             
             const mc = document.getElementById('markdown-content');
@@ -1544,6 +1550,13 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
                     if (window.hljs) hljs.highlightElement(block);
                 });
             }
+            
+            const dlBtn = document.getElementById('download-btn');
+            dlBtn.style.display = 'flex';
+            document.getElementById('dl-text').innerText = 'Download File';
+            const blob = new Blob([pageData.content], { type: pageData.type === 'html' ? 'text/html' : 'text/markdown' });
+            dlBtn.href = URL.createObjectURL(blob);
+            dlBtn.download = pageData.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + (pageData.type === 'html' ? '.html' : '.md');
             
             const bc = document.getElementById('viewer-breadcrumb');
             if(bc) {
@@ -1624,18 +1637,6 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
         window.addEventListener('load', loadChatState);
     </script>
 
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6a688ed57acc1f1d43a14ca1/1juk6rt2j';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+
 </body>
 </html>
