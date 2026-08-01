@@ -396,18 +396,30 @@
         .chat-send-btn:hover { background-color: #0056b3; }
         .chat-send-btn:disabled { background-color: #a0c4ff; cursor: not-allowed; }
 
-        /* Attached File Indicator */
-        .chat-attachment-indicator {
+        /* Attached Files List */
+        .chat-attachments-list {
             display: none;
-            padding: 5px 15px;
+            padding: 8px 15px;
             background: #e9ecef;
-            font-size: 12px;
-            color: #495057;
             border-top: 1px solid #e2e8f0;
-            align-items: center;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-height: 80px;
+            overflow-y: auto;
         }
-        .chat-attachment-indicator .remove-attachment { color: #dc3545; cursor: pointer; font-weight: bold; }
+        .attachment-chip {
+            background: #fff;
+            border: 1px solid #ced4da;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #495057;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .attachment-chip .remove-btn { color: #dc3545; cursor: pointer; font-weight: bold; }
 
         /* Dark Mode Chat Widget */
         body.dark-mode .chat-widget { background-color: #161b22; border-color: #30363d; }
@@ -416,7 +428,8 @@
         body.dark-mode .bot-msg pre { background: #0d1117; }
         body.dark-mode .chat-input-container { background-color: #161b22; border-color: #30363d; }
         body.dark-mode .chat-input-container input[type="text"] { background-color: #0d1117; border-color: #30363d; color: #c9d1d9; }
-        body.dark-mode .chat-attachment-indicator { background: #21262d; border-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .chat-attachments-list { background: #21262d; border-color: #30363d; }
+        body.dark-mode .attachment-chip { background: #0d1117; border-color: #30363d; color: #c9d1d9; }
         
         /* Responsive Chat */
         @media (max-width: 480px) {
@@ -1028,9 +1041,8 @@
                 ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට ICT 1022 පාඩම් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
             </div>
         </div>
-        <div class="chat-attachment-indicator" id="attachmentIndicator">
-            <span><i class="fas fa-paperclip"></i> <span id="attachedFileName"></span></span>
-            <span class="remove-attachment" onclick="removeAttachment()"><i class="fas fa-times"></i></span>
+        <div class="chat-attachments-list" id="attachmentsList">
+            <!-- Chips will be inserted here dynamically -->
         </div>
         <div class="chat-input-container">
             <input type="file" id="chatFileInput" accept=".txt,.md,.html,.js,.css,.py,.java,.c,.cpp,image/*,audio/*,application/pdf" onchange="handleFileSelect(event)">
@@ -1064,7 +1076,7 @@
 
         let currentKeyIndex = 0;
         let currentModelIndex = 0;
-        let attachedFile = null; 
+        let attachedFiles = []; 
         let chatHistory = [];
         let tempPages = {};
 
@@ -1078,10 +1090,11 @@
                 chatHistory = [];
                 document.getElementById('chatMessages').innerHTML = `
                     <div class="message bot-msg">
-                        ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට පාඩම් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
+                        ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට ICT 1022 පාඩම් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
                     </div>
                 `;
-                removeAttachment();
+                attachedFiles = [];
+                renderAttachments();
             }
         }
 
@@ -1108,13 +1121,13 @@
             
             reader.onload = function(evt) {
                 if (isText) {
-                    attachedFile = { type: 'text', content: `\n\n[ATTACHED_FILE_NAME: ${file.name}]\n[FILE_CONTENT_START]\n${evt.target.result}\n[FILE_CONTENT_END]` };
+                    attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_FILE_NAME: ${file.name}]\n[FILE_CONTENT_START]\n${evt.target.result}\n[FILE_CONTENT_END]`, name: file.name });
                 } else {
                     const base64String = evt.target.result.split(',')[1];
-                    attachedFile = { type: 'inlineData', mimeType: file.type || 'application/octet-stream', data: base64String, name: file.name };
+                    attachedFiles.push({ type: 'inlineData', mimeType: file.type || 'application/octet-stream', data: base64String, name: file.name });
                 }
-                document.getElementById('attachedFileName').textContent = file.name;
-                document.getElementById('attachmentIndicator').style.display = 'flex';
+                renderAttachments();
+                e.target.value = ''; // Reset input so same file can be selected again if needed
             };
 
             if (isText) {
@@ -1127,18 +1140,32 @@
             }
         }
 
-        function removeAttachment() {
-            attachedFile = null;
-            document.getElementById('chatFileInput').value = '';
-            document.getElementById('attachmentIndicator').style.display = 'none';
+        function removeAttachment(index) {
+            attachedFiles.splice(index, 1);
+            renderAttachments();
+        }
+        
+        function renderAttachments() {
+            const list = document.getElementById('attachmentsList');
+            if (attachedFiles.length === 0) {
+                list.style.display = 'none';
+                list.innerHTML = '';
+                return;
+            }
+            list.style.display = 'flex';
+            list.innerHTML = attachedFiles.map((file, i) => `
+                <div class="attachment-chip">
+                    <span><i class="fas ${file.type === 'text' ? 'fa-file-alt' : 'fa-file-image'}"></i> ${file.name}</span>
+                    <span class="remove-btn" onclick="removeAttachment(${i})"><i class="fas fa-times"></i></span>
+                </div>
+            `).join('');
         }
 
         function attachCurrentViewerToChat() {
             const mc = document.getElementById('markdown-content');
             if (mc && mc.style.display !== 'none' && mc.innerText.trim().length > 0) {
-                attachedFile = { type: 'text', content: `\n\n[ATTACHED_NOTE_CONTENT]\n${mc.innerText.substring(0, 10000)}` };
-                document.getElementById('attachedFileName').textContent = "Current Note";
-                document.getElementById('attachmentIndicator').style.display = 'flex';
+                attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_NOTE_CONTENT]\n${mc.innerText.substring(0, 10000)}`, name: 'Current Note' });
+                renderAttachments();
                 const widget = document.getElementById('chatWidget');
                 if(widget.style.display !== 'flex') toggleChat();
             } else {
@@ -1161,18 +1188,20 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
 
             let userParts = [{ text: promptText }];
             
-            if (attachedFile) {
-                if (attachedFile.type === 'text') {
-                    userParts[0].text += attachedFile.content;
-                } else if (attachedFile.type === 'inlineData') {
-                    userParts.push({
-                        inlineData: {
-                            mimeType: attachedFile.mimeType,
-                            data: attachedFile.data
-                        }
-                    });
-                    userParts[0].text += `\n[Attached File: ${attachedFile.name}]`;
-                }
+            if (attachedFiles.length > 0) {
+                attachedFiles.forEach(file => {
+                    if (file.type === 'text') {
+                        userParts[0].text += file.content;
+                    } else if (file.type === 'inlineData') {
+                        userParts.push({
+                            inlineData: {
+                                mimeType: file.mimeType,
+                                data: file.data
+                            }
+                        });
+                        userParts[0].text += `\n[Attached File: ${file.name}]`;
+                    }
+                });
             }
 
             chatHistory.push({ role: "user", parts: userParts });
@@ -1269,9 +1298,9 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             const sendBtn = document.getElementById('sendBtn');
             const text = input.value.trim();
             
-            if (!text && !attachedFile) return;
+            if (!text && attachedFiles.length === 0) return;
             
-            const displayMessage = text || "[File Attached]";
+            const displayMessage = text || `[${attachedFiles.length} Files Attached]`;
             const chatMessages = document.getElementById('chatMessages');
 
             const userMsgDiv = document.createElement('div');
@@ -1291,8 +1320,9 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
-                const result = await fetchWithFallback(text || "Please review the attached file.");
-                removeAttachment();
+                const result = await fetchWithFallback(text || "Please review the attached files.");
+                attachedFiles = [];
+                renderAttachments();
 
                 let botText = result.text;
                 
