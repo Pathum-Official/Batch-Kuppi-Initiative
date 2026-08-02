@@ -433,13 +433,26 @@
         
         /* Fullscreen Chat */
         .chat-widget.fullscreen {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             bottom: 0;
             right: 0;
             border-radius: 0;
-            max-height: 100vh;
-            z-index: 9999;
+            max-height: none;
+            z-index: 100000;
+        }
+        .chat-widget.fullscreen .chat-messages {
+            padding-left: max(15px, calc(50vw - 400px));
+            padding-right: max(15px, calc(50vw - 400px));
+        }
+        .chat-widget.fullscreen .chat-input-container {
+            padding-left: max(15px, calc(50vw - 400px));
+            padding-right: max(15px, calc(50vw - 400px));
+        }
+        .chat-widget.fullscreen .chat-header {
+            padding-left: max(15px, calc(50vw - 400px));
+            padding-right: max(15px, calc(50vw - 400px));
         }
 
         /* Drag and Drop State */
@@ -563,7 +576,7 @@
         /* Responsive Chat */
         @media (max-width: 480px) {
             .chat-widget { width: 90%; right: 5%; bottom: 80px; height: 70vh; }
-            .chat-btn { bottom: max(30px, env(safe-area-inset-bottom)); right: 15px; width: 55px; height: 55px; font-size: 22px; z-index: 2147483647; }
+            .chat-btn { bottom: 20px !important; right: 20px !important; width: 55px; height: 55px; font-size: 22px; z-index: 2147483647; }
         }
 
         /* ================= RESPONSIVE DESIGN (Mobiles & Tablets) ================= */
@@ -587,6 +600,38 @@
             .hero { padding: 25px 15px; }
             .cta-text { font-size: 1.1em; border-radius: 20px; }
         }
+        /* Custom Popup Modal */
+        .custom-popup-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+            z-index: 2147483647; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .custom-popup-overlay.show { display: flex; opacity: 1; }
+        .custom-popup-box {
+            background: #fff; width: 90%; max-width: 400px;
+            border-radius: 12px; padding: 24px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .custom-popup-overlay.show .custom-popup-box { transform: scale(1); }
+        body.dark-mode .custom-popup-box { background: #161b22; color: #c9d1d9; border: 1px solid #30363d; }
+        .custom-popup-icon { font-size: 40px; margin-bottom: 15px; }
+        .custom-popup-icon.alert { color: #e74c3c; }
+        .custom-popup-icon.confirm { color: #f39c12; }
+        .custom-popup-message { font-size: 16px; margin-bottom: 24px; line-height: 1.5; }
+        .custom-popup-actions { display: flex; justify-content: center; gap: 12px; }
+        .custom-popup-btn {
+            padding: 10px 20px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.1s;
+        }
+        .custom-popup-btn:active { transform: scale(0.95); }
+        .custom-popup-btn.cancel-btn { background: #e2e8f0; color: #333; }
+        body.dark-mode .custom-popup-btn.cancel-btn { background: #30363d; color: #c9d1d9; }
+        .custom-popup-btn.cancel-btn:hover { background: #cbd5e1; }
+        body.dark-mode .custom-popup-btn.cancel-btn:hover { background: #484f58; }
+        .custom-popup-btn.ok-btn { background: #007bff; color: white; }
+        .custom-popup-btn.ok-btn:hover { background: #0056b3; }
     </style>
 </head>
 <body>
@@ -672,6 +717,47 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
     <script>
+        function showCustomPopup(message, type, defaultValue = "") {
+            return new Promise((resolve) => {
+                const overlay = document.getElementById('custom-popup-overlay');
+                const msgEl = document.getElementById('custom-popup-message');
+                const iconEl = document.getElementById('custom-popup-icon');
+                const cancelBtn = document.getElementById('custom-popup-btn-cancel');
+                const okBtn = document.getElementById('custom-popup-btn-ok');
+                const inputEl = document.getElementById('custom-popup-input');
+                
+                msgEl.textContent = message;
+                
+                if (type === 'prompt') {
+                    iconEl.innerHTML = '<i class="fas fa-edit"></i>';
+                    iconEl.className = 'custom-popup-icon confirm';
+                    inputEl.style.display = 'block';
+                    inputEl.value = defaultValue;
+                } else {
+                    iconEl.innerHTML = type === 'confirm' ? '<i class="fas fa-question-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+                    iconEl.className = 'custom-popup-icon ' + (type === 'confirm' ? 'confirm' : 'alert');
+                    inputEl.style.display = 'none';
+                }
+                
+                cancelBtn.style.display = (type === 'confirm' || type === 'prompt') ? 'block' : 'none';
+                
+                overlay.classList.add('show');
+                if (type === 'prompt') inputEl.focus();
+                
+                const closePopup = (result) => {
+                    overlay.classList.remove('show');
+                    setTimeout(() => resolve(result), 300);
+                    cancelBtn.onclick = null;
+                    okBtn.onclick = null;
+                };
+                
+                cancelBtn.onclick = () => closePopup(type === 'prompt' ? null : false);
+                okBtn.onclick = () => closePopup(type === 'prompt' ? inputEl.value : true);
+            });
+        }
+        const customAlert = (msg) => showCustomPopup(msg, 'alert');
+        const customConfirm = (msg) => showCustomPopup(msg, 'confirm');
+        const customPrompt = (msg, def) => showCustomPopup(msg, 'prompt', def);
         // --- Dark Mode Logic ---
         const themeToggle = document.getElementById('theme-toggle');
         const mdCss = document.getElementById('markdown-css');
@@ -902,7 +988,13 @@
                     const pathLower = item.path.toLowerCase();
                     if (pathLower.startsWith('.')) return false;
                     for (let ignore of IGNORE_PATHS) {
-                        if (pathLower === ignore || pathLower.startsWith(ignore + '/')) return false;
+                        const ignoreLower = ignore.toLowerCase();
+                        if (pathLower === ignoreLower || 
+                            pathLower.startsWith(ignoreLower + '/') || 
+                            pathLower.endsWith('/' + ignoreLower) || 
+                            pathLower.includes('/' + ignoreLower + '/')) {
+                            return false;
+                        }
                     }
                     return true;
                 });
@@ -1401,12 +1493,12 @@
             document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
         });
 
-        function renameSession(id, event) {
+        async function renameSession(id, event) {
             event.stopPropagation();
             document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
             const session = chatSessions.find(s => s.id === id);
             if (!session) return;
-            const newName = prompt("නව නමක් ඇතුළත් කරන්න (Enter new name):", session.title);
+            const newName = await customPrompt("නව නමක් ඇතුළත් කරන්න (Enter new name):", session.title);
             if (newName && newName.trim() !== '') {
                 session.title = newName.trim();
                 saveChatState();
@@ -1422,10 +1514,10 @@
             saveChatState();
         }
 
-        function deleteSession(id, event) {
+        async function deleteSession(id, event) {
             event.stopPropagation();
             document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
-            if(!confirm("මෙම චැට් එක මකා දැමීමට අවශ්‍ය බව සහතිකද? (Are you sure you want to delete this chat?)")) return;
+            if(!(await customConfirm("මෙම චැට් එක මකා දැමීමට අවශ්‍ය බව සහතිකද? (Are you sure you want to delete this chat?)"))) return;
             
             chatSessions = chatSessions.filter(s => s.id !== id);
             if (currentSessionId === id) {
@@ -1487,7 +1579,7 @@
 
         function processFile(file) {
             if (file.size > 5 * 1024 * 1024) {
-                alert("File size must be less than 5MB to prevent browser issues.");
+                customAlert("File size must be less than 5MB to prevent browser issues.");
                 return;
             }
 
@@ -1513,7 +1605,7 @@
             } else if (isImage || isAudio || isPdf) {
                 reader.readAsDataURL(file);
             } else {
-                alert("Unsupported file type for AI analysis.");
+                customAlert("Unsupported file type for AI analysis.");
             }
         }
 
@@ -1680,7 +1772,7 @@
                     if (widget.style.display !== 'flex') toggleChat();
                 }
             } catch (err) {
-                alert("Error fetching file: " + err.message);
+                customAlert("Error fetching file: " + err.message);
                 sendBtn.innerHTML = originalIcon;
                 sendBtn.disabled = false;
             }
@@ -1701,7 +1793,7 @@
                 // Reuse the robust modal attach function to handle fetching & base64 conversion
                 attachRepoFile(filePath);
             } else {
-                alert("No readable file found to attach.");
+                customAlert("No readable file found to attach.");
             }
         }
 
@@ -1715,16 +1807,17 @@
 
 CRITICAL RULES FOR YOU:
 - Never say you are only for "ICT 1022". You must act as the ultimate teacher for ALL subjects and take the entire burden of the system on your shoulders.
+- PROACTIVE TEACHING: When explaining concepts, proactively use creative teaching methods without waiting for the user to ask! If a topic is complex, generate interactive Mind Maps, Quizzes, HTML/JS games, or visually appealing tables. You have a "Mind Map method" which is highly appreciated; use it often to break down knowledge effectively. Always prioritize the most suitable format for the user's learning.
 - If users specifically ask to contact the admin (Main Admin: PKG P Apekshana) or report a site issue, tell them to send a WhatsApp message to +94773535384 using this clickable link: <a href="https://wa.me/94773535384" target="_blank" style="color: #25D366; font-weight: bold;"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a>. 
-- IMPORTANT: DO NOT mention the admin or provide the WhatsApp link in every response. Only do so when genuinely necessary (e.g., bug reports, explicit requests to submit materials).
+- PROACTIVE ADMIN SHARING: If you generate a highly valuable mind map, quiz, summary, or if the user shares a great note with you, gently encourage the user to share it with the Main Admin (PKG P Apekshana) so it can be officially added to the portal for everyone's benefit! Use the WhatsApp link above. Do NOT mention this in every response, only when something truly valuable is created or shared.
 - The site is hosted on GitHub Pages. If users face generic technical issues, try your best to provide technical support yourself first.
 - AGENTIC SEARCH: If the user asks for resources, notes, past papers, or information that might be in the portal, you MUST search the portal. To search, output EXACTLY this tag and nothing else: <search_portal query="keyword1 keyword2 keyword3" /> (use multiple space-separated English keywords to broaden the search). The system will intercept this and return the matching files to you in a follow-up prompt. Wait for the system to reply with the search results before giving your final answer to the user.
 
-IF you need to provide a very long explanation, a full code file, an HTML page, or detailed Markdown that is better viewed as a separate full page, output the following EXACT XML-like tag in your response instead of printing the long content directly:
+IF you need to provide a very long explanation, a full code file (like a game or mindmap), an HTML page, or detailed Markdown that is better viewed as a separate full page, output the following EXACT XML-like tag in your response instead of printing the long content directly:
 <temp_page type="html" title="Your Title Here">
 ... content here ...
 </temp_page>
-(You can use type="html" or type="markdown"). You can embed YouTube videos, web pages, or external resources using <iframe> inside your HTML temp_pages. Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user.`;
+(You can use type="html" or type="markdown"). You can embed YouTube videos, web pages, or external resources using <iframe> inside your HTML temp_pages. Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user. Note that HTML temp_pages now fully support JavaScript and CSS!`;
 
             let userParts = [{ text: promptText }];
             
@@ -1808,7 +1901,7 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
 
         function openTempPage(pageId) {
             const pageData = tempPages[pageId];
-            if(!pageData) return alert("This temporary page is no longer available.");
+            if(!pageData) return customAlert("This temporary page is no longer available.");
             
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('content-wrapper').style.display = 'block';
@@ -1819,7 +1912,9 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             mc.style.display = 'block';
             
             if (pageData.type === 'html') {
-                mc.innerHTML = pageData.content;
+                const blob = new Blob([pageData.content], { type: 'text/html' });
+                const blobUrl = URL.createObjectURL(blob);
+                mc.innerHTML = `<iframe src="${blobUrl}" style="width:100%; height:80vh; border:none; border-radius:8px; background:white;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
             } else {
                 mc.innerHTML = marked.parse(pageData.content);
                 mc.querySelectorAll('pre code').forEach((block) => {
@@ -2028,5 +2123,17 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
     </script>
 
 
+    <!-- Custom Popup Modal -->
+    <div id="custom-popup-overlay" class="custom-popup-overlay">
+        <div id="custom-popup-box" class="custom-popup-box">
+            <div id="custom-popup-icon" class="custom-popup-icon"></div>
+            <div id="custom-popup-message" class="custom-popup-message"></div>
+            <input type="text" id="custom-popup-input" class="custom-popup-input" style="display:none; width: 100%; box-sizing: border-box; margin-bottom: 24px; padding: 10px; border: 1px solid #ced4da; border-radius: 8px; font-size: 14px;">
+            <div id="custom-popup-actions" class="custom-popup-actions">
+                <button id="custom-popup-btn-cancel" class="custom-popup-btn cancel-btn">Cancel</button>
+                <button id="custom-popup-btn-ok" class="custom-popup-btn ok-btn">OK</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
