@@ -472,18 +472,36 @@
         .chat-sidebar-header { padding: 10px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
         .chat-sidebar-header button { background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
         .chat-sidebar-list { flex: 1; overflow-y: auto; padding: 10px; }
-        .chat-session-item { padding: 8px; border-radius: 5px; cursor: pointer; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
+        .chat-session-item { padding: 8px; border-radius: 5px; cursor: pointer; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; position: relative; }
         .chat-session-item:hover { background: #e2e8f0; }
         .chat-session-item.active { background: #007bff; color: white; }
-        .chat-session-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-        .chat-session-delete { color: #dc3545; cursor: pointer; margin-left: 5px; font-size: 12px; }
-        .chat-session-item.active .chat-session-delete { color: #ffcccc; }
+        .chat-session-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; display: flex; align-items: center; }
+        .chat-session-title .fa-thumbtack { font-size: 10px; margin-right: 5px; color: #ffc107; transform: rotate(45deg); }
+        .chat-session-actions { position: relative; display: flex; align-items: center; }
+        .chat-session-dots { color: #6c757d; cursor: pointer; padding: 2px 8px; font-size: 14px; }
+        .chat-session-dots:hover { color: #343a40; }
+        .chat-session-item.active .chat-session-dots { color: #fff; }
+        
+        .session-dropdown { display: none; position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #ced4da; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 200; min-width: 150px; overflow: hidden; }
+        .session-dropdown.show { display: block; }
+        .session-dropdown-item { padding: 8px 12px; cursor: pointer; font-size: 12px; color: #333; display: flex; align-items: center; gap: 8px; }
+        .session-dropdown-item:hover { background: #f8f9fa; }
+        .session-dropdown-item.danger { color: #dc3545; }
+        .session-dropdown-item.danger:hover { background: #ffe6e6; }
 
         body.dark-mode .chat-sidebar { background: #161b22; border-color: #30363d; box-shadow: 2px 0 5px rgba(0,0,0,0.5); }
         body.dark-mode .chat-sidebar-header { border-color: #30363d; }
         body.dark-mode .chat-session-item { background: #21262d; color: #c9d1d9; }
         body.dark-mode .chat-session-item:hover { background: #30363d; }
         body.dark-mode .chat-session-item.active { background: #007bff; color: white; }
+        body.dark-mode .chat-session-dots { color: #8b949e; }
+        body.dark-mode .chat-session-dots:hover { color: #c9d1d9; }
+        body.dark-mode .session-dropdown { background: #161b22; border-color: #30363d; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        body.dark-mode .session-dropdown-item { color: #c9d1d9; }
+        body.dark-mode .session-dropdown-item:hover { background: #30363d; }
+        body.dark-mode .session-dropdown-item.danger:hover { background: #4a0000; }
+
+
 
         /* Message Attachments Preview */
         .msg-attachment-preview { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
@@ -1352,9 +1370,44 @@
             if(sidebar.classList.contains('open')) sidebar.classList.remove('open');
         }
 
+        function toggleSessionDropdown(id, event) {
+            event.stopPropagation();
+            document.querySelectorAll('.session-dropdown').forEach(d => {
+                if (d.id !== 'dropdown-' + id) d.classList.remove('show');
+            });
+            const dropdown = document.getElementById('dropdown-' + id);
+            if (dropdown) dropdown.classList.toggle('show');
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
+        });
+
+        function renameSession(id, event) {
+            event.stopPropagation();
+            document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
+            const session = chatSessions.find(s => s.id === id);
+            if (!session) return;
+            const newName = prompt("නව නමක් ඇතුළත් කරන්න (Enter new name):", session.title);
+            if (newName && newName.trim() !== '') {
+                session.title = newName.trim();
+                saveChatState();
+            }
+        }
+
+        function togglePinSession(id, event) {
+            event.stopPropagation();
+            document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
+            const session = chatSessions.find(s => s.id === id);
+            if (!session) return;
+            session.isPinned = !session.isPinned;
+            saveChatState();
+        }
+
         function deleteSession(id, event) {
             event.stopPropagation();
-            if(!confirm("Are you sure you want to delete this chat?")) return;
+            document.querySelectorAll('.session-dropdown').forEach(d => d.classList.remove('show'));
+            if(!confirm("මෙම චැට් එක මකා දැමීමට අවශ්‍ය බව සහතිකද? (Are you sure you want to delete this chat?)")) return;
             
             chatSessions = chatSessions.filter(s => s.id !== id);
             if (currentSessionId === id) {
@@ -1372,10 +1425,33 @@
             const list = document.getElementById('chatSidebarList');
             if(!list) return;
             
-            list.innerHTML = chatSessions.map(session => `
+            // Sort: Pinned first, then by timestamp (newest first)
+            const sortedSessions = [...chatSessions].sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                return b.timestamp - a.timestamp;
+            });
+            
+            list.innerHTML = sortedSessions.map(session => `
                 <div class="chat-session-item ${session.id === currentSessionId ? 'active' : ''}" onclick="loadSession('${session.id}')">
-                    <div class="chat-session-title" title="${session.title}">${session.title}</div>
-                    <i class="fas fa-trash-alt chat-session-delete" onclick="deleteSession('${session.id}', event)" title="Delete Chat"></i>
+                    <div class="chat-session-title" title="${session.title}">
+                        ${session.isPinned ? '<i class="fas fa-thumbtack"></i>' : ''}
+                        ${session.title}
+                    </div>
+                    <div class="chat-session-actions">
+                        <i class="fas fa-ellipsis-v chat-session-dots" onclick="toggleSessionDropdown('${session.id}', event)"></i>
+                        <div class="session-dropdown" id="dropdown-${session.id}">
+                            <div class="session-dropdown-item" onclick="togglePinSession('${session.id}', event)">
+                                <i class="fas fa-thumbtack"></i> ${session.isPinned ? 'Unpin' : 'Pin'}
+                            </div>
+                            <div class="session-dropdown-item" onclick="renameSession('${session.id}', event)">
+                                <i class="fas fa-pen"></i> Rename
+                            </div>
+                            <div class="session-dropdown-item danger" onclick="deleteSession('${session.id}', event)">
+                                <i class="fas fa-trash"></i> Delete
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
