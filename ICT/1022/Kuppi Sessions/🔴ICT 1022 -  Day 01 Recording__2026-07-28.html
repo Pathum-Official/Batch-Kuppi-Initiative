@@ -51,6 +51,16 @@
         .locked-message { font-size: 1.15rem; line-height: 1.7; max-width: 550px; margin: 0 auto; color: var(--text-main); }
         .highlight { color: #ef4444; font-weight: 600; }
         
+        .recording-details {
+            display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; text-align: left; background: rgba(0,0,0,0.02); padding: 20px; border-radius: 12px; width: 100%; max-width: 500px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        @media (prefers-color-scheme: dark) { .recording-details { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); } }
+        
+        .detail-item { display: flex; align-items: flex-start; gap: 10px; font-size: 1rem; color: var(--text-main); }
+        .detail-item i { color: var(--primary); margin-top: 3px; font-size: 1.1rem; min-width: 20px; text-align: center; }
+        .detail-item span { color: var(--text-muted); }
+        
         .whatsapp-btn {
             display: inline-flex; align-items: center; gap: 12px;
             background: linear-gradient(135deg, #25D366, #128C7E);
@@ -72,13 +82,15 @@
         @keyframes pulseBg { 0% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.2); } 70% { box-shadow: 0 0 0 20px rgba(148, 163, 184, 0); } 100% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0); } }
         
         @media (max-width: 768px) {
-            body { padding: 15px; }
-            .locked-content { padding: 50px 20px; }
+            body { padding: 15px; height: auto; min-height: 100vh; display: block; }
+            .video-container { margin: 20px auto; }
+            .locked-content { padding: 40px 15px; }
             .locked-icon-wrapper { width: 100px; height: 100px; }
             .locked-icon { font-size: 3.5rem; }
             .video-header i { font-size: 2.8rem; }
             .video-title h1 { font-size: 1.4rem; }
-            .whatsapp-btn { padding: 12px 25px; font-size: 1.05rem; }
+            .recording-details { padding: 15px; }
+            .whatsapp-btn { padding: 12px 20px; font-size: 1.05rem; flex-direction: column; text-align: center; }
             .video-footer { padding: 20px; font-size: 0.85rem; }
         }
     </style>
@@ -88,7 +100,7 @@
         <div class="video-header">
             <i class="fab fa-youtube"></i>
             <div class="video-title">
-                <h1 id="recordingTitle">🔴ICT 1022 -  Day 01 Recording__2026-08-28</h1>
+                <h1 id="recordingTitle">ICT 1022 - Day 01 Recording</h1>
                 <p>Private & Exclusive Content 🔐</p>
             </div>
         </div>
@@ -101,6 +113,18 @@
                 Oops! 🚫 මෙම Recording එක <span class="highlight">Public Access</span> සඳහා ලබා දී නොමැත.<br><br>
                 ඔබට මෙම වීඩියෝව නැරඹීමට අවශ්‍ය නම්, කරුණාකර පහත Button එක click කර Admin හරහා <br><b>Access Request</b> කරන්න. 🚀
             </p>
+            
+            <!-- Recording Details Section -->
+            <div class="recording-details">
+                <div class="detail-item">
+                    <i class="fas fa-calendar-check"></i> 
+                    <div><b>Date Recorded:</b> <span id="recDate">2026-07-28</span></div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-book-open"></i> 
+                    <div><b>Topics Covered:</b> <span id="recTopics">Lecture Notes 02 to 05</span></div>
+                </div>
+            </div>
             
             <a href="#" id="waButton" target="_blank" class="whatsapp-btn">
                 <i class="fab fa-whatsapp"></i> Request Access via WhatsApp
