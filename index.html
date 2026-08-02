@@ -1235,9 +1235,7 @@
             "gemini-3.1-flash-lite"
         ];
 
-        let currentKeyIndex = 0;
-        let currentModelIndex = 0;
-        let attachedFiles = []; 
+        let attachedFiles = [];  
         let chatHistory = [];
         let tempPages = {};
         
@@ -1722,11 +1720,16 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
 
             chatHistory.push({ role: "user", parts: userParts });
 
-            for (let keyAttempt = 0; keyAttempt < totalKeys; keyAttempt++) {
-                const apiKey = API_KEYS[currentKeyIndex];
+            let startKeyIdx = Math.floor(Math.random() * totalKeys);
+            let startModIdx = Math.floor(Math.random() * totalModels);
 
-                for (let modelAttempt = 0; modelAttempt < totalModels; modelAttempt++) {
-                    const model = MODELS[currentModelIndex];
+            for (let i = 0; i < totalKeys; i++) {
+                const keyAttempt = (startKeyIdx + i) % totalKeys;
+                const apiKey = API_KEYS[keyAttempt];
+
+                for (let j = 0; j < totalModels; j++) {
+                    const modelAttempt = (startModIdx + j) % totalModels;
+                    const model = MODELS[modelAttempt];
                     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
                     try {
@@ -1765,19 +1768,16 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
                             }
                         }
 
-                        currentModelIndex = (currentModelIndex + 1) % totalModels;
                         if (response.status === 429) await delay(1000);
 
                     } catch (networkErr) {
-                        currentModelIndex = (currentModelIndex + 1) % totalModels;
+                        // Move to next model
                     }
                 }
-                currentKeyIndex = (currentKeyIndex + 1) % totalKeys;
-                currentModelIndex = 0;
             }
 
             chatHistory.pop();
-            throw new Error("සියලුම API Keys සහ Models වල Limits පිරී ඇත. කරුණාකර මද වෙලාවකින් නැවත උත්සාහ කරන්න.");
+            throw new Error("පද්ධතිය මේ මොහොතේ කාර්යබහුල බැවින් කරුණාකර මද වෙලාවකින් නැවත උත්සාහ කරන්න.");
         }
 
         function openTempPage(pageId) {
