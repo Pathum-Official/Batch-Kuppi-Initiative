@@ -452,6 +452,46 @@
             background-color: rgba(88, 166, 255, 0.05);
         }
 
+        /* Chat Sidebar (History) */
+        .chat-sidebar {
+            position: absolute;
+            top: 40px;
+            left: -100%;
+            width: 80%;
+            max-width: 250px;
+            height: calc(100% - 40px);
+            background: #fff;
+            border-right: 1px solid #e2e8f0;
+            z-index: 100;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .chat-sidebar.open { left: 0; }
+        .chat-sidebar-header { padding: 10px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .chat-sidebar-header button { background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .chat-sidebar-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .chat-session-item { padding: 8px; border-radius: 5px; cursor: pointer; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; }
+        .chat-session-item:hover { background: #e2e8f0; }
+        .chat-session-item.active { background: #007bff; color: white; }
+        .chat-session-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+        .chat-session-delete { color: #dc3545; cursor: pointer; margin-left: 5px; font-size: 12px; }
+        .chat-session-item.active .chat-session-delete { color: #ffcccc; }
+
+        body.dark-mode .chat-sidebar { background: #161b22; border-color: #30363d; box-shadow: 2px 0 5px rgba(0,0,0,0.5); }
+        body.dark-mode .chat-sidebar-header { border-color: #30363d; }
+        body.dark-mode .chat-session-item { background: #21262d; color: #c9d1d9; }
+        body.dark-mode .chat-session-item:hover { background: #30363d; }
+        body.dark-mode .chat-session-item.active { background: #007bff; color: white; }
+
+        /* Message Attachments Preview */
+        .msg-attachment-preview { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
+        .msg-attachment-img { max-width: 150px; max-height: 150px; border-radius: 5px; border: 1px solid #ced4da; cursor: pointer; object-fit: cover; }
+        .msg-attachment-doc { background: rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 5px; font-size: 11px; display: inline-flex; align-items: center; gap: 5px; }
+        body.dark-mode .msg-attachment-img { border-color: #30363d; }
+        body.dark-mode .msg-attachment-doc { background: rgba(255,255,255,0.1); }
+
         /* Repo File Picker Modal */
         .repo-modal {
             display: none;
@@ -1104,11 +1144,22 @@
         <div class="chat-header">
             <span><i class="fas fa-robot"></i> AI Teacher</span>
             <div class="chat-header-actions">
+                <span onclick="toggleSidebar()" title="Chat History"><i class="fas fa-history"></i></span>
                 <span onclick="toggleFullscreen()" title="Fullscreen"><i class="fas fa-expand"></i></span>
-                <span onclick="clearChat()" title="Clear Chat"><i class="fas fa-trash-alt"></i></span>
                 <span onclick="toggleChat()" title="Close"><i class="fas fa-times"></i></span>
             </div>
         </div>
+        
+        <div class="chat-sidebar" id="chatSidebar">
+            <div class="chat-sidebar-header">
+                <span style="font-weight: bold; font-size: 14px;"><i class="fas fa-comments"></i> History</span>
+                <button onclick="createNewChat()"><i class="fas fa-plus"></i> New</button>
+            </div>
+            <div class="chat-sidebar-list" id="chatSidebarList">
+                <!-- Sessions will be loaded here -->
+            </div>
+        </div>
+
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-msg">
                 ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට විශ්වවිද්‍යාලයේ ඕනෑම පාඩමක් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
@@ -1171,6 +1222,9 @@
         let attachedFiles = []; 
         let chatHistory = [];
         let tempPages = {};
+        
+        let chatSessions = [];
+        let currentSessionId = null;
 
         function toggleChat() {
             const widget = document.getElementById('chatWidget');
@@ -1185,41 +1239,145 @@
             const widget = document.getElementById('chatWidget');
             widget.classList.toggle('fullscreen');
         }
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('chatSidebar');
+            sidebar.classList.toggle('open');
+        }
 
         function saveChatState() {
             const messagesHtml = document.getElementById('chatMessages').innerHTML;
-            localStorage.setItem('kuppi_chatHistory', JSON.stringify(chatHistory));
-            localStorage.setItem('kuppi_chatMessages', messagesHtml);
-            localStorage.setItem('kuppi_tempPages', JSON.stringify(tempPages));
+            if (!currentSessionId) return;
+
+            const sessionIndex = chatSessions.findIndex(s => s.id === currentSessionId);
+            const sessionData = {
+                id: currentSessionId,
+                title: chatSessions[sessionIndex]?.title || "New Chat",
+                timestamp: Date.now(),
+                history: chatHistory,
+                messagesHtml: messagesHtml,
+                tempPages: tempPages
+            };
+
+            if (sessionIndex >= 0) {
+                chatSessions[sessionIndex] = sessionData;
+            } else {
+                chatSessions.unshift(sessionData); // Add to top
+            }
+
+            localStorage.setItem('kuppi_chatSessions', JSON.stringify(chatSessions));
+            localStorage.setItem('kuppi_currentSessionId', currentSessionId);
+            renderSidebarList();
         }
 
         function loadChatState() {
-            const savedHistory = localStorage.getItem('kuppi_chatHistory');
-            const savedMessages = localStorage.getItem('kuppi_chatMessages');
-            const savedPages = localStorage.getItem('kuppi_tempPages');
+            const savedSessions = localStorage.getItem('kuppi_chatSessions');
+            const savedCurrentId = localStorage.getItem('kuppi_currentSessionId');
             
-            if (savedHistory && savedMessages) {
-                chatHistory = JSON.parse(savedHistory);
-                document.getElementById('chatMessages').innerHTML = savedMessages;
+            // Migration for old single-session users
+            if (!savedSessions) {
+                const oldHistory = localStorage.getItem('kuppi_chatHistory');
+                const oldMessages = localStorage.getItem('kuppi_chatMessages');
+                const oldPages = localStorage.getItem('kuppi_tempPages');
+                if (oldHistory && oldMessages) {
+                    chatSessions = [{
+                        id: 'sess_' + Date.now(),
+                        title: "Migrated Chat",
+                        timestamp: Date.now(),
+                        history: JSON.parse(oldHistory),
+                        messagesHtml: oldMessages,
+                        tempPages: oldPages ? JSON.parse(oldPages) : {}
+                    }];
+                    currentSessionId = chatSessions[0].id;
+                    localStorage.removeItem('kuppi_chatHistory');
+                    localStorage.removeItem('kuppi_chatMessages');
+                    localStorage.removeItem('kuppi_tempPages');
+                }
+            } else {
+                chatSessions = JSON.parse(savedSessions);
             }
-            if (savedPages) {
-                tempPages = JSON.parse(savedPages);
+
+            if (chatSessions.length === 0) {
+                createNewChat();
+            } else {
+                const sessionToLoad = chatSessions.find(s => s.id === savedCurrentId) || chatSessions[0];
+                loadSession(sessionToLoad.id);
             }
         }
 
-        function clearChat() {
-            if(confirm("චැට් එක හිස් කරන්නද?")) {
-                chatHistory = [];
-                document.getElementById('chatMessages').innerHTML = `
-                    <div class="message bot-msg">
-                        ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට විශ්වවිද්‍යාලයේ ඕනෑම පාඩමක් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
-                    </div>
-                `;
-                attachedFiles = [];
-                tempPages = {};
-                renderAttachments();
+        function createNewChat() {
+            currentSessionId = 'sess_' + Date.now();
+            chatHistory = [];
+            tempPages = {};
+            attachedFiles = [];
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="message bot-msg">
+                    ආයුබෝවන්! මම Batch Kuppi හි AI ගුරුවරයා. ඔබට විශ්වවිද්‍යාලයේ ඕනෑම පාඩමක් සම්බන්ධව හෝ වෙනත් ගැටළුවක් ඇත්නම් අසන්න. අවශ්‍ය නම් file එකක් ද attach කළ හැක!
+                </div>
+            `;
+            renderAttachments();
+            
+            chatSessions.unshift({
+                id: currentSessionId,
+                title: "New Chat",
+                timestamp: Date.now(),
+                history: [],
+                messagesHtml: document.getElementById('chatMessages').innerHTML,
+                tempPages: {}
+            });
+            
+            saveChatState();
+            const sidebar = document.getElementById('chatSidebar');
+            if(sidebar.classList.contains('open')) sidebar.classList.remove('open');
+        }
+
+        function loadSession(id) {
+            const session = chatSessions.find(s => s.id === id);
+            if (!session) return;
+
+            currentSessionId = id;
+            chatHistory = session.history || [];
+            tempPages = session.tempPages || {};
+            attachedFiles = [];
+            document.getElementById('chatMessages').innerHTML = session.messagesHtml;
+            renderAttachments();
+            
+            localStorage.setItem('kuppi_currentSessionId', currentSessionId);
+            renderSidebarList();
+            
+            const messages = document.getElementById('chatMessages');
+            messages.scrollTop = messages.scrollHeight;
+            
+            const sidebar = document.getElementById('chatSidebar');
+            if(sidebar.classList.contains('open')) sidebar.classList.remove('open');
+        }
+
+        function deleteSession(id, event) {
+            event.stopPropagation();
+            if(!confirm("Are you sure you want to delete this chat?")) return;
+            
+            chatSessions = chatSessions.filter(s => s.id !== id);
+            if (currentSessionId === id) {
+                if (chatSessions.length > 0) {
+                    loadSession(chatSessions[0].id);
+                } else {
+                    createNewChat();
+                }
+            } else {
                 saveChatState();
             }
+        }
+
+        function renderSidebarList() {
+            const list = document.getElementById('chatSidebarList');
+            if(!list) return;
+            
+            list.innerHTML = chatSessions.map(session => `
+                <div class="chat-session-item ${session.id === currentSessionId ? 'active' : ''}" onclick="loadSession('${session.id}')">
+                    <div class="chat-session-title" title="${session.title}">${session.title}</div>
+                    <i class="fas fa-trash-alt chat-session-delete" onclick="deleteSession('${session.id}', event)" title="Delete Chat"></i>
+                </div>
+            `).join('');
         }
 
         function handleKeyPress(e) {
@@ -1588,12 +1746,34 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
             
             if (!text && attachedFiles.length === 0) return;
             
-            const displayMessage = text || `[${attachedFiles.length} Files Attached]`;
+            const displayMessage = text || '';
             const chatMessages = document.getElementById('chatMessages');
 
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'message user-msg';
-            userMsgDiv.textContent = displayMessage;
+            
+            let attachmentHtml = '';
+            if (attachedFiles.length > 0) {
+                attachmentHtml = '<div class="msg-attachment-preview">';
+                attachedFiles.forEach(file => {
+                    if (file.type === 'inlineData' && file.mimeType && file.mimeType.startsWith('image/')) {
+                        attachmentHtml += `<img src="data:${file.mimeType};base64,${file.data}" class="msg-attachment-img" title="${file.name}" onclick="window.open(this.src)"/>`;
+                    } else {
+                        const icon = file.name.endsWith('.pdf') ? 'fa-file-pdf' : 'fa-file-alt';
+                        attachmentHtml += `<span class="msg-attachment-doc" title="${file.name}"><i class="fas ${icon}"></i> ${file.name}</span>`;
+                    }
+                });
+                attachmentHtml += '</div>';
+            }
+            
+            // Auto name the session if it's new
+            const sessionIndex = chatSessions.findIndex(s => s.id === currentSessionId);
+            if (sessionIndex >= 0 && chatSessions[sessionIndex].title === "New Chat" && text) {
+                chatSessions[sessionIndex].title = text.length > 30 ? text.substring(0, 30) + '...' : text;
+                renderSidebarList();
+            }
+
+            userMsgDiv.innerHTML = attachmentHtml + (displayMessage ? `<div>${displayMessage}</div>` : '');
             chatMessages.appendChild(userMsgDiv);
 
             input.value = '';
