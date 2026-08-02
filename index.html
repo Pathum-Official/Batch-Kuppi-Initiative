@@ -442,6 +442,16 @@
             z-index: 9999;
         }
 
+        /* Drag and Drop State */
+        .chat-widget.drag-over {
+            border: 2px dashed #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        body.dark-mode .chat-widget.drag-over {
+            border-color: #58a6ff;
+            background-color: rgba(88, 166, 255, 0.05);
+        }
+
         /* Repo File Picker Modal */
         .repo-modal {
             display: none;
@@ -1219,10 +1229,13 @@
         function handleFileSelect(e) {
             const file = e.target.files[0];
             if (!file) return;
+            processFile(file);
+            e.target.value = '';
+        }
 
+        function processFile(file) {
             if (file.size > 5 * 1024 * 1024) {
                 alert("File size must be less than 5MB to prevent browser issues.");
-                e.target.value = '';
                 return;
             }
 
@@ -1241,7 +1254,6 @@
                     attachedFiles.push({ type: 'inlineData', mimeType: file.type || 'application/octet-stream', data: base64String, name: file.name });
                 }
                 renderAttachments();
-                e.target.value = ''; // Reset input so same file can be selected again if needed
             };
 
             if (isText) {
@@ -1250,7 +1262,6 @@
                 reader.readAsDataURL(file);
             } else {
                 alert("Unsupported file type for AI analysis.");
-                e.target.value = '';
             }
         }
 
@@ -1693,7 +1704,45 @@ IF you need to provide a very long explanation, a full code file, an HTML page, 
         }
 
         // Initialize Chat State on load
-        window.addEventListener('load', loadChatState);
+        window.addEventListener('load', () => {
+            loadChatState();
+            
+            // Clipboard Paste Support
+            const userInput = document.getElementById('userInput');
+            if (userInput) {
+                userInput.addEventListener('paste', (e) => {
+                    const items = (e.clipboardData || window.clipboardData).items;
+                    for (let item of items) {
+                        if (item.kind === 'file') {
+                            const file = item.getAsFile();
+                            if (file) processFile(file);
+                        }
+                    }
+                });
+            }
+
+            // Drag and Drop Support
+            const chatWidget = document.getElementById('chatWidget');
+            if (chatWidget) {
+                chatWidget.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    chatWidget.classList.add('drag-over');
+                });
+                chatWidget.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    chatWidget.classList.remove('drag-over');
+                });
+                chatWidget.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    chatWidget.classList.remove('drag-over');
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        for (let file of e.dataTransfer.files) {
+                            processFile(file);
+                        }
+                    }
+                });
+            }
+        });
     </script>
 
 
