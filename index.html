@@ -1418,18 +1418,21 @@
         }
 
         function attachCurrentViewerToChat() {
-            const mc = document.getElementById('markdown-content');
-            if (mc && mc.style.display !== 'none' && mc.innerText.trim().length > 0) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentFilePath = urlParams.get('note') || urlParams.get('htmlParam') || 'Current Note';
-                const fileName = currentFilePath.split('/').pop() + (currentFilePath === 'Current Note' ? '' : '.md');
-                
-                attachedFiles.push({ type: 'text', content: `\n\n[ATTACHED_NOTE_CONTENT: ${currentFilePath}]\n${mc.innerText.substring(0, 10000)}`, name: fileName });
-                renderAttachments();
-                const widget = document.getElementById('chatWidget');
-                if(widget.style.display !== 'flex') toggleChat();
+            const urlParams = new URLSearchParams(window.location.search);
+            const note = urlParams.get('note'), pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img'), htmlParam = urlParams.get('html');
+            
+            let filePath = null;
+            if (note) filePath = note.includes('.') ? note : note + '.md';
+            else if (pdf) filePath = pdf.includes('.') ? pdf : pdf + '.pdf';
+            else if (video) filePath = video;
+            else if (img) filePath = img;
+            else if (htmlParam) filePath = htmlParam.includes('.') ? htmlParam : htmlParam + '.html';
+            
+            if (filePath) {
+                // Reuse the robust modal attach function to handle fetching & base64 conversion
+                attachRepoFile(filePath);
             } else {
-                alert("No readable text content found to attach.");
+                alert("No readable file found to attach.");
             }
         }
 
