@@ -826,7 +826,15 @@
             if (downloadUrl) {
                 downloadBtn.href = downloadUrl;
                 downloadBtn.style.display = 'flex';
-                dlText.innerText = `Download ${fileType}`;
+                if (fileType === "Web Page") {
+                    dlText.innerHTML = 'Full Screen <i class="fas fa-external-link-alt"></i>';
+                    downloadBtn.removeAttribute('download');
+                    downloadBtn.target = "_blank";
+                } else {
+                    dlText.innerText = `Download ${fileType}`;
+                    downloadBtn.setAttribute('download', '');
+                    downloadBtn.removeAttribute('target');
+                }
             } else { downloadBtn.style.display = 'none'; }
         }
 
