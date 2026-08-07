@@ -663,10 +663,10 @@
         .speech-setting-group label { font-size: 0.8rem; color: #6c757d; display: flex; align-items: center; gap: 6px; }
         body.dark-mode .speech-setting-group label { color: #8b949e; }
         
-        .speech-widget select, .speech-widget input[type="range"], .speech-widget input[type="color"] {
+        .speech-widget select, .speech-widget input[type="range"], .speech-widget input[type="color"], .speech-widget input[type="text"] {
             width: 100%; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 8px; color: #333; padding: 6px; font-size: 0.85rem; outline: none; transition: border-color 0.3s;
         }
-        body.dark-mode .speech-widget select, body.dark-mode .speech-widget input[type="range"], body.dark-mode .speech-widget input[type="color"] {
+        body.dark-mode .speech-widget select, body.dark-mode .speech-widget input[type="range"], body.dark-mode .speech-widget input[type="color"], body.dark-mode .speech-widget input[type="text"] {
             background: #0d1117; border-color: #30363d; color: #c9d1d9;
         }
         .speech-widget select:focus { border-color: #4facfe; }
@@ -760,6 +760,13 @@
     <!-- Footer Area -->
     <footer>
         <p>"තනිවම යනවාට වඩා, එකතු වී යාමෙන් අපට බොහෝ දුරක් යා හැකියි!"</p>
+        <div style="display: flex; justify-content: center; align-items: center; margin: 12px 0;">
+            <div style="font-family: 'Inter', sans-serif; padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); color: #c9d1d9; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-eye" style="color: #4facfe;"></i> 
+                <span>Total Page Views:</span>
+                <img src="https://counterapi.dev/get/Pathum-Official/Batch-Kuppi-Initiative" alt="Views Counter" style="vertical-align: middle; height: 20px; border-radius: 4px;">
+            </div>
+        </div>
         <small>© 2026 Batch Kuppi Initiative - Powered By 2024/25 USJP ICT Students</small>
     </footer>
 
@@ -1362,16 +1369,16 @@
     </div>
 
 
-    <!-- Auto Speech Widget -->
+    <!-- Smart AI Tutor Widget -->
     <div class="speech-widget" id="speechWidget">
         <div class="speech-header">
             <i class="fas fa-times speech-close-btn" onclick="toggleSpeechWidget()"></i>
-            <h1>Auto Speech</h1>
-            <p>Smart Text-to-Speech</p>
+            <h1>Smart AI Tutor</h1>
+            <p>Your Interactive Voice Guide</p>
         </div>
 
         <div class="speech-settings">
-            <div class="speech-setting-group full-width">
+            <div class="speech-setting-group">
                 <label for="speechLanguage"><i class="fas fa-language"></i> Reading Language</label>
                 <select id="speechLanguage">
                     <option value="si">Sinhala (සිංහල)</option>
@@ -1381,19 +1388,11 @@
             </div>
 
             <div class="speech-setting-group">
-                <label for="speechAiExplain"><i class="fas fa-robot"></i> AI Explanations</label>
-                <select id="speechAiExplain">
-                    <option value="off">Off</option>
-                    <option value="on">On</option>
-                </select>
-            </div>
-
-            <div class="speech-setting-group">
                 <label for="speechHighlightColor"><i class="fas fa-palette"></i> Highlight Color</label>
                 <input type="color" id="speechHighlightColor" value="#ffeb3b">
             </div>
 
-            <div class="speech-setting-group full-width" id="speechAiSettings" style="display:none;">
+            <div class="speech-setting-group full-width" id="speechAiSettings">
                 <div style="display: flex; gap: 12px; width: 100%;">
                     <div class="speech-setting-group" style="flex: 1;">
                         <label for="speechAiLanguage"><i class="fas fa-comments"></i> AI Language</label>
@@ -1412,6 +1411,10 @@
                             <option value="Deep">Deep</option>
                         </select>
                     </div>
+                </div>
+                <div class="speech-setting-group full-width" style="margin-top: 8px;">
+                    <label for="speechCustomPrompt"><i class="fas fa-magic"></i> Custom Instructions (Optional)</label>
+                    <input type="text" id="speechCustomPrompt" placeholder="e.g. Explain like I'm 5 years old...">
                 </div>
             </div>
 
@@ -2294,6 +2297,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
         const speechAiSettingsDiv = document.getElementById('speechAiSettings');
         const speechAiLanguageSelect = document.getElementById('speechAiLanguage');
         const speechAiDepthSelect = document.getElementById('speechAiDepth');
+        const speechCustomPromptInput = document.getElementById('speechCustomPrompt');
 
         // State variables
         let sp_chunks = [];
@@ -2304,9 +2308,9 @@ IF you need to provide a very long explanation, a full code file (like a game or
             language: 'si', 
             speed: 1.0, 
             color: '#ffeb3b',
-            aiExplain: 'off',
             aiLanguage: 'Sinhala Only',
-            aiDepth: 'Normal'
+            aiDepth: 'Normal',
+            customPrompt: ''
         };
 
         function toggleSpeechWidget() {
@@ -2321,13 +2325,9 @@ IF you need to provide a very long explanation, a full code file (like a game or
                 if (result.language) { sp_settings.language = result.language; speechLanguageSelect.value = result.language; }
                 if (result.speed) { sp_settings.speed = result.speed; speechSpeedRange.value = result.speed; speechSpeedValue.textContent = result.speed; }
                 if (result.color) { sp_settings.color = result.color; speechHighlightColor.value = result.color; }
-                if (result.aiExplain) { 
-                    sp_settings.aiExplain = result.aiExplain; 
-                    speechAiExplainSelect.value = result.aiExplain; 
-                    speechAiSettingsDiv.style.display = result.aiExplain === 'on' ? 'flex' : 'none';
-                }
                 if (result.aiLanguage) { sp_settings.aiLanguage = result.aiLanguage; speechAiLanguageSelect.value = result.aiLanguage; }
                 if (result.aiDepth) { sp_settings.aiDepth = result.aiDepth; speechAiDepthSelect.value = result.aiDepth; }
+                if (result.customPrompt !== undefined) { sp_settings.customPrompt = result.customPrompt; speechCustomPromptInput.value = result.customPrompt; }
             }
             document.documentElement.style.setProperty('--speech-hl-color', sp_settings.color);
         }
@@ -2341,13 +2341,9 @@ IF you need to provide a very long explanation, a full code file (like a game or
         speechLanguageSelect.addEventListener('change', () => { sp_settings.language = speechLanguageSelect.value; saveSpeechSettings(); });
         speechSpeedRange.addEventListener('input', () => { const val = parseFloat(speechSpeedRange.value).toFixed(1); speechSpeedValue.textContent = val; sp_settings.speed = val; saveSpeechSettings(); });
         speechHighlightColor.addEventListener('input', () => { sp_settings.color = speechHighlightColor.value; saveSpeechSettings(); });
-        speechAiExplainSelect.addEventListener('change', () => { 
-            sp_settings.aiExplain = speechAiExplainSelect.value; 
-            speechAiSettingsDiv.style.display = sp_settings.aiExplain === 'on' ? 'flex' : 'none';
-            saveSpeechSettings(); 
-        });
         speechAiLanguageSelect.addEventListener('change', () => { sp_settings.aiLanguage = speechAiLanguageSelect.value; saveSpeechSettings(); });
         speechAiDepthSelect.addEventListener('change', () => { sp_settings.aiDepth = speechAiDepthSelect.value; saveSpeechSettings(); });
+        speechCustomPromptInput.addEventListener('input', () => { sp_settings.customPrompt = speechCustomPromptInput.value; saveSpeechSettings(); });
 
         // Logic
         function getAiTtsLanguage() {
@@ -2356,11 +2352,17 @@ IF you need to provide a very long explanation, a full code file (like a game or
             return 'si'; 
         }
 
+        let sp_lessonBlocks = [];
+
         function extractAndChunkText() {
             sp_chunks = [];
+            sp_lessonBlocks = [];
             let fullTextForAi = "";
             const elements = document.querySelectorAll('#markdown-content p, #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6, #markdown-content li');
-            let elementIndex = 0;
+            
+            let currentBlockElements = [];
+            let currentBlockText = "";
+            let blockIndex = 0;
 
             elements.forEach(el => {
                 if (el.innerText.trim() === '' || el.offsetParent === null) return;
@@ -2370,35 +2372,24 @@ IF you need to provide a very long explanation, a full code file (like a game or
                 const originalText = el.innerText.trim();
                 if(originalText.length === 0) return;
 
-                el.dataset.autoSpeechId = `tts-element-${elementIndex}`;
-                
-                fullTextForAi += `[Block ${elementIndex}] ${originalText}\n\n`;
+                // Start a new logical block when a heading is encountered
+                if (el.tagName.match(/^H[1-6]$/) && currentBlockElements.length > 0) {
+                    sp_lessonBlocks.push({ id: blockIndex, elements: currentBlockElements, text: currentBlockText });
+                    fullTextForAi += `[Topic ${blockIndex}]\n${currentBlockText}\n\n`;
+                    blockIndex++;
+                    currentBlockElements = [];
+                    currentBlockText = "";
+                }
 
-                let textChunks = [];
-                let words = originalText.split(' ');
-                let tempSub = '';
-                
-                words.forEach(word => {
-                    if((tempSub + word).length > 180) {
-                        textChunks.push(tempSub.trim());
-                        tempSub = word + ' ';
-                    } else {
-                        tempSub += word + ' ';
-                    }
-                });
-                if (tempSub.trim()) textChunks.push(tempSub.trim());
-
-                textChunks.forEach((sub) => {
-                     sp_chunks.push({
-                         id: `tts-element-${elementIndex}`,
-                         text: sub,
-                         element: el,
-                         isAi: false
-                     });
-                });
-                
-                elementIndex++;
+                currentBlockElements.push(el);
+                currentBlockText += originalText + "\n";
             });
+            
+            // Push the last block
+            if (currentBlockElements.length > 0) {
+                sp_lessonBlocks.push({ id: blockIndex, elements: currentBlockElements, text: currentBlockText });
+                fullTextForAi += `[Topic ${blockIndex}]\n${currentBlockText}\n\n`;
+            }
             
             return fullTextForAi;
         }
@@ -2419,14 +2410,15 @@ IF you need to provide a very long explanation, a full code file (like a game or
             
             if (index >= 0 && index < sp_chunks.length) {
                 const chunk = sp_chunks[index];
-                const el = document.querySelector(`[data-auto-speech-id="${chunk.id}"]`);
-                if (el) {
-                    el.classList.add(chunk.isAi ? 'active-ai-element' : 'active-speech-element');
-                    const rect = el.getBoundingClientRect();
-                    // Smooth scroll if element is not fully in view
-                    if (rect.top < 100 || rect.bottom > window.innerHeight) {
-                        const top = rect.top + window.scrollY - 150;
-                        window.scrollTo({ top: top, behavior: 'smooth' });
+                if (chunk.elements && chunk.elements.length > 0) {
+                    chunk.elements.forEach(el => el.classList.add('active-ai-element'));
+                    const firstEl = chunk.elements[0];
+                    if (firstEl) {
+                        const rect = firstEl.getBoundingClientRect();
+                        if (rect.top < 100 || rect.bottom > window.innerHeight) {
+                            const top = rect.top + window.scrollY - 150;
+                            window.scrollTo({ top: top, behavior: 'smooth' });
+                        }
                     }
                 }
             }
@@ -2528,27 +2520,50 @@ IF you need to provide a very long explanation, a full code file (like a game or
             return key;
         }
 
-        function generateAiExplanationsAndPlay(fullTextForAi) {
-            if (sp_settings.aiExplain !== 'on') {
-                sp_state = 'playing';
-                playChunk(0);
-                updatePlayBtnIcon();
-                return;
+        function splitIntoSentences(text) {
+            let result = [];
+            let words = text.split(' ');
+            let current = "";
+            for (let word of words) {
+                if (current.length + word.length > 100) {
+                    result.push(current.trim());
+                    current = word + " ";
+                } else {
+                    current += word + " ";
+                    if (word.match(/[.?!,।\n]$/)) {
+                        result.push(current.trim());
+                        current = "";
+                    }
+                }
             }
+            if (current.trim().length > 0) result.push(current.trim());
+            return result;
+        }
 
+        function generateAiExplanationsAndPlay(fullTextForAi) {
             sp_state = 'generating';
             updatePlayBtnIcon();
 
-            const prompt = `You are a helpful AI tutor explaining concepts to a student.
-Below is the text content from a webpage, divided into Blocks with IDs like [Block 0], [Block 1].
-Read through the text and provide a friendly, contextual explanation ONLY for blocks that are complex or require explanation (skip generic titles or very simple sentences).
-Language Style: ${sp_settings.aiLanguage} (Use this language for the explanation)
-Explanation Depth: ${sp_settings.aiDepth} (Simple for kids, Normal, or Deeply technical)
-IMPORTANT: Return a RAW JSON object mapping the Block ID (number) to its explanation string. Do not use Markdown formatting or backticks around the JSON.
-Example format:
-{"0": "Explanation for block 0...", "2": "Explanation for block 2..."}
+            let customInstruction = sp_settings.customPrompt ? `\nUSER'S CUSTOM INSTRUCTION: ${sp_settings.customPrompt}\nYou MUST follow this custom instruction closely while generating explanations.` : '';
 
-Text Content:
+            const prompt = `You are an expert, highly motivating, and friendly human teacher. Your goal is to explain the following lesson notes to a student in a highly engaging, natural conversational style.
+The notes are divided into [Topic X] blocks. 
+For EACH topic, provide a clear, concise, and deeply educational explanation.
+- Bring the concepts to life! Provide practical real-world examples, historical context, or future visions where relevant.
+- Remain unbiased but provide insightful perspectives.
+- Spark curiosity! Ask thought-provoking questions and motivate the student to explore further.
+- Do NOT read symbols literally; explain their meaning contextually.
+- FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome to the "Batch Kuppi Portal" and briefly introduce what the lesson is about before explaining the topic.
+- FOR THE VERY LAST TOPIC: End with a friendly concluding remark, and tell the student: "If you have any notes, tutorials, or study resources, please contact our Admin to share them!"
+${customInstruction}
+
+Language Style: ${sp_settings.aiLanguage} (You MUST explain using this language)
+Explanation Depth: ${sp_settings.aiDepth} (Simple for kids, Normal, or Deeply technical)
+IMPORTANT: Return a RAW JSON object mapping the Topic ID (number) to its explanation string. Do not use Markdown formatting or backticks around the JSON.
+Example format:
+{"0": "Hello student! Let's understand Topic 0...", "1": "Moving on to Topic 1, this means..."}
+
+Lesson Notes:
 ${fullTextForAi}`;
 
             let keyAttempts = 0;
@@ -2598,40 +2613,27 @@ ${fullTextForAi}`;
                             let cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
                             let explanations = JSON.parse(cleanJson);
                             
-                            let blockKeys = Object.keys(explanations).map(Number).sort((a,b) => b - a);
+                            sp_chunks = [];
                             
-                            for (const blockNum of blockKeys) {
-                                const blockId = `tts-element-${blockNum}`;
-                                let explanation = explanations[blockNum];
+                            sp_lessonBlocks.forEach(block => {
+                                let expText = explanations[block.id] || explanations[block.id.toString()];
+                                if (!expText || expText.trim().length === 0) return;
                                 
-                                let lastChunkIndex = -1;
-                                for (let i = 0; i < sp_chunks.length; i++) {
-                                    if (sp_chunks[i].id === blockId) lastChunkIndex = i;
-                                }
-                                
-                                if (lastChunkIndex !== -1 && explanation.trim().length > 0) {
-                                    let explChunks = [];
-                                    let words = explanation.split(' ');
-                                    let tempSub = '';
-                                    words.forEach(word => {
-                                        if((tempSub + word).length > 180) {
-                                            explChunks.push(tempSub.trim());
-                                            tempSub = word + ' ';
-                                        } else {
-                                            tempSub += word + ' ';
-                                        }
-                                    });
-                                    if (tempSub.trim()) explChunks.push(tempSub.trim());
-                                    
-                                    const newChunks = explChunks.map(t => ({
-                                        id: blockId,
-                                        text: t,
-                                        isAi: true,
-                                        element: sp_chunks[lastChunkIndex].element
-                                    }));
-                                    
-                                    sp_chunks.splice(lastChunkIndex + 1, 0, ...newChunks);
-                                }
+                                let sentences = splitIntoSentences(expText);
+                                sentences.forEach(sentence => {
+                                    if (sentence.trim().length > 0) {
+                                        sp_chunks.push({
+                                            id: `topic-${block.id}`,
+                                            text: sentence,
+                                            elements: block.elements,
+                                            isAi: true
+                                        });
+                                    }
+                                });
+                            });
+
+                            if (sp_chunks.length === 0) {
+                                throw new Error("AI returned empty explanation mapping.");
                             }
                         } catch(e) {
                             console.error("Failed to parse Gemini JSON", e, text);
