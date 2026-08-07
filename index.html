@@ -632,7 +632,67 @@
         body.dark-mode .custom-popup-btn.cancel-btn:hover { background: #484f58; }
         .custom-popup-btn.ok-btn { background: #007bff; color: white; }
         .custom-popup-btn.ok-btn:hover { background: #0056b3; }
+
+        /* ================= AUTO SPEECH WIDGET STYLING ================= */
+        .speech-widget {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 420px; /* Left of chat widget */
+            width: 320px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 9999;
+            border: 1px solid #e2e8f0;
+            flex-direction: column;
+        }
+        body.dark-mode .speech-widget { background: #161b22; border-color: #30363d; }
+        
+        .speech-header { text-align: center; margin-bottom: 12px; position: relative; }
+        .speech-close-btn { position: absolute; right: 0; top: 0; cursor: pointer; color: #6c757d; }
+        .speech-header h1 { font-size: 1.3rem; margin: 0 0 4px 0; background: linear-gradient(135deg, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .speech-header p { font-size: 0.85rem; color: #6c757d; margin: 0; }
+        body.dark-mode .speech-header p { color: #8b949e; }
+        
+        .speech-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .speech-setting-group { display: flex; flex-direction: column; gap: 4px; }
+        .speech-setting-group.full-width { grid-column: span 2; }
+        .speech-setting-group label { font-size: 0.8rem; color: #6c757d; display: flex; align-items: center; gap: 6px; }
+        body.dark-mode .speech-setting-group label { color: #8b949e; }
+        
+        .speech-widget select, .speech-widget input[type="range"], .speech-widget input[type="color"] {
+            width: 100%; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 8px; color: #333; padding: 6px; font-size: 0.85rem; outline: none; transition: border-color 0.3s;
+        }
+        body.dark-mode .speech-widget select, body.dark-mode .speech-widget input[type="range"], body.dark-mode .speech-widget input[type="color"] {
+            background: #0d1117; border-color: #30363d; color: #c9d1d9;
+        }
+        .speech-widget select:focus { border-color: #4facfe; }
+        
+        .speech-widget input[type="color"] { padding: 2px; height: 30px; cursor: pointer; }
+        .speech-widget input[type="range"] { -webkit-appearance: none; height: 6px; padding: 0; border-radius: 3px; background: #e2e8f0; }
+        body.dark-mode .speech-widget input[type="range"] { background: #30363d; }
+        .speech-widget input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #4facfe; cursor: pointer; }
+        
+        .speech-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .speech-btn { background: #f8f9fa; border: 1px solid #ced4da; color: #333; cursor: pointer; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        body.dark-mode .speech-btn { background: #21262d; border-color: #30363d; color: #c9d1d9; }
+        .speech-btn:hover { background: #e2e8f0; transform: translateY(-2px); }
+        body.dark-mode .speech-btn:hover { background: #30363d; }
+        .speech-btn.main-btn { width: 50px; height: 50px; background: linear-gradient(135deg, #4facfe, #00f2fe); border: none; font-size: 1.2rem; color: #fff; box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4); }
+        
+        .speech-status { text-align: center; font-size: 0.8rem; color: #4facfe; min-height: 16px; margin-top: 10px; font-weight: 500; }
+        
+        /* Auto Speech Highlights */
+        [data-auto-speech-id].active-speech-element { background-color: var(--speech-hl-color, #ffeb3b) !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+        [data-auto-speech-id].active-ai-element { background-color: #8ab4f8 !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 8px rgba(138,180,248,0.6); display: block; }
+        
+        @media (max-width: 768px) {
+            .speech-widget { right: 5%; bottom: 80px; width: 90%; }
+        }
     </style>
+
 </head>
 <body>
 
@@ -685,6 +745,7 @@
                 <!-- Toolbar for Viewer -->
                 <div class="content-toolbar">
                     <a href="#" id="download-btn" class="toolbar-btn download-btn" download><i class="fas fa-download"></i> <span id="dl-text">Download</span></a>
+                                        <button id="read-aloud-btn" class="toolbar-btn" style="background-color: #6f42c1; border: none; cursor: pointer; color: white;" onclick="toggleSpeechWidget()"><i class="fas fa-volume-up"></i> Read Aloud</button>
                     <button id="attach-viewer-btn" class="toolbar-btn" style="background-color: #17a2b8; border: none; cursor: pointer; color: white; display: none;" onclick="attachCurrentViewerToChat()"><i class="fas fa-paperclip"></i> Attach to Chat</button>
                 </div>
 
@@ -1297,6 +1358,76 @@
             <input type="text" id="userInput" placeholder="ඔබේ ප්‍රශ්නය අසන්න..." onkeypress="handleKeyPress(event)">
             <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
+    </div>
+
+
+    <!-- Auto Speech Widget -->
+    <div class="speech-widget" id="speechWidget">
+        <div class="speech-header">
+            <i class="fas fa-times speech-close-btn" onclick="toggleSpeechWidget()"></i>
+            <h1>Auto Speech</h1>
+            <p>Smart Text-to-Speech</p>
+        </div>
+
+        <div class="speech-settings">
+            <div class="speech-setting-group full-width">
+                <label for="speechLanguage"><i class="fas fa-language"></i> Reading Language</label>
+                <select id="speechLanguage">
+                    <option value="si">Sinhala (සිංහල)</option>
+                    <option value="en">English (English)</option>
+                    <option value="ta">Tamil (தமிழ்)</option>
+                </select>
+            </div>
+
+            <div class="speech-setting-group">
+                <label for="speechAiExplain"><i class="fas fa-robot"></i> AI Explanations</label>
+                <select id="speechAiExplain">
+                    <option value="off">Off</option>
+                    <option value="on">On</option>
+                </select>
+            </div>
+
+            <div class="speech-setting-group">
+                <label for="speechHighlightColor"><i class="fas fa-palette"></i> Highlight Color</label>
+                <input type="color" id="speechHighlightColor" value="#ffeb3b">
+            </div>
+
+            <div class="speech-setting-group full-width" id="speechAiSettings" style="display:none;">
+                <div style="display: flex; gap: 12px; width: 100%;">
+                    <div class="speech-setting-group" style="flex: 1;">
+                        <label for="speechAiLanguage"><i class="fas fa-comments"></i> AI Language</label>
+                        <select id="speechAiLanguage">
+                            <option value="Sinhala Only">Sinhala Only</option>
+                            <option value="English Only">English Only</option>
+                            <option value="Singlish Mix">Singlish Mix</option>
+                            <option value="Tamil-English Mix">Tamil Mix</option>
+                        </select>
+                    </div>
+                    <div class="speech-setting-group" style="flex: 1;">
+                        <label for="speechAiDepth"><i class="fas fa-layer-group"></i> Depth</label>
+                        <select id="speechAiDepth">
+                            <option value="Simple">Simple</option>
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Deep">Deep</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="speech-setting-group full-width">
+                <label for="speechSpeed"><i class="fas fa-tachometer-alt"></i> Speed (<span id="speechSpeedValue">1.0</span>x)</label>
+                <input type="range" id="speechSpeed" min="0.5" max="2.0" step="0.1" value="1.0">
+            </div>
+        </div>
+
+        <div class="speech-controls">
+            <button class="speech-btn" id="speechPrevBtn" title="Previous"><i class="fas fa-backward-step"></i></button>
+            <button class="speech-btn main-btn" id="speechPlayPauseBtn" title="Play/Pause"><i class="fas fa-play"></i></button>
+            <button class="speech-btn" id="speechStopBtn" title="Stop"><i class="fas fa-stop"></i></button>
+            <button class="speech-btn" id="speechNextBtn" title="Next"><i class="fas fa-forward-step"></i></button>
+        </div>
+        
+        <div class="speech-status" id="speechStatusBar">Ready to read</div>
     </div>
 
     <!-- Repo File Picker Modal -->
@@ -2143,5 +2274,407 @@ IF you need to provide a very long explanation, a full code file (like a game or
             </div>
         </div>
     </div>
+
+    <!-- Auto Speech Logic -->
+    <script>
+        // DOM Elements
+        const speechWidget = document.getElementById('speechWidget');
+        const speechPlayPauseBtn = document.getElementById('speechPlayPauseBtn');
+        const speechStopBtn = document.getElementById('speechStopBtn');
+        const speechPrevBtn = document.getElementById('speechPrevBtn');
+        const speechNextBtn = document.getElementById('speechNextBtn');
+        
+        const speechLanguageSelect = document.getElementById('speechLanguage');
+        const speechSpeedRange = document.getElementById('speechSpeed');
+        const speechSpeedValue = document.getElementById('speechSpeedValue');
+        const speechHighlightColor = document.getElementById('speechHighlightColor');
+        const speechStatusBar = document.getElementById('speechStatusBar');
+        const speechAiExplainSelect = document.getElementById('speechAiExplain');
+        const speechAiSettingsDiv = document.getElementById('speechAiSettings');
+        const speechAiLanguageSelect = document.getElementById('speechAiLanguage');
+        const speechAiDepthSelect = document.getElementById('speechAiDepth');
+
+        // State variables
+        let sp_chunks = [];
+        let sp_currentChunkIndex = -1;
+        let sp_audio = null;
+        let sp_state = 'stopped'; // 'playing', 'paused', 'stopped', 'generating'
+        let sp_settings = { 
+            language: 'si', 
+            speed: 1.0, 
+            color: '#ffeb3b',
+            aiExplain: 'off',
+            aiLanguage: 'Sinhala Only',
+            aiDepth: 'Normal'
+        };
+
+        function toggleSpeechWidget() {
+            speechWidget.style.display = speechWidget.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Load settings from localStorage
+        function loadSpeechSettings() {
+            const saved = localStorage.getItem('kuppi_auto_speech');
+            if (saved) {
+                const result = JSON.parse(saved);
+                if (result.language) { sp_settings.language = result.language; speechLanguageSelect.value = result.language; }
+                if (result.speed) { sp_settings.speed = result.speed; speechSpeedRange.value = result.speed; speechSpeedValue.textContent = result.speed; }
+                if (result.color) { sp_settings.color = result.color; speechHighlightColor.value = result.color; }
+                if (result.aiExplain) { 
+                    sp_settings.aiExplain = result.aiExplain; 
+                    speechAiExplainSelect.value = result.aiExplain; 
+                    speechAiSettingsDiv.style.display = result.aiExplain === 'on' ? 'flex' : 'none';
+                }
+                if (result.aiLanguage) { sp_settings.aiLanguage = result.aiLanguage; speechAiLanguageSelect.value = result.aiLanguage; }
+                if (result.aiDepth) { sp_settings.aiDepth = result.aiDepth; speechAiDepthSelect.value = result.aiDepth; }
+            }
+            document.documentElement.style.setProperty('--speech-hl-color', sp_settings.color);
+        }
+        
+        function saveSpeechSettings() {
+            localStorage.setItem('kuppi_auto_speech', JSON.stringify(sp_settings));
+            document.documentElement.style.setProperty('--speech-hl-color', sp_settings.color);
+        }
+
+        // Event Listeners for Settings
+        speechLanguageSelect.addEventListener('change', () => { sp_settings.language = speechLanguageSelect.value; saveSpeechSettings(); });
+        speechSpeedRange.addEventListener('input', () => { const val = parseFloat(speechSpeedRange.value).toFixed(1); speechSpeedValue.textContent = val; sp_settings.speed = val; saveSpeechSettings(); });
+        speechHighlightColor.addEventListener('input', () => { sp_settings.color = speechHighlightColor.value; saveSpeechSettings(); });
+        speechAiExplainSelect.addEventListener('change', () => { 
+            sp_settings.aiExplain = speechAiExplainSelect.value; 
+            speechAiSettingsDiv.style.display = sp_settings.aiExplain === 'on' ? 'flex' : 'none';
+            saveSpeechSettings(); 
+        });
+        speechAiLanguageSelect.addEventListener('change', () => { sp_settings.aiLanguage = speechAiLanguageSelect.value; saveSpeechSettings(); });
+        speechAiDepthSelect.addEventListener('change', () => { sp_settings.aiDepth = speechAiDepthSelect.value; saveSpeechSettings(); });
+
+        // Logic
+        function getAiTtsLanguage() {
+            if (sp_settings.aiLanguage === 'English Only') return 'en';
+            if (sp_settings.aiLanguage.includes('Tamil')) return 'ta';
+            return 'si'; 
+        }
+
+        function extractAndChunkText() {
+            sp_chunks = [];
+            let fullTextForAi = "";
+            const elements = document.querySelectorAll('#markdown-content p, #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6, #markdown-content li');
+            let elementIndex = 0;
+
+            elements.forEach(el => {
+                if (el.innerText.trim() === '' || el.offsetParent === null) return;
+                // Avoid extracting outer list elements if they contain paragraphs to avoid duplication
+                if (el.tagName === 'LI' && el.querySelector('p') !== null) return;
+
+                const originalText = el.innerText.trim();
+                if(originalText.length === 0) return;
+
+                el.dataset.autoSpeechId = `tts-element-${elementIndex}`;
+                
+                fullTextForAi += `[Block ${elementIndex}] ${originalText}\n\n`;
+
+                let textChunks = [];
+                let words = originalText.split(' ');
+                let tempSub = '';
+                
+                words.forEach(word => {
+                    if((tempSub + word).length > 180) {
+                        textChunks.push(tempSub.trim());
+                        tempSub = word + ' ';
+                    } else {
+                        tempSub += word + ' ';
+                    }
+                });
+                if (tempSub.trim()) textChunks.push(tempSub.trim());
+
+                textChunks.forEach((sub) => {
+                     sp_chunks.push({
+                         id: `tts-element-${elementIndex}`,
+                         text: sub,
+                         element: el,
+                         isAi: false
+                     });
+                });
+                
+                elementIndex++;
+            });
+            
+            return fullTextForAi;
+        }
+
+        function updatePlayBtnIcon() {
+            speechPlayPauseBtn.innerHTML = (sp_state === 'playing') ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+            if (sp_state === 'generating') speechStatusBar.textContent = 'Generating AI Explanations...';
+            else if (sp_state === 'playing') speechStatusBar.textContent = 'Playing...';
+            else if (sp_state === 'paused') speechStatusBar.textContent = 'Paused';
+            else speechStatusBar.textContent = 'Ready to read';
+        }
+
+        function highlightChunk(index) {
+            document.querySelectorAll('.active-speech-element, .active-ai-element').forEach(el => {
+                el.classList.remove('active-speech-element');
+                el.classList.remove('active-ai-element');
+            });
+            
+            if (index >= 0 && index < sp_chunks.length) {
+                const chunk = sp_chunks[index];
+                const el = document.querySelector(`[data-auto-speech-id="${chunk.id}"]`);
+                if (el) {
+                    el.classList.add(chunk.isAi ? 'active-ai-element' : 'active-speech-element');
+                    const rect = el.getBoundingClientRect();
+                    // Smooth scroll if element is not fully in view
+                    if (rect.top < 100 || rect.bottom > window.innerHeight) {
+                        const top = rect.top + window.scrollY - 150;
+                        window.scrollTo({ top: top, behavior: 'smooth' });
+                    }
+                }
+            }
+        }
+
+        function playChunk(index) {
+            if (index >= sp_chunks.length || index < 0) {
+                sp_state = 'stopped';
+                highlightChunk(-1);
+                updatePlayBtnIcon();
+                return;
+            }
+
+            sp_currentChunkIndex = index;
+            highlightChunk(sp_currentChunkIndex);
+            
+            const chunk = sp_chunks[sp_currentChunkIndex];
+            let text = chunk.text;
+            
+            if (text.length > 195) text = text.substring(0, 195);
+
+            let tl = chunk.isAi ? getAiTtsLanguage() : sp_settings.language;
+            let url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${tl}&client=tw-ob`;
+            
+            if (sp_settings.speed && parseFloat(sp_settings.speed) !== 1.0) {
+                url += `&ttsspeed=${sp_settings.speed}`;
+            }
+
+            if (sp_audio) {
+                sp_audio.pause();
+            }
+
+            // Using direct Audio object
+            sp_audio = new Audio(url);
+            
+            sp_audio.onended = () => {
+                if (sp_state === 'playing') {
+                    setTimeout(() => {
+                        if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
+                    }, chunk.isAi ? 400 : 200);
+                }
+            };
+
+            sp_audio.onerror = (e) => {
+                console.error("Audio error", e);
+                if (sp_state === 'playing') {
+                     setTimeout(() => {
+                         if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
+                     }, 500);
+                }
+            };
+
+            if (sp_state === 'playing') {
+                sp_audio.play().catch(err => {
+                    console.error("Playback prevented by browser", err);
+                    if (err.name === 'NotAllowedError') {
+                        sp_state = 'paused';
+                        updatePlayBtnIcon();
+                    } else {
+                        setTimeout(() => {
+                            if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
+                        }, 500);
+                    }
+                });
+            }
+        }
+
+        let sp_currentKeyIndex = 0;
+        function getNextApiKey() {
+            const key = API_KEYS[sp_currentKeyIndex];
+            sp_currentKeyIndex = (sp_currentKeyIndex + 1) % API_KEYS.length;
+            return key;
+        }
+
+        function generateAiExplanationsAndPlay(fullTextForAi) {
+            if (sp_settings.aiExplain !== 'on') {
+                sp_state = 'playing';
+                playChunk(0);
+                updatePlayBtnIcon();
+                return;
+            }
+
+            sp_state = 'generating';
+            updatePlayBtnIcon();
+
+            const prompt = `You are a helpful AI tutor explaining concepts to a student.
+Below is the text content from a webpage, divided into Blocks with IDs like [Block 0], [Block 1].
+Read through the text and provide a friendly, contextual explanation ONLY for blocks that are complex or require explanation (skip generic titles or very simple sentences).
+Language Style: ${sp_settings.aiLanguage} (Use this language for the explanation)
+Explanation Depth: ${sp_settings.aiDepth} (Simple for kids, Normal, or Deeply technical)
+IMPORTANT: Return a RAW JSON object mapping the Block ID (number) to its explanation string. Do not use Markdown formatting or backticks around the JSON.
+Example format:
+{"0": "Explanation for block 0...", "2": "Explanation for block 2..."}
+
+Text Content:
+${fullTextForAi}`;
+
+            let keyAttempts = 0;
+            let modelAttempts = 0;
+            let shuffledModels = [...MODELS].sort(() => Math.random() - 0.5);
+
+            function tryFetch() {
+                if (keyAttempts >= 5 || keyAttempts >= API_KEYS.length) {
+                    console.error("All API keys and models exhausted.");
+                    sp_state = 'playing';
+                    playChunk(0);
+                    updatePlayBtnIcon();
+                    return;
+                }
+
+                if (modelAttempts >= shuffledModels.length) {
+                    keyAttempts++;
+                    modelAttempts = 0;
+                    shuffledModels = [...MODELS].sort(() => Math.random() - 0.5);
+                    getNextApiKey();
+                    tryFetch();
+                    return;
+                }
+
+                const apiKey = API_KEYS[sp_currentKeyIndex];
+                const model = shuffledModels[modelAttempts];
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP Status ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        throw new Error(data.error.message);
+                    } else if (data.candidates && data.candidates.length > 0) {
+                        const text = data.candidates[0].content.parts[0].text;
+                        try {
+                            let cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
+                            let explanations = JSON.parse(cleanJson);
+                            
+                            let blockKeys = Object.keys(explanations).map(Number).sort((a,b) => b - a);
+                            
+                            for (const blockNum of blockKeys) {
+                                const blockId = `tts-element-${blockNum}`;
+                                let explanation = explanations[blockNum];
+                                
+                                let lastChunkIndex = -1;
+                                for (let i = 0; i < sp_chunks.length; i++) {
+                                    if (sp_chunks[i].id === blockId) lastChunkIndex = i;
+                                }
+                                
+                                if (lastChunkIndex !== -1 && explanation.trim().length > 0) {
+                                    let explChunks = [];
+                                    let words = explanation.split(' ');
+                                    let tempSub = '';
+                                    words.forEach(word => {
+                                        if((tempSub + word).length > 180) {
+                                            explChunks.push(tempSub.trim());
+                                            tempSub = word + ' ';
+                                        } else {
+                                            tempSub += word + ' ';
+                                        }
+                                    });
+                                    if (tempSub.trim()) explChunks.push(tempSub.trim());
+                                    
+                                    const newChunks = explChunks.map(t => ({
+                                        id: blockId,
+                                        text: t,
+                                        isAi: true,
+                                        element: sp_chunks[lastChunkIndex].element
+                                    }));
+                                    
+                                    sp_chunks.splice(lastChunkIndex + 1, 0, ...newChunks);
+                                }
+                            }
+                        } catch(e) {
+                            console.error("Failed to parse Gemini JSON", e, text);
+                        }
+                        
+                        if (sp_state === 'generating') {
+                            sp_state = 'playing';
+                            playChunk(0);
+                            updatePlayBtnIcon();
+                        }
+                    } else {
+                        throw new Error("No response from Gemini");
+                    }
+                })
+                .catch(e => {
+                    console.error(`[AI Fetch Failed] Model: ${model}, Key Index: ${sp_currentKeyIndex}. Error:`, e);
+                    modelAttempts++;
+                    tryFetch();
+                });
+            }
+            
+            tryFetch();
+        }
+
+        speechPlayPauseBtn.addEventListener('click', () => {
+            if (sp_state === 'stopped') {
+                let fullTextForAi = extractAndChunkText();
+                if(sp_chunks.length === 0) {
+                    customAlert("No text found on this page to read.");
+                    return;
+                }
+                generateAiExplanationsAndPlay(fullTextForAi);
+            } else if (sp_state === 'paused') {
+                sp_state = 'playing';
+                if(sp_audio) sp_audio.play().catch(e => console.error("Play resume failed:", e));
+                else playChunk(sp_currentChunkIndex);
+                updatePlayBtnIcon();
+            } else if (sp_state === 'playing') {
+                sp_state = 'paused';
+                if (sp_audio) sp_audio.pause();
+                updatePlayBtnIcon();
+            }
+        });
+
+        speechStopBtn.addEventListener('click', () => {
+            sp_state = 'stopped';
+            if (sp_audio) {
+                sp_audio.pause();
+                sp_audio.currentTime = 0;
+            }
+            sp_currentChunkIndex = -1;
+            highlightChunk(-1);
+            updatePlayBtnIcon();
+        });
+
+        speechNextBtn.addEventListener('click', () => {
+            if (sp_state !== 'stopped' && sp_currentChunkIndex < sp_chunks.length - 1) {
+                playChunk(sp_currentChunkIndex + 1);
+            }
+        });
+
+        speechPrevBtn.addEventListener('click', () => {
+            if (sp_state !== 'stopped' && sp_currentChunkIndex > 0) {
+                playChunk(sp_currentChunkIndex - 1);
+            }
+        });
+
+        // Init
+        loadSpeechSettings();
+
+    </script>
 </body>
+
 </html>
