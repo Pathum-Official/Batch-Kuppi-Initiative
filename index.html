@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Kuppi Initiative</title>
+    <meta name="referrer" content="no-referrer">
+    <title>Batch Kuppi Portal</title>
     <link rel="icon" type="image/x-icon" href="logo.ico">
     <!-- Dynamic CSS Links for Light/Dark Mode -->
     <link id="markdown-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
@@ -2457,7 +2458,16 @@ IF you need to provide a very long explanation, a full code file (like a game or
             }
 
             let tl = chunk.isAi ? getAiTtsLanguage() : sp_settings.language;
-            let url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${tl}&client=tw-ob`;
+            
+            const sp_ttsEndpoints = [
+                { base: 'https://translate.googleapis.com/translate_tts', client: 'gtx' },
+                { base: 'https://translate.google.com/translate_tts', client: 'tw-ob' },
+                { base: 'https://translate.googleapis.com/translate_tts', client: 'dict-chrome-ex' }
+            ];
+            
+            // Randomly select an endpoint to distribute load and avoid rate limits
+            let randomEndpoint = sp_ttsEndpoints[Math.floor(Math.random() * sp_ttsEndpoints.length)];
+            let url = `${randomEndpoint.base}?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${tl}&client=${randomEndpoint.client}`;
             
             if (sp_settings.speed && parseFloat(sp_settings.speed) !== 1.0) {
                 url += `&ttsspeed=${sp_settings.speed}`;
@@ -2482,11 +2492,12 @@ IF you need to provide a very long explanation, a full code file (like a game or
 
             sp_audio.onerror = (e) => {
                 console.error("Audio error", e);
-                // Only schedule the next chunk if we are still playing the same chunk (prevents exponential branch growth)
+                // Only schedule the next chunk if we are still playing the same chunk
                 if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
+                     // Add a slightly longer delay on error to prevent hammering the server if rate-limited
                      setTimeout(() => {
                          if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
-                     }, 500);
+                     }, 1500);
                 }
             };
 
@@ -2503,7 +2514,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                         if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
                             setTimeout(() => {
                                 if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
-                            }, 500);
+                            }, 1500);
                         }
                     }
                 });
