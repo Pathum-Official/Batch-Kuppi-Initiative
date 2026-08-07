@@ -2443,9 +2443,18 @@ IF you need to provide a very long explanation, a full code file (like a game or
             highlightChunk(sp_currentChunkIndex);
             
             const chunk = sp_chunks[sp_currentChunkIndex];
-            let text = chunk.text;
+            let text = chunk.text.trim();
             
-            if (text.length > 195) text = text.substring(0, 195);
+            // Limit to 100 chars for Sinhala to prevent URL length 400 Bad Request
+            if (text.length > 100) text = text.substring(0, 100);
+
+            if (text.length === 0) {
+                 // Skip empty text
+                 setTimeout(() => {
+                     if (sp_state === 'playing' && sp_currentChunkIndex === index) playChunk(sp_currentChunkIndex + 1);
+                 }, 50);
+                 return;
+            }
 
             let tl = chunk.isAi ? getAiTtsLanguage() : sp_settings.language;
             let url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${tl}&client=tw-ob`;
@@ -2461,19 +2470,22 @@ IF you need to provide a very long explanation, a full code file (like a game or
             // Using direct Audio object
             sp_audio = new Audio(url);
             
+            let currentPlayId = sp_currentChunkIndex;
+
             sp_audio.onended = () => {
-                if (sp_state === 'playing') {
+                if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
                     setTimeout(() => {
-                        if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
+                        if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
                     }, chunk.isAi ? 400 : 200);
                 }
             };
 
             sp_audio.onerror = (e) => {
                 console.error("Audio error", e);
-                if (sp_state === 'playing') {
+                // Only schedule the next chunk if we are still playing the same chunk (prevents exponential branch growth)
+                if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
                      setTimeout(() => {
-                         if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
+                         if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
                      }, 500);
                 }
             };
@@ -2484,10 +2496,15 @@ IF you need to provide a very long explanation, a full code file (like a game or
                     if (err.name === 'NotAllowedError') {
                         sp_state = 'paused';
                         updatePlayBtnIcon();
+                    } else if (err.name === 'AbortError') {
+                        // This happens when pause() is called explicitly, so just ignore it.
                     } else {
-                        setTimeout(() => {
-                            if (sp_state === 'playing') playChunk(sp_currentChunkIndex + 1);
-                        }, 500);
+                        // Fallback for NotSupportedError or network errors
+                        if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
+                            setTimeout(() => {
+                                if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
+                            }, 500);
+                        }
                     }
                 });
             }
