@@ -686,8 +686,8 @@
         .speech-status { text-align: center; font-size: 0.8rem; color: #4facfe; min-height: 16px; margin-top: 10px; font-weight: 500; }
         
         /* Auto Speech Highlights */
-        [data-auto-speech-id].active-speech-element { background-color: var(--speech-hl-color, #ffeb3b) !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
-        [data-auto-speech-id].active-ai-element { background-color: #8ab4f8 !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 8px rgba(138,180,248,0.6); display: block; }
+        .active-speech-element { background-color: var(--speech-hl-color, #ffeb3b) !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+        .active-ai-element { background-color: #8ab4f8 !important; color: #000 !important; border-radius: 4px; transition: background-color 0.2s; box-shadow: 0 0 8px rgba(138,180,248,0.6); }
         
         @media (max-width: 768px) {
             .speech-widget { right: 5%; bottom: 80px; width: 90%; }
@@ -1414,7 +1414,7 @@
                 </div>
                 <div class="speech-setting-group full-width" style="margin-top: 8px;">
                     <label for="speechCustomPrompt"><i class="fas fa-magic"></i> Custom Instructions (Optional)</label>
-                    <input type="text" id="speechCustomPrompt" placeholder="e.g. Explain like I'm 5 years old...">
+                    <input type="text" id="speechCustomPrompt" placeholder="උදා: මම මේ විෂය ගැන කිසිවක් නොදන්නා බව සිතා මුල සිට සරලව කියලා දෙන්න...">
                 </div>
             </div>
 
@@ -2553,7 +2553,7 @@ For EACH topic, provide a clear, concise, and deeply educational explanation.
 - Remain unbiased but provide insightful perspectives.
 - Spark curiosity! Ask thought-provoking questions and motivate the student to explore further.
 - Do NOT read symbols literally; explain their meaning contextually.
-- FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome to the "Batch Kuppi Portal" and briefly introduce what the lesson is about before explaining the topic.
+- FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome in Sinhala: "සුභ දවසක්! Batch Kuppi Portal වෙත සාදරයෙන් පිළිගනිමු!" and briefly introduce what the lesson is about before explaining the topic.
 - FOR THE VERY LAST TOPIC: End with a friendly concluding remark, and tell the student: "If you have any notes, tutorials, or study resources, please contact our Admin to share them!"
 ${customInstruction}
 
