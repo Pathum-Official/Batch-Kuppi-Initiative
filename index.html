@@ -2482,50 +2482,63 @@ IF you need to provide a very long explanation, a full code file (like a game or
 
             if (sp_audio) {
                 sp_audio.pause();
+                sp_audio = null;
             }
 
-            // Using direct Audio object
-            sp_audio = new Audio(url);
-            
             let currentPlayId = sp_currentChunkIndex;
 
-            sp_audio.onended = () => {
-                if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
-                    setTimeout(() => {
-                        if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
-                    }, chunk.isAi ? 400 : 200);
-                }
-            };
+            fetch(url, { referrerPolicy: 'no-referrer' })
+                .then(res => {
+                    if (!res.ok) throw new Error("TTS API blocked or failed");
+                    return res.blob();
+                })
+                .then(blob => {
+                    if (sp_state !== 'playing' || sp_currentChunkIndex !== currentPlayId) return;
+                    
+                    const blobUrl = URL.createObjectURL(blob);
+                    sp_audio = new Audio(blobUrl);
 
-            sp_audio.onerror = (e) => {
-                console.error("Audio error", e);
-                // Only schedule the next chunk if we are still playing the same chunk
-                if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
-                     // Add a slightly longer delay on error to prevent hammering the server if rate-limited
-                     setTimeout(() => {
-                         if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
-                     }, 1500);
-                }
-            };
-
-            if (sp_state === 'playing') {
-                sp_audio.play().catch(err => {
-                    console.error("Playback prevented by browser", err);
-                    if (err.name === 'NotAllowedError') {
-                        sp_state = 'paused';
-                        updatePlayBtnIcon();
-                    } else if (err.name === 'AbortError') {
-                        // This happens when pause() is called explicitly, so just ignore it.
-                    } else {
-                        // Fallback for NotSupportedError or network errors
+                    sp_audio.onended = () => {
+                        URL.revokeObjectURL(blobUrl);
                         if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
                             setTimeout(() => {
                                 if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
-                            }, 1500);
+                            }, chunk.isAi ? 400 : 200);
                         }
+                    };
+
+                    sp_audio.onerror = (e) => {
+                        URL.revokeObjectURL(blobUrl);
+                        console.error("Audio error", e);
+                        if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
+                             setTimeout(() => {
+                                 if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
+                             }, 1500);
+                        }
+                    };
+
+                    sp_audio.play().catch(err => {
+                        console.error("Playback prevented by browser", err);
+                        if (err.name === 'NotAllowedError') {
+                            sp_state = 'paused';
+                            updatePlayBtnIcon();
+                        } else {
+                            if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
+                                setTimeout(() => {
+                                    if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
+                                }, 1500);
+                            }
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error("Fetch audio failed", err);
+                    if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) {
+                        setTimeout(() => {
+                            if (sp_state === 'playing' && sp_currentChunkIndex === currentPlayId) playChunk(sp_currentChunkIndex + 1);
+                        }, 1500);
                     }
                 });
-            }
         }
 
         let sp_currentKeyIndex = 0;
