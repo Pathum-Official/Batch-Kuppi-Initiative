@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
     <title>Batch Kuppi Portal</title>
     <link rel="icon" type="image/x-icon" href="logo.ico">
     <!-- Dynamic CSS Links for Light/Dark Mode -->
@@ -2002,6 +2001,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                         const response = await fetch(url, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
+                            referrerPolicy: 'no-referrer',
                             body: JSON.stringify({
                                 system_instruction: { parts: [{ text: systemInstruction }] },
                                 contents: chatHistory
@@ -2024,6 +2024,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                              const fallbackResponse = await fetch(fallbackUrl, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
+                                referrerPolicy: 'no-referrer',
                                 body: JSON.stringify({ contents: fallbackHistory })
                             });
                             const fallbackData = await fallbackResponse.json();
@@ -2609,6 +2610,7 @@ ${fullTextForAi}`;
                 fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    referrerPolicy: 'no-referrer',
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: prompt }] }],
                         generationConfig: { responseMimeType: "application/json" }
