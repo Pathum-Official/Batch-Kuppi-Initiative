@@ -945,6 +945,12 @@
         }
 
         function handleRouting() {
+            if (typeof stopSpeechEngine === 'function') stopSpeechEngine();
+            const widget = document.getElementById('speechWidget');
+            if (widget && widget.style.display === 'flex') {
+                widget.style.display = 'none';
+            }
+
             const urlParams = new URLSearchParams(window.location.search);
             const note = urlParams.get('note'), pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img'), yt = urlParams.get('yt'), urlEmbed = urlParams.get('url'), htmlParam = urlParams.get('html'); 
             
@@ -1378,16 +1384,7 @@
         </div>
 
         <div class="speech-settings">
-            <div class="speech-setting-group">
-                <label for="speechLanguage"><i class="fas fa-language"></i> Reading Language</label>
-                <select id="speechLanguage">
-                    <option value="si">Sinhala (සිංහල)</option>
-                    <option value="en">English (English)</option>
-                    <option value="ta">Tamil (தமிழ்)</option>
-                </select>
-            </div>
-
-            <div class="speech-setting-group">
+            <div class="speech-setting-group full-width">
                 <label for="speechHighlightColor"><i class="fas fa-palette"></i> Highlight Color</label>
                 <input type="color" id="speechHighlightColor" value="#ffeb3b">
             </div>
@@ -1414,7 +1411,7 @@
                 </div>
                 <div class="speech-setting-group full-width" style="margin-top: 8px;">
                     <label for="speechCustomPrompt"><i class="fas fa-magic"></i> Custom Instructions (Optional)</label>
-                    <input type="text" id="speechCustomPrompt" placeholder="උදා: මම මේ විෂය ගැන කිසිවක් නොදන්නා බව සිතා මුල සිට සරලව කියලා දෙන්න...">
+                    <input type="text" id="speechCustomPrompt" placeholder="e.g. Explain simply from scratch...">
                 </div>
             </div>
 
@@ -1432,6 +1429,13 @@
         </div>
         
         <div class="speech-status" id="speechStatusBar">Ready to read</div>
+
+        <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px;">
+            <span style="font-size: 0.75rem; color: #6c757d;">⚠️ Not loading? Please refresh the page.</span>
+            <a href="https://wa.me/94773535384" target="_blank" style="text-decoration: none; color: white; background: #25D366; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 6px;">
+                <i class="fab fa-whatsapp"></i> Contact Admin
+            </a>
+        </div>
     </div>
 
     <!-- Repo File Picker Modal -->
@@ -2288,12 +2292,10 @@ IF you need to provide a very long explanation, a full code file (like a game or
         const speechPrevBtn = document.getElementById('speechPrevBtn');
         const speechNextBtn = document.getElementById('speechNextBtn');
         
-        const speechLanguageSelect = document.getElementById('speechLanguage');
         const speechSpeedRange = document.getElementById('speechSpeed');
         const speechSpeedValue = document.getElementById('speechSpeedValue');
         const speechHighlightColor = document.getElementById('speechHighlightColor');
         const speechStatusBar = document.getElementById('speechStatusBar');
-        const speechAiExplainSelect = document.getElementById('speechAiExplain');
         const speechAiSettingsDiv = document.getElementById('speechAiSettings');
         const speechAiLanguageSelect = document.getElementById('speechAiLanguage');
         const speechAiDepthSelect = document.getElementById('speechAiDepth');
@@ -2305,7 +2307,6 @@ IF you need to provide a very long explanation, a full code file (like a game or
         let sp_audio = null;
         let sp_state = 'stopped'; // 'playing', 'paused', 'stopped', 'generating'
         let sp_settings = { 
-            language: 'si', 
             speed: 1.0, 
             color: '#ffeb3b',
             aiLanguage: 'Sinhala Only',
@@ -2317,12 +2318,26 @@ IF you need to provide a very long explanation, a full code file (like a game or
             speechWidget.style.display = speechWidget.style.display === 'flex' ? 'none' : 'flex';
         }
 
+        function stopSpeechEngine() {
+            if (sp_audio) {
+                sp_audio.pause();
+                sp_audio = null;
+            }
+            sp_state = 'stopped';
+            sp_chunks = [];
+            sp_currentChunkIndex = -1;
+            updatePlayBtnIcon();
+            document.querySelectorAll('.active-speech-element, .active-ai-element').forEach(el => {
+                el.classList.remove('active-speech-element');
+                el.classList.remove('active-ai-element');
+            });
+        }
+
         // Load settings from localStorage
         function loadSpeechSettings() {
             const saved = localStorage.getItem('kuppi_auto_speech');
             if (saved) {
                 const result = JSON.parse(saved);
-                if (result.language) { sp_settings.language = result.language; speechLanguageSelect.value = result.language; }
                 if (result.speed) { sp_settings.speed = result.speed; speechSpeedRange.value = result.speed; speechSpeedValue.textContent = result.speed; }
                 if (result.color) { sp_settings.color = result.color; speechHighlightColor.value = result.color; }
                 if (result.aiLanguage) { sp_settings.aiLanguage = result.aiLanguage; speechAiLanguageSelect.value = result.aiLanguage; }
@@ -2338,7 +2353,6 @@ IF you need to provide a very long explanation, a full code file (like a game or
         }
 
         // Event Listeners for Settings
-        speechLanguageSelect.addEventListener('change', () => { sp_settings.language = speechLanguageSelect.value; saveSpeechSettings(); });
         speechSpeedRange.addEventListener('input', () => { const val = parseFloat(speechSpeedRange.value).toFixed(1); speechSpeedValue.textContent = val; sp_settings.speed = val; saveSpeechSettings(); });
         speechHighlightColor.addEventListener('input', () => { sp_settings.color = speechHighlightColor.value; saveSpeechSettings(); });
         speechAiLanguageSelect.addEventListener('change', () => { sp_settings.aiLanguage = speechAiLanguageSelect.value; saveSpeechSettings(); });
@@ -2552,9 +2566,9 @@ For EACH topic, provide a clear, concise, and deeply educational explanation.
 - Bring the concepts to life! Provide practical real-world examples, historical context, or future visions where relevant.
 - Remain unbiased but provide insightful perspectives.
 - Spark curiosity! Ask thought-provoking questions and motivate the student to explore further.
-- Do NOT read symbols literally; explain their meaning contextually.
+- CRITICAL: When reading numbers, mathematical equations, or symbols (like +, -, *, /, =), NEVER sound like a robotic machine. You MUST explain them exactly like a friendly human would in normal conversation, fully spelling out the numbers and logic in words. For example, instead of '1+2=3' (or robotic 'එක ධන දෙක සමානයි තුන'), explain it casually like: "එකට දෙකක් එකතු කරාම තුනමයි නේ උත්තරේ". Assume the listener is blind and completely relies on your very clear, human-like voice explanation.
 - FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome in Sinhala: "සුභ දවසක්! Batch Kuppi Portal වෙත සාදරයෙන් පිළිගනිමු!" and briefly introduce what the lesson is about before explaining the topic.
-- FOR THE VERY LAST TOPIC: End with a friendly concluding remark, and tell the student: "If you have any notes, tutorials, or study resources, please contact our Admin to share them!"
+- FOR THE VERY LAST TOPIC: End with a highly motivating concluding remark in the chosen language. Also, warmly invite them (in Sinhala) to share their own notes or tutorials with the Admin, and ask for their ideas to improve the Batch Kuppi Portal.
 ${customInstruction}
 
 Language Style: ${sp_settings.aiLanguage} (You MUST explain using this language)
