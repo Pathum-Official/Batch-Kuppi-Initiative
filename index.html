@@ -2832,7 +2832,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
             sp_chunks = [];
             sp_lessonBlocks = [];
             let fullTextForAi = "";
-            const elements = document.querySelectorAll('#markdown-content p, #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6, #markdown-content li');
+            const elements = document.querySelectorAll('#markdown-content p, #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6, #markdown-content li, #markdown-content table, #markdown-content pre, #markdown-content blockquote');
             
             let currentBlockElements = [];
             let currentBlockText = "";
@@ -3010,20 +3010,20 @@ IF you need to provide a very long explanation, a full code file (like a game or
             return result;
         }
 
-        function generateAiExplanationsAndPlay(fullTextForAi) {
+        function generateAiExplanationsAndPlay(fullTextForAi, inlineData = null) {
             sp_state = 'generating';
             updatePlayBtnIcon();
 
             let customInstruction = sp_settings.customPrompt ? `\nUSER'S CUSTOM INSTRUCTION: ${sp_settings.customPrompt}\nYou MUST follow this custom instruction closely while generating explanations.` : '';
 
-            const prompt = `You are an expert, highly motivating, and friendly human teacher. Your goal is to explain the following lesson notes to a student in a highly engaging, natural conversational style.
+            let prompt = `You are an expert, highly motivating, and friendly human teacher. Your goal is to explain the following lesson notes to a student in a highly engaging, natural conversational style.
 The notes are divided into [Topic X] blocks. 
 For EACH topic, provide a clear, concise, and deeply educational explanation.
 - Bring the concepts to life! Provide practical real-world examples, historical context, or future visions where relevant.
 - Remain unbiased but provide insightful perspectives.
 - Spark curiosity! Ask thought-provoking questions and motivate the student to explore further.
-- CRITICAL: When reading numbers, mathematical equations, or symbols (like +, -, *, /, =), NEVER sound like a robotic machine. You MUST explain them exactly like a friendly human would in normal conversation, fully spelling out the numbers and logic in words. For example, instead of '1+2=3' (or robotic 'එක ධන දෙක සමානයි තුන'), explain it casually like: "එකට දෙකක් එකතු කරාම තුනමයි නේ උත්තරේ". Assume the listener is blind and completely relies on your very clear, human-like voice explanation.
-- FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome in Sinhala: "සුභ දවසක්! Batch Kuppi Portal වෙත සාදරයෙන් පිළිගනිමු!" and briefly introduce what the lesson is about before explaining the topic.
+- CRITICAL: When reading numbers, mathematical equations, or symbols (like +, -, *, /, =), NEVER sound like a robotic machine. You MUST explain them exactly like a friendly human would in normal conversation, fully spelling out the numbers and logic in words. For example, instead of '1+2=3' (or robotic 'එක ධන දෙක සමානයි තුන'), explain it casually like: "එකේ ඉලක්කමට දෙකක් එකතු කළාම, අපිට තුන ලැබෙනවා". Assume the listener is blind and completely relies on your very clear, human-like voice explanation.
+- FOR THE VERY FIRST TOPIC: Start with a warm, energetic welcome in Sinhala: "ආයුබෝවන්! Batch Kuppi Portal වෙතින් ඔබව සාදරයෙන් පිළිගන්නවා!" and briefly introduce what the lesson is about before explaining the topic.
 - FOR THE VERY LAST TOPIC: End with a highly motivating concluding remark in the chosen language. Also, warmly invite them (in Sinhala) to share their own notes or tutorials with the Admin, and ask for their ideas to improve the Batch Kuppi Portal.
 ${customInstruction}
 
@@ -3035,6 +3035,19 @@ Example format:
 
 Lesson Notes:
 ${fullTextForAi}`;
+
+            if (inlineData) {
+                prompt = `You are an expert teacher. I have attached a media file (PDF, Image, or Video) for you. Please analyze the ENTIRE file deeply and explain it in a highly engaging, natural conversational style. 
+- CRITICAL: When reading numbers or equations, NEVER sound like a robotic machine. Read them like a friendly human would.
+- Start with a warm welcome: "ආයුබෝවන්! Batch Kuppi Portal වෙතින් ඔබව සාදරයෙන් පිළිගන්නවා!"
+- End with a motivating concluding remark and invite them to share notes.
+${customInstruction}
+
+Language Style: ${sp_settings.aiLanguage}
+Explanation Depth: ${sp_settings.aiDepth}
+IMPORTANT: Return a RAW JSON object mapping the key "0" to your complete explanation string. Do not use Markdown formatting or backticks.
+Example format: {"0": "ආයුබෝවන්! මෙන්න මේ ගොනුවේ අඩංගු කරුණු ගැන සරලව පැහැදිලි කිරීමක්..."}`;
+            }
 
             let keyAttempts = 0;
             let modelAttempts = 0;
@@ -3062,14 +3075,19 @@ ${fullTextForAi}`;
                 const model = shuffledModels[modelAttempts];
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
                 
+                let bodyData = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                };
+                if (inlineData) {
+                    bodyData.contents[0].parts.push({ inlineData: inlineData });
+                }
+                
                 fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     referrerPolicy: 'no-referrer',
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
+                    body: JSON.stringify(bodyData)
                 })
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP Status ${res.status}`);
@@ -3129,14 +3147,53 @@ ${fullTextForAi}`;
             tryFetch();
         }
 
-        speechPlayPauseBtn.addEventListener('click', () => {
+        speechPlayPauseBtn.addEventListener('click', async () => {
             if (sp_state === 'stopped') {
+                const urlParams = new URLSearchParams(window.location.search);
+                const pdf = urlParams.get('pdf'), video = urlParams.get('video'), img = urlParams.get('img');
+                let mediaPath = null;
+                if (pdf) mediaPath = pdf.includes('.') ? pdf : pdf + '.pdf';
+                else if (video) mediaPath = video;
+                else if (img) mediaPath = img;
+
                 let fullTextForAi = extractAndChunkText();
-                if(sp_lessonBlocks.length === 0) {
-                    customAlert("No text found on this page to read.");
+                
+                if (sp_lessonBlocks.length === 0 && !mediaPath) {
+                    customAlert("මෙම පිටුවේ කියවීමට තරම් පැහැදිලි සටහනක් හෝ මාධ්‍ය ගොනුවක් හමුවුණේ නැහැ.");
                     return;
                 }
-                generateAiExplanationsAndPlay(fullTextForAi);
+
+                if (mediaPath) {
+                    sp_state = 'generating';
+                    updatePlayBtnIcon();
+                    try {
+                        const ext = mediaPath.split('.').pop().toLowerCase();
+                        let mimeType = 'application/octet-stream';
+                        if (ext === 'pdf') mimeType = 'application/pdf';
+                        else if (ext === 'jpg' || ext === 'jpeg') mimeType = 'image/jpeg';
+                        else if (ext === 'png') mimeType = 'image/png';
+                        else if (ext === 'mp4') mimeType = 'video/mp4';
+
+                        const res = await fetch(`https://raw.githubusercontent.com/pathum-official/Batch-Kuppi-Initiative/main/${mediaPath}`);
+                        if (!res.ok) throw new Error("File not found");
+                        const blob = await res.blob();
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = () => {
+                            const base64data = reader.result.split(',')[1];
+                            const inlineData = { mimeType, data: base64data };
+                            sp_lessonBlocks = [{id: 0, elements: [], text: "Attached Media"}];
+                            generateAiExplanationsAndPlay("Please analyze the attached media file.", inlineData);
+                        };
+                    } catch (e) {
+                        console.error(e);
+                        customAlert("Failed to fetch media file for AI Tutor.");
+                        sp_state = 'stopped';
+                        updatePlayBtnIcon();
+                    }
+                } else {
+                    generateAiExplanationsAndPlay(fullTextForAi);
+                }
             } else if (sp_state === 'paused') {
                 sp_state = 'playing';
                 if(sp_audio) sp_audio.play().catch(e => console.error("Play resume failed:", e));
