@@ -756,20 +756,51 @@
             display: flex;
         }
 
+        .planner-title-header {
+            text-align: center;
+            padding: 15px 15px 5px 15px;
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 16px 16px 0 0;
+        }
+        .planner-title-header h2 {
+            font-size: 1.25rem;
+            margin: 0 0 4px 0;
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .planner-title-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .planner-close-btn-top {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+        }
         .planner-header {
-            padding: 20px;
+            padding: 10px 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             background: var(--card-bg);
         }
         .planner-nav {
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: space-between;
+            width: 100%;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-color);
         }
         .planner-nav button {
@@ -783,13 +814,7 @@
         .planner-nav button:hover {
             color: #10b981;
         }
-        .planner-close-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
+
 
         .planner-progress-container {
             padding: 15px 20px;
@@ -1006,6 +1031,7 @@
             color: var(--text-color);
             font-family: inherit;
             font-size: 0.9rem;
+            box-sizing: border-box;
         }
         .planner-modal-content input:focus, .planner-modal-content textarea:focus, .planner-modal-content select:focus {
             outline: none;
@@ -1789,13 +1815,17 @@
 
     <!-- Planner Side Drawer -->
     <div class="planner-drawer" id="plannerDrawer">
+        <div class="planner-title-header">
+            <button class="planner-close-btn-top" onclick="togglePlanner()"><i class="fas fa-times"></i></button>
+            <h2><i class="fas fa-tasks"></i> Study Planner</h2>
+            <p>Organize Your Learning</p>
+        </div>
         <div class="planner-header">
             <div class="planner-nav">
                 <button onclick="changePlannerDate(-1)" title="Previous Day"><i class="fas fa-chevron-left"></i></button>
-                <span id="plannerDateDisplay" style="min-width: 110px; text-align: center;">Today</span>
+                <span id="plannerDateDisplay" style="text-align: center;">Today</span>
                 <button onclick="changePlannerDate(1)" title="Next Day"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <button class="planner-close-btn" onclick="togglePlanner()"><i class="fas fa-times"></i></button>
         </div>
         
         <div class="planner-progress-container">
