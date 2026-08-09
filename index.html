@@ -1253,6 +1253,8 @@
         const downloadBtn = document.getElementById('download-btn');
         const dlText = document.getElementById('dl-text');
 
+        window.currentRawNoteText = null;
+
         function showContentLayout(downloadUrl, fileType) {
             homePageDiv.style.display = 'none';
             contentWrapper.style.display = 'block';
@@ -1354,6 +1356,7 @@
                 fetch(encodedUrl)
                     .then(response => { if (!response.ok) throw new Error('File not found'); return response.text(); })
                     .then(text => {
+                        window.currentRawNoteText = text;
                         markdownContent.innerHTML = marked.parse(text);
                         renderMarkdownExtras();
                         loadingDiv.style.display = 'none';
@@ -2523,6 +2526,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                 const blobUrl = URL.createObjectURL(blob);
                 mc.innerHTML = `<iframe src="${blobUrl}" style="width:100%; height:80vh; border:none; border-radius:8px; background:white;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
             } else {
+                window.currentRawNoteText = pageData.content;
                 mc.innerHTML = marked.parse(pageData.content);
                 mc.querySelectorAll('pre code').forEach((block) => {
                     if (window.hljs) hljs.highlightElement(block);
@@ -3034,7 +3038,8 @@ Example format:
 {"0": "Hello student! Let's understand Topic 0...", "1": "Moving on to Topic 1, this means..."}
 
 Lesson Notes:
-${fullTextForAi}`;
+${fullTextForAi}
+${window.currentRawNoteText ? `\n--- ORIGINAL RAW NOTE CONTENT ---\n(Use this original content to deeply understand any tables, lists, or structures that might be missing or messy in the extracted Topic blocks above. STILL map your explanations to the provided Topic IDs.)\n\n${window.currentRawNoteText}\n--- END ORIGINAL RAW NOTE CONTENT ---` : ''}`;
 
             if (inlineData) {
                 prompt = `You are an expert teacher. I have attached a media file (PDF, Image, or Video) for you. Please analyze the ENTIRE file deeply and explain it in a highly engaging, natural conversational style. 
