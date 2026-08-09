@@ -695,7 +695,7 @@
         /* Study Planner Styles */
         .planner-toggle {
             position: fixed;
-            right: 20px;
+            left: 20px;
             bottom: 20px;
             width: 50px;
             height: 50px;
@@ -718,20 +718,20 @@
 
         .planner-drawer {
             position: fixed;
-            right: -400px;
+            left: -400px;
             top: 0;
             width: 380px;
             height: 100vh;
             background: var(--bg-color);
-            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.1);
             z-index: 1001;
-            transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
         }
         .planner-drawer.open {
-            right: 0;
+            left: 0;
         }
 
         .planner-header {
@@ -1007,7 +1007,7 @@
         .planner-btn-save:hover { background: #059669; }
 
         @media (max-width: 768px) {
-            .planner-drawer { width: 100%; right: -100%; }
+            .planner-drawer { width: 100%; left: -100%; }
         }
     </style>
 
