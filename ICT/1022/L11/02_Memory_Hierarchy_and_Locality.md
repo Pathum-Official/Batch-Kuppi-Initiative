@@ -1,4 +1,4 @@
-#  пирамида Memory Hierarchy & Locality
+#  Memory Hierarchy & Locality
 
 ප්‍රොසෙසරයේ වේගය (Processor speed) අතිශයින් ඉහළ ය. නමුත් ප්‍රධාන මතකයේ (Main Memory / RAM) වේගය එතරම් වේගවත් නැත. මේ නිසා ප්‍රොසෙසරයට දත්ත ලැබෙන තුරු නිකරුනේ බලා සිටීමට (Wait) සිදුවේ. මෙය **ප්‍රොසෙසර-මතක වේග පරතරය (Processor-Memory Gap)** ලෙස හැඳින්වේ.
 
