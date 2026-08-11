@@ -39,7 +39,7 @@
 
 * **T1 (Fetch):** `PC_out, MAR_in, Read, Select4, ADD, Z_in`
   (PC එකේ ඇති ලිපිනය MAR ට යවා Read කරයි. ඒ සමඟම PC අගයට 4 ක් එකතු කර Z හි රඳවයි).
-* **T2 (Wait):** `Z_out, PC_in, Y_in, WMFC`
+* **T2 (Wait):** `Z_out, PC_in, Y_in, MDR_inE, WMFC`
   (Z හි ඇති අලුත් ලිපිනය (PC+4) නැවත PC එකට යාවත්කාලීන කරයි. ඒ සමඟම Y හි ද රඳවයි. මතකයෙන් උපදෙස එනතෙක් WMFC මඟින් බලා සිටී).
 * **T3 (Decode):** `MDR_out, IR_in`
   (ලැබුණු උපදෙස MDR සිට Instruction Register එකට (IR) යවයි).
