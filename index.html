@@ -640,7 +640,7 @@
             position: fixed;
             bottom: 90px;
             right: 420px; /* Left of chat widget */
-            width: 320px;
+            width: 290px; /* Smaller popup */
             background: #fff;
             border-radius: 16px;
             padding: 15px;
@@ -651,7 +651,7 @@
         }
         body.dark-mode .speech-widget { background: #161b22; border-color: #30363d; }
         
-        .speech-header { text-align: center; margin-bottom: 12px; position: relative; }
+        .speech-header { text-align: center; margin-bottom: 12px; position: relative; cursor: move; } /* Draggable cursor */
         .speech-close-btn { position: absolute; right: 0; top: 0; cursor: pointer; color: #6c757d; }
         .speech-header h1 { font-size: 1.3rem; margin: 0 0 4px 0; background: linear-gradient(135deg, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .speech-header p { font-size: 0.85rem; color: #6c757d; margin: 0; }
@@ -1787,11 +1787,6 @@
                     <input type="text" id="speechCustomPrompt" placeholder="e.g. Explain simply from scratch...">
                 </div>
             </div>
-
-            <div class="speech-setting-group full-width">
-                <label for="speechSpeed"><i class="fas fa-tachometer-alt"></i> Speed (<span id="speechSpeedValue">1.0</span>x)</label>
-                <input type="range" id="speechSpeed" min="0.5" max="2.0" step="0.1" value="1.0">
-            </div>
         </div>
 
         <div class="speech-controls">
@@ -2756,8 +2751,6 @@ IF you need to provide a very long explanation, a full code file (like a game or
         const speechPrevBtn = document.getElementById('speechPrevBtn');
         const speechNextBtn = document.getElementById('speechNextBtn');
         
-        const speechSpeedRange = document.getElementById('speechSpeed');
-        const speechSpeedValue = document.getElementById('speechSpeedValue');
         const speechHighlightColor = document.getElementById('speechHighlightColor');
         const speechStatusBar = document.getElementById('speechStatusBar');
         const speechAiSettingsDiv = document.getElementById('speechAiSettings');
@@ -2771,12 +2764,43 @@ IF you need to provide a very long explanation, a full code file (like a game or
         let sp_audio = null;
         let sp_state = 'stopped'; // 'playing', 'paused', 'stopped', 'generating'
         let sp_settings = { 
-            speed: 1.0, 
             color: '#ffeb3b',
             aiLanguage: 'Sinhala Only',
             aiDepth: 'Normal',
             customPrompt: ''
         };
+
+        // Dragging Logic
+        let isDraggingWidget = false, startX, startY, initialX, initialY;
+        const speechHeader = document.querySelector('.speech-header');
+        
+        speechHeader.addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('speech-close-btn')) return;
+            isDraggingWidget = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = speechWidget.getBoundingClientRect();
+            // Store original left/top coordinates
+            initialX = rect.left;
+            initialY = rect.top;
+            
+            // Remove right/bottom constraints to avoid jittering
+            speechWidget.style.right = 'auto';
+            speechWidget.style.bottom = 'auto';
+            speechWidget.style.left = initialX + 'px';
+            speechWidget.style.top = initialY + 'px';
+            speechWidget.style.margin = '0';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingWidget) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            speechWidget.style.left = (initialX + dx) + 'px';
+            speechWidget.style.top = (initialY + dy) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => { isDraggingWidget = false; });
 
         function toggleSpeechWidget() {
             speechWidget.style.display = speechWidget.style.display === 'flex' ? 'none' : 'flex';
@@ -2802,7 +2826,6 @@ IF you need to provide a very long explanation, a full code file (like a game or
             const saved = localStorage.getItem('kuppi_auto_speech');
             if (saved) {
                 const result = JSON.parse(saved);
-                if (result.speed) { sp_settings.speed = result.speed; speechSpeedRange.value = result.speed; speechSpeedValue.textContent = result.speed; }
                 if (result.color) { sp_settings.color = result.color; speechHighlightColor.value = result.color; }
                 if (result.aiLanguage) { sp_settings.aiLanguage = result.aiLanguage; speechAiLanguageSelect.value = result.aiLanguage; }
                 if (result.aiDepth) { sp_settings.aiDepth = result.aiDepth; speechAiDepthSelect.value = result.aiDepth; }
@@ -2817,7 +2840,6 @@ IF you need to provide a very long explanation, a full code file (like a game or
         }
 
         // Event Listeners for Settings
-        speechSpeedRange.addEventListener('input', () => { const val = parseFloat(speechSpeedRange.value).toFixed(1); speechSpeedValue.textContent = val; sp_settings.speed = val; saveSpeechSettings(); });
         speechHighlightColor.addEventListener('input', () => { sp_settings.color = speechHighlightColor.value; saveSpeechSettings(); });
         speechAiLanguageSelect.addEventListener('change', () => { sp_settings.aiLanguage = speechAiLanguageSelect.value; saveSpeechSettings(); });
         speechAiDepthSelect.addEventListener('change', () => { sp_settings.aiDepth = speechAiDepthSelect.value; saveSpeechSettings(); });
