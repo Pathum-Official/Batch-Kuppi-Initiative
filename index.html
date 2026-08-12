@@ -1111,8 +1111,9 @@
 
                 <!-- Toolbar for Viewer -->
                 <div class="content-toolbar">
+                    <a href="#" id="fullscreen-btn" class="toolbar-btn" style="background-color: #007bff; flex: 1; justify-content: center; max-width: 200px;" target="_blank"><i class="fas fa-expand"></i> Full Screen</a>
                     <a href="#" id="download-btn" class="toolbar-btn download-btn" download><i class="fas fa-download"></i> <span id="dl-text">Download</span></a>
-                                        <button id="read-aloud-btn" class="toolbar-btn" style="background-color: #6f42c1; border: none; cursor: pointer; color: white;" onclick="toggleSpeechWidget()"><i class="fas fa-volume-up"></i> Read Aloud</button>
+                    <button id="read-aloud-btn" class="toolbar-btn" style="background-color: #6f42c1; border: none; cursor: pointer; color: white;" onclick="toggleSpeechWidget()"><i class="fas fa-volume-up"></i> Read Aloud</button>
                     <button id="attach-viewer-btn" class="toolbar-btn" style="background-color: #17a2b8; border: none; cursor: pointer; color: white; display: none;" onclick="attachCurrentViewerToChat()"><i class="fas fa-paperclip"></i> Attach to Chat</button>
                 </div>
 
@@ -1260,19 +1261,19 @@
             contentWrapper.style.display = 'block';
             const attachBtn = document.getElementById('attach-viewer-btn');
             if (attachBtn) attachBtn.style.display = 'flex';
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
             if (downloadUrl) {
                 downloadBtn.href = downloadUrl;
                 downloadBtn.style.display = 'flex';
-                if (fileType === "Web Page") {
-                    dlText.innerHTML = 'Full Screen <i class="fas fa-external-link-alt"></i>';
-                    downloadBtn.removeAttribute('download');
-                    downloadBtn.target = "_blank";
-                } else {
-                    dlText.innerText = `Download ${fileType}`;
-                    downloadBtn.setAttribute('download', '');
-                    downloadBtn.removeAttribute('target');
+                dlText.innerText = `Download ${fileType}`;
+                if (fullscreenBtn) {
+                    fullscreenBtn.href = downloadUrl;
+                    fullscreenBtn.style.display = 'flex';
                 }
-            } else { downloadBtn.style.display = 'none'; }
+            } else { 
+                downloadBtn.style.display = 'none';
+                if (fullscreenBtn) fullscreenBtn.style.display = 'none';
+            }
         }
 
         function renderMarkdownExtras() {
