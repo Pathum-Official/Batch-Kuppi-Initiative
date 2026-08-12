@@ -1255,6 +1255,25 @@
             langPrefix: 'hljs language-'
         });
 
+        // Helper to protect Math blocks from being messed up by marked.js
+        function parseMarkdownWithMath(text) {
+            let mathBlocks = [];
+            let processedText = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match) {
+                mathBlocks.push(match);
+                return `@@MATHBLOCK_${mathBlocks.length - 1}@@`;
+            });
+            processedText = processedText.replace(/\$([^$\n]+?)\$/g, function(match) {
+                mathBlocks.push(match);
+                return `@@MATHBLOCK_${mathBlocks.length - 1}@@`;
+            });
+            
+            let html = marked.parse(processedText);
+            html = html.replace(/@@MATHBLOCK_(\d+)@@/g, function(match, index) {
+                return mathBlocks[index];
+            });
+            return html;
+        }
+
         // Initialize Mermaid
         mermaid.initialize({ startOnLoad: false, theme: 'default' });
 
@@ -1343,6 +1362,22 @@
             document.querySelectorAll('.markdown-body iframe').forEach(ifr => {
                 ifr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
             });
+            // Intercept internal links to load inside viewer
+            document.querySelectorAll('.markdown-body a').forEach(a => {
+                const rawHref = a.getAttribute('href');
+                if (rawHref && !rawHref.startsWith('http') && !rawHref.startsWith('#') && !rawHref.startsWith('?')) {
+                    const href = decodeURIComponent(rawHref);
+                    if (href.endsWith('.md') || href.endsWith('.txt')) {
+                        a.href = `?note=${encodeURIComponent(href)}`;
+                    } else if (href.endsWith('.pdf')) {
+                        a.href = `?pdf=${encodeURIComponent(href)}`;
+                    } else if (href.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                        a.href = `?img=${encodeURIComponent(href)}`;
+                    } else if (href.endsWith('.html')) {
+                        a.href = `?html=${encodeURIComponent(href)}`;
+                    }
+                }
+            });
         }
 
         function handleRouting() {
@@ -1386,7 +1421,7 @@
                     .then(response => { if (!response.ok) throw new Error('File not found'); return response.text(); })
                     .then(text => {
                         window.currentRawNoteText = text;
-                        markdownContent.innerHTML = marked.parse(text);
+                        markdownContent.innerHTML = parseMarkdownWithMath(text);
                         renderMarkdownExtras();
                         loadingDiv.style.display = 'none';
                         markdownContent.style.display = 'block';
@@ -2551,7 +2586,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                 mc.innerHTML = `<iframe src="${blobUrl}" style="width:100%; height:80vh; border:none; border-radius:8px; background:white;" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
             } else {
                 window.currentRawNoteText = pageData.content;
-                mc.innerHTML = marked.parse(pageData.content);
+                mc.innerHTML = parseMarkdownWithMath(pageData.content);
                 mc.querySelectorAll('pre code').forEach((block) => {
                     if (window.hljs) hljs.highlightElement(block);
                 });
@@ -2698,7 +2733,7 @@ IF you need to provide a very long explanation, a full code file (like a game or
                     pagesFound++;
                 }
 
-                botMsgDiv.innerHTML = marked.parse(botText);
+                botMsgDiv.innerHTML = parseMarkdownWithMath(botText);
                 
                 botMsgDiv.querySelectorAll('pre code').forEach((block) => {
                     if (window.hljs) hljs.highlightElement(block);
