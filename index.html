@@ -373,16 +373,23 @@
         .chat-attach-btn:hover { color: #007bff; }
         #chatFileInput { display: none; }
 
-        .chat-input-container input[type="text"] {
+        .chat-input-container textarea {
             flex: 1;
             padding: 10px 15px;
             border: 1px solid #ced4da;
-            border-radius: 20px;
+            border-radius: 12px;
             outline: none;
             font-size: 14px;
             transition: border-color 0.2s;
+            resize: none;
+            font-family: inherit;
+            min-height: 42px;
+            max-height: 150px;
+            overflow-y: auto;
+            box-sizing: border-box;
+            line-height: 1.5;
         }
-        .chat-input-container input[type="text"]:focus { border-color: #007bff; }
+        .chat-input-container textarea:focus { border-color: #007bff; }
 
         .chat-send-btn {
             background-color: #007bff;
@@ -428,7 +435,7 @@
         body.dark-mode .bot-msg { background-color: #21262d; color: #c9d1d9; border-color: #30363d; }
         body.dark-mode .bot-msg pre { background: #0d1117; }
         body.dark-mode .chat-input-container { background-color: #161b22; border-color: #30363d; }
-        body.dark-mode .chat-input-container input[type="text"] { background-color: #0d1117; border-color: #30363d; color: #c9d1d9; }
+        body.dark-mode .chat-input-container textarea { background-color: #0d1117; border-color: #30363d; color: #c9d1d9; }
         body.dark-mode .chat-attachments-list { background: #21262d; border-color: #30363d; }
         body.dark-mode .attachment-chip { background: #0d1117; border-color: #30363d; color: #c9d1d9; }
         /* Fullscreen Viewer Mode */
@@ -684,13 +691,22 @@
         .speech-setting-group label { font-size: 0.8rem; color: #6c757d; display: flex; align-items: center; gap: 6px; }
         body.dark-mode .speech-setting-group label { color: #8b949e; }
         
-        .speech-widget select, .speech-widget input[type="range"], .speech-widget input[type="color"], .speech-widget input[type="text"] {
+        .speech-widget select, .speech-widget input[type="range"], .speech-widget input[type="color"], .speech-widget input[type="text"], .speech-widget textarea {
             width: 100%; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 8px; color: #333; padding: 6px; font-size: 0.85rem; outline: none; transition: border-color 0.3s;
         }
-        body.dark-mode .speech-widget select, body.dark-mode .speech-widget input[type="range"], body.dark-mode .speech-widget input[type="color"], body.dark-mode .speech-widget input[type="text"] {
+        body.dark-mode .speech-widget select, body.dark-mode .speech-widget input[type="range"], body.dark-mode .speech-widget input[type="color"], body.dark-mode .speech-widget input[type="text"], body.dark-mode .speech-widget textarea {
             background: #0d1117; border-color: #30363d; color: #c9d1d9;
         }
         .speech-widget select:focus { border-color: #4facfe; }
+        .speech-widget textarea {
+            resize: none;
+            overflow-y: auto;
+            min-height: 32px;
+            max-height: 150px;
+            box-sizing: border-box;
+            font-family: inherit;
+            line-height: 1.5;
+        }
         
         .speech-widget input[type="color"] { padding: 2px; height: 30px; cursor: pointer; }
         .speech-widget input[type="range"] { -webkit-appearance: none; height: 6px; padding: 0; border-radius: 3px; background: #e2e8f0; }
@@ -1806,7 +1822,7 @@
             <button class="chat-attach-btn" onclick="openRepoModal()" title="Attach from Website">
                 <i class="fas fa-folder-open"></i>
             </button>
-            <input type="text" id="userInput" placeholder="ඔබේ ප්‍රශ්නය අසන්න..." onkeypress="handleKeyPress(event)">
+            <textarea id="userInput" placeholder="ඔබේ ප්‍රශ්නය අසන්න... (Shift+Enter for new line)" rows="1" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'" onkeydown="handleKeyPress(event)"></textarea>
             <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
@@ -1848,7 +1864,7 @@
                 </div>
                 <div class="speech-setting-group full-width" style="margin-top: 8px;">
                     <label for="speechCustomPrompt"><i class="fas fa-magic"></i> Custom Instructions (Optional)</label>
-                    <input type="text" id="speechCustomPrompt" placeholder="e.g. Explain simply from scratch...">
+                    <textarea id="speechCustomPrompt" placeholder="e.g. Explain simply from scratch..." rows="1" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'"></textarea>
                 </div>
             </div>
         </div>
@@ -2234,7 +2250,10 @@
         }
 
         function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
         }
 
         function handleFileSelect(e) {
@@ -2734,6 +2753,12 @@ IF you need to provide a very long explanation, a full code file (like a game or
                 }
 
                 botMsgDiv.innerHTML = parseMarkdownWithMath(botText);
+                if (window.renderMathInElement) {
+                    renderMathInElement(botMsgDiv, {
+                        delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ],
+                        throwOnError: false
+                    });
+                }
                 
                 botMsgDiv.querySelectorAll('pre code').forEach((block) => {
                     if (window.hljs) hljs.highlightElement(block);
