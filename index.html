@@ -2503,7 +2503,13 @@ IF you need to provide a very long explanation, a full code file (like a game or
 <temp_page type="html" title="Your Title Here">
 ... content here ...
 </temp_page>
-(You can use type="html" or type="markdown"). You can embed YouTube videos, web pages, or external resources using <iframe> inside your HTML temp_pages. Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user. Note that HTML temp_pages now fully support JavaScript and CSS!`;
+(You can use type="html" or type="markdown"). You can embed YouTube videos, web pages, or external resources using <iframe> inside your HTML temp_pages. Keep the rest of your chat response brief. The system will convert this tag into a clickable link for the user. Note that HTML temp_pages now fully support JavaScript and CSS!
+CRITICAL: If you generate an HTML temp_page containing ANY math equations, you MUST include these KaTeX CDN links in the <head>:
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"><\/script>
+And you MUST include this script at the end of the <body> to render the math:
+<script>renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });<\/script>`;
 
             let userParts = [{ text: promptText }];
             
