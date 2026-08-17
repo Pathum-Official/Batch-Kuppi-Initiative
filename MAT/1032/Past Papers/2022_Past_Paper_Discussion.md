@@ -10,7 +10,7 @@
 
 ### Q1 (a) Order and Degree
 > **Question:** Find the order and the degree of the following differential equations.
-> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/01_Introduction_Order_Degree_Linearity.md)
+> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](MAT/1032/Short%20Notes/01_Introduction_Order_Degree_Linearity.md)
 
 **🔍 සුපිරි විවරණය:**
 Degree එක හොයන්න කලින් අනිවාර්යයෙන්ම භාග බලයන් (fractional powers) සහ $\cos, \sin$ වගේ ශ්‍රිත ඇතුලේ අවකලනයන් හිරවෙලා තියෙනවා නම් ඒවා ගැන විශේෂයෙන් සැලකිලිමත් වෙන්න ඕනේ!
@@ -90,7 +90,7 @@ $\alpha > 0$ සහ $\alpha < 0$ අවස්ථා දෙකම සලකා �
 
 ### Q2 (a) Orthogonal Trajectories
 > **Question:** Find orthogonal trajectories of $\frac{x^2}{16} + \frac{y^2}{\alpha+4} = 1$, where $\alpha$ is a parameter.
-> **📖 Theory Link:** [05. Orthogonal Trajectories](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/05_Orthogonal_Trajectories.md)
+> **📖 Theory Link:** [05. Orthogonal Trajectories](MAT/1032/Short%20Notes/05_Orthogonal_Trajectories.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: අවකලනය කර පරාමිතිය ඉවත් කිරීම ($\alpha$)**
@@ -111,7 +111,7 @@ $\frac{y^2}{2} = 8\ln|x| - \frac{x^2}{4} + C$ (මෙයයි ලම්භක �
 
 ### Q2 (b) Undetermined Coefficients
 > **Question:** Solve $\frac{d^2y}{dx^2} + 4\frac{dy}{dx} + 3y = \sin x + xe^x$
-> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/07_Higher_Order_Non_Homogeneous_DEs.md)
+> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](MAT/1032/Short%20Notes/07_Higher_Order_Non_Homogeneous_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: Complementary Solution ($y_c$)**
