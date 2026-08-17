@@ -10,7 +10,7 @@
 
 ### Q1 (a) Critical Points & Stability
 > **Question:** Consider the differential equation $\frac{dy}{dt} = y^2(a-y^2)$. Find the critical points and discuss stability.
-> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/01_Introduction_Order_Degree_Linearity.md)
+> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](MAT/1032/Short%20Notes/01_Introduction_Order_Degree_Linearity.md)
 
 **🔍 සුපිරි විවරණය:**
 මෙහි $y^2$ පදයක් ඇති බැවින් සමහර අවධි ලක්ෂ්‍ය වලදී (උදා: $y=0$) උඩින් සහ යටින් යන ඊතල දෙකම එකම පැත්තට යන්න පුළුවන් (එනම් Semi-stable වෙන්න පුළුවන්). ඒ වගේම $a$ හි ලකුණ (ධන, ඍණ හෝ බිංදුව) අනුව අවස්ථා 3 ක් වෙන වෙනම සාකච්ඡා කළ යුතුය.
@@ -51,7 +51,7 @@ $y=0$ හෝ $y^2 = a$.
 
 ### Q2 (a) Series Solution & Singular Points
 > **Question:** Determine the nature of the singular point $x=0$ and solve using Frobenius method: $\frac{d^2y}{dx^2} + \frac{3}{2x}\frac{dy}{dx} - \frac{1}{2x}y = 0$.
-> **📖 Theory Link:** [09. Series Solutions & Frobenius Method](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/09_Series_Solutions_and_Frobenius_Method.md)
+> **📖 Theory Link:** [09. Series Solutions & Frobenius Method](MAT/1032/Short%20Notes/09_Series_Solutions_and_Frobenius_Method.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: Check $x=0$**
@@ -85,7 +85,7 @@ $a_r(r+c)(2r+2c+1) - a_{r-1} = 0 \implies \mathbf{a_r = \frac{a_{r-1}}{(r+c)(2r+
 
 ### Q3 (c) Non-Homogeneous PDE
 > **Question:** Solve $(D^2 - 3DD' + 2D'^2)z = 2e^{x+y} + \sin(x-5y)$.
-> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/10_Introduction_to_Partial_Differential_Equations.md)
+> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](MAT/1032/Short%20Notes/10_Introduction_to_Partial_Differential_Equations.md)
 
 **🔍 සුපිරි විවරණය:**
 මෙහි දකුණු පස ඝාතීය ($e$) පදයක් සහ ත්‍රිකෝණමිතික ($\sin$) පදයක් ඇත. මේ දෙකටම වෙන වෙනම Particular Integrals (PI) සෙවිය යුතුය.
