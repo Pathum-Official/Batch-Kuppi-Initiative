@@ -12,15 +12,15 @@
 ### 📘 Part A: First-Order Differential Equations
 *(පළමු පෙළ අවකල සමීකරණ - මෙහිදී $\frac{dy}{dx}$ පමණක් අන්තර්ගත වේ).*
 
-*   **[01. Introduction: Order, Degree, Linearity](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/01_Introduction_Order_Degree_Linearity.md)**
+*   **[01. Introduction: Order, Degree, Linearity](MAT/1032/Short%20Notes/01_Introduction_Order_Degree_Linearity.md)**
     *සමීකරණයක් හඳුනාගන්නා අයුරු (විභාගයේ මුල්ම ප්‍රශ්නය).*
-*   **[02. Separable & Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/02_Separable_and_Homogeneous_DEs.md)**
+*   **[02. Separable & Homogeneous DEs](MAT/1032/Short%20Notes/02_Separable_and_Homogeneous_DEs.md)**
     *පහසුවෙන්ම වෙන් කරලා අනුකලනය (Integrate) කළ හැකි සමීකරණ.*
-*   **[03. Exact DEs & Integrating Factors](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/03_Exact_DEs_and_Integrating_Factors.md)**
+*   **[03. Exact DEs & Integrating Factors](MAT/1032/Short%20Notes/03_Exact_DEs_and_Integrating_Factors.md)**
     *යථාර්ථ සමීකරණ සහ ඒවා යථාර්ථ නොවන විට අනුකලන සාධකයක් (I.F.) සොයන ආකාරය.*
-*   **[04. First Order Linear & Bernoulli DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/04_First_Order_Linear_and_Bernoulli_DEs.md)**
+*   **[04. First Order Linear & Bernoulli DEs](MAT/1032/Short%20Notes/04_First_Order_Linear_and_Bernoulli_DEs.md)**
     *Linear සමීකරණ විසඳන ක්‍රමය සහ එයට බෙහෙවින් සමාන Bernoulli සමීකරණය.*
-*   **[05. Orthogonal Trajectories](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/05_Orthogonal_Trajectories.md)**
+*   **[05. Orthogonal Trajectories](MAT/1032/Short%20Notes/05_Orthogonal_Trajectories.md)**
     *ලම්භක පථ සෙවීම (වක්‍ර පවුලකට අංශක 90 න් ඡේදනය වන අනෙක් වක්‍ර පවුල සෙවීම).*
 
 ---
@@ -28,11 +28,11 @@
 ### 📙 Part B: Higher-Order DEs & Systems
 *(උසස් පෙළ සමීකරණ සහ සමගාමී සමීකරණ පද්ධති විසඳීම).*
 
-*   **[06. Higher Order Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/06_Higher_Order_Homogeneous_DEs.md)**
+*   **[06. Higher Order Homogeneous DEs](MAT/1032/Short%20Notes/06_Higher_Order_Homogeneous_DEs.md)**
     *නියත සංගුණක සහිත සමීකරණ, Wronskian සහ Linear Independence.*
-*   **[07. Higher Order Non-Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/07_Higher_Order_Non_Homogeneous_DEs.md)**
+*   **[07. Higher Order Non-Homogeneous DEs](MAT/1032/Short%20Notes/07_Higher_Order_Non_Homogeneous_DEs.md)**
     *Particular Solution සෙවීම (Undetermined Coefficients & Variation of Parameters).*
-*   **[08. Systems of Simultaneous Linear DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/08_Systems_of_Simultaneous_Linear_DEs.md)**
+*   **[08. Systems of Simultaneous Linear DEs](MAT/1032/Short%20Notes/08_Systems_of_Simultaneous_Linear_DEs.md)**
     *විචල්‍යයන් කිහිපයක් ඇතිවිට D-operator භාවිතයෙන් ඒවා ඉවත් කර විසඳන අයුරු.*
 
 ---
@@ -40,9 +40,9 @@
 ### 📗 Part C: Advanced Methods & PDEs
 *(සාමාන්‍ය ක්‍රම වලින් විසඳිය නොහැකි සමීකරණ සහ ආංශික අවකල සමීකරණ).*
 
-*   **[09. Infinite Series Solutions & Frobenius Method](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/09_Series_Solutions_and_Frobenius_Method.md)**
+*   **[09. Infinite Series Solutions & Frobenius Method](MAT/1032/Short%20Notes/09_Series_Solutions_and_Frobenius_Method.md)**
     *Power series භාවිතයෙන් සමීකරණ විසඳීම (Indicial Equation).*
-*   **[10. Introduction to Partial Differential Equations](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/10_Introduction_to_Partial_Differential_Equations.md)**
+*   **[10. Introduction to Partial Differential Equations](MAT/1032/Short%20Notes/10_Introduction_to_Partial_Differential_Equations.md)**
     *PDEs වර්ග කිරීම (Hyperbolic, Parabolic, Elliptic) සහ මූලික හැඳින්වීම.*
 
 ---
