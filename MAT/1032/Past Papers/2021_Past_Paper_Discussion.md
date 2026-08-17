@@ -84,7 +84,7 @@ $\frac{\partial f}{\partial y} = e^x + g'(y) = 2y + e^x \implies g'(y) = 2y \imp
 ### Q1 (e) Integrating Factors (I.F.)
 > **Question:** Find integrating factors.
 > (i) $x \log x \frac{dy}{dx} + y = 25 \log x$  &  (ii) $x \frac{dy}{dx} + y = y^2 x^2 \ln x$.
-> **📖 Theory Link:** [04. First Order Linear & Bernoulli DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/04_First_Order_Linear_and_Bernoulli_DEs.md)
+> **📖 Theory Link:** [04. First Order Linear & Bernoulli DEs](MAT/1032/Short%20Notes/04_First_Order_Linear_and_Bernoulli_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **(i) Linear Equation:**
@@ -143,7 +143,7 @@ $\int dx = \int y^2 dy \implies \mathbf{x = \frac{y^3}{3} + C}$.
 
 ### Q2 (b)(i) Undetermined Coefficients
 > **Question:** Solve $(D^3 + 25D)y = \sin 5x + e^{5x}$
-> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/07_Higher_Order_Non_Homogeneous_DEs.md)
+> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](MAT/1032/Short%20Notes/07_Higher_Order_Non_Homogeneous_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: Complementary Solution ($y_c$)**
@@ -243,7 +243,7 @@ $z_{xx}$ සහ $z_y$ දෙකම $-b^2 z$ ට සමාන බැවින්:
 
 ### Q3 (c) Solving Homogeneous PDE
 > **Question:** Solve $(D^2 - 2DD' + D'^2)Z = 2x^3$.
-> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/10_Introduction_to_Partial_Differential_Equations.md)
+> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](MAT/1032/Short%20Notes/10_Introduction_to_Partial_Differential_Equations.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: Complementary Function (CF)**
