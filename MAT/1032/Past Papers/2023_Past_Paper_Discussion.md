@@ -43,7 +43,7 @@ $\implies \mathbf{y = 1}$ යනු එකම Critical Point එකයි.
 
 ### Q1 (b) Separable Equations & Valid Range
 > **Question:** Solve $\frac{dy}{dx} + (\sin x)y^2 = 0, y(\frac{\pi}{2}) = y_0$. Determine the range where the solutions are valid. Here $y_0$ is an arbitrary constant.
-> **📖 Theory Link:** [02. Separable & Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/02_Separable_and_Homogeneous_DEs.md)
+> **📖 Theory Link:** [02. Separable & Homogeneous DEs](MAT/1032/Short%20Notes/02_Separable_and_Homogeneous_DEs.md)
 
 **🔍 සුපිරි විවරණය:**
 මේක බලපු ගමන් පේනවා Separable කියලා (මොකද $x$ සහ $y$ පද ලේසියෙන්ම වෙන් කරන්න පුළුවන්). අමාරුම කෑල්ල තමයි "Valid Range" (වලංගු පරාසය) හොයන එක. ඒ කියන්නේ අපිට ලැබෙන පිළිතුරේ $y$ අගය අනන්තයට (infinity) නොගිහින් තියෙන්න නම් $x$ තිබිය යුතු පරාසයයි. (හරය 0 වීම වැළැක්වීම).
@@ -78,7 +78,7 @@ $\mathbf{y(x) = \frac{y_0}{1 - y_0 \cos x}}$  (මෙයයි අවසාන �
 
 ### Q1 (c)(i) Order and Degree
 > **Question:** Find the order and degree of $y = 2\left(\frac{dy}{dx}\right)^2 + 4x\left(\frac{dx}{dy}\right)$.
-> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/01_Introduction_Order_Degree_Linearity.md)
+> **📖 Theory Link:** [01. Introduction: Order, Degree & Linearity](MAT/1032/Short%20Notes/01_Introduction_Order_Degree_Linearity.md)
 
 **🔍 සුපිරි විවරණය:**
 කෙලින්ම බැලුවොත් මේකේ ඉහළම අවකලනය $\frac{dy}{dx}$ වගේ පේනවා. ඒත් $\frac{dx}{dy}$ කියලා එකකුත් තියෙනවා (ඒ කියන්නේ $\frac{1}{dy/dx}$). Order/Degree හොයන්න කලින් සමීකරණයේ තියෙන භාග අයින් කරන්න ඕනේ!
@@ -97,7 +97,7 @@ $y \left(\frac{dy}{dx}\right) = 2\left(\frac{dy}{dx}\right)^3 + 4x$
 
 ### Q1 (c)(ii) Homogeneous Equations
 > **Question:** Show that $x^2 \frac{dy}{dx} = x^2 + 3xy + y^2$ is homogeneous and solve it.
-> **📖 Theory Link:** [02. Separable & Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/02_Separable_and_Homogeneous_DEs.md)
+> **📖 Theory Link:** [02. Separable & Homogeneous DEs](MAT/1032/Short%20Notes/02_Separable_and_Homogeneous_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: Standard form & Show Homogeneity**
@@ -125,7 +125,7 @@ $-\frac{1}{\frac{y}{x}+1} = \ln|x| + C \implies \mathbf{-\frac{x}{y+x} = \ln|x| 
 
 ### Q1 (d)(i) Exact vs Separable Trap
 > **Question:** Solve $(1 + y + yx^2)dx + x(1+x^2)dy = 0$
-> **📖 Theory Link:** [02. Separable & Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/02_Separable_and_Homogeneous_DEs.md)
+> **📖 Theory Link:** [02. Separable & Homogeneous DEs](MAT/1032/Short%20Notes/02_Separable_and_Homogeneous_DEs.md)
 
 **🔍 සුපිරි විවරණය:**
 මේක දැක්කම හැඩය Exact වගේ ($Mdx + Ndy=0$). ඒත් පොඩ්ඩක් සුළු කරලා බැලුවොත් මේක සරලවම Separable Equation එකක්! Exact ක්‍රමයට ගියොත් වැඩේ ගොඩක් දිග වෙනවා.
@@ -159,7 +159,7 @@ $x + g'(y) = x \implies g'(y) = 0 \implies g(y) = C$.
 
 ### Q1 (d)(ii) Bernoulli DE
 > **Question:** Solve $\frac{dy}{dx} + \frac{2}{x}y = 2x^2 y^2 \sin x$
-> **📖 Theory Link:** [04. First Order Linear & Bernoulli DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/04_First_Order_Linear_and_Bernoulli_DEs.md)
+> **📖 Theory Link:** [04. First Order Linear & Bernoulli DEs](MAT/1032/Short%20Notes/04_First_Order_Linear_and_Bernoulli_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: බෙදීම (Divide by $y^2$)**
@@ -183,7 +183,7 @@ $v = 2x^2 \cos x + Cx^2$
 
 ### Q1 (e) Wronskian and Linear Independence
 > **Question:** Using the Wronskian, find linearly independent solutions of the following equation: $\frac{d^2y}{dx^2} - 2\frac{dy}{dx} + y = 0$.
-> **📖 Theory Link:** [06. Higher Order Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/06_Higher_Order_Homogeneous_DEs.md)
+> **📖 Theory Link:** [06. Higher Order Homogeneous DEs](MAT/1032/Short%20Notes/06_Higher_Order_Homogeneous_DEs.md)
 
 **🔍 සුපිරි විවරණය:**
 පළමුව සමීකරණය විසඳා $y_1$ සහ $y_2$ සොයාගත යුතුය. ඉන්පසු ඒවායේ Wronskian අගය 0 නොවන බව (එනම් $\neq 0$) පෙන්වීමෙන් ඒවා ස්වායත්ත (independent) බව තහවුරු කළ හැක.
@@ -209,7 +209,7 @@ $W(x) = e^{2x}$. කුමන $x$ අගයක් සඳහා වුවද $e^{
 
 ### Q2 (a) Orthogonal Trajectories
 > **Question:** Find the set of orthogonal trajectories of the family of curves $\tan 2y = cx$, where $c$ is a given parameter.
-> **📖 Theory Link:** [05. Orthogonal Trajectories](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/05_Orthogonal_Trajectories.md)
+> **📖 Theory Link:** [05. Orthogonal Trajectories](MAT/1032/Short%20Notes/05_Orthogonal_Trajectories.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: අවකලනය කරන්න (Implicit differentiation)**
@@ -238,7 +238,7 @@ $2x^2 - \frac{\cos 4y}{4} = k$ (මෙයයි ලම්භක පථ පවු
 
 ### Q2 (b) Non-Homogeneous DE (Undetermined Coefficients)
 > **Question:** Solve $(D^2 - 1)y = e^{(x+1)} + 3^x + \cos x$.
-> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/07_Higher_Order_Non_Homogeneous_DEs.md)
+> **📖 Theory Link:** [07. Higher Order Non-Homogeneous DEs](MAT/1032/Short%20Notes/07_Higher_Order_Non_Homogeneous_DEs.md)
 
 **🔍 සුපිරි විවරණය:**
 මෙහි දකුණු පස වෙනස් ජාති තුනක් තියෙනවා: ඝාතීය ($e$), වෙනත් පාදයක් සහිත ඝාතීය ($3^x = e^{x\ln 3}$), සහ ත්‍රිකෝණමිතික ($\cos$). ඒ නිසා $y_p$ අනුමාන කරද්දී කොටස් තුනක් වෙන වෙනම අනුමාන කරන්න ඕනේ.
@@ -261,7 +261,7 @@ $y_p = Ax e^x + B \cdot 3^x + C \cos x + E \sin x$.
 
 ### Q2 (c) Systems of Simultaneous Linear DEs
 > **Question:** Solve $Dx - y = t^2$ and $9x + Dy = 7t$.
-> **📖 Theory Link:** [08. Systems of Simultaneous Linear DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/08_Systems_of_Simultaneous_Linear_DEs.md)
+> **📖 Theory Link:** [08. Systems of Simultaneous Linear DEs](MAT/1032/Short%20Notes/08_Systems_of_Simultaneous_Linear_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 **Step 1: $y$ කපා හැරීම (Elimination)**
@@ -289,7 +289,7 @@ $Dx = \frac{dx}{dt} = -3c_1 \sin 3t + 3c_2 \cos 3t + 1$.
 
 ### Q3 (a) Frobenius Method (Series Solutions)
 > **Question:** Find the linearly independent series solutions $y_1(x)$ and $y_2(x)$ of the differential equation $\frac{d^2y}{dx^2} + \frac{2}{3x}\frac{dy}{dx} + \frac{x}{3}y = 0$ near $x=0$ and form the general solution.
-> **📖 Theory Link:** [09. Series Solutions & Frobenius Method](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/09_Series_Solutions_and_Frobenius_Method.md)
+> **📖 Theory Link:** [09. Series Solutions & Frobenius Method](MAT/1032/Short%20Notes/09_Series_Solutions_and_Frobenius_Method.md)
 
 **🔍 සුපිරි විවරණය:**
 මෙහි හරයේ $x$ ඇති බැවින් $x=0$ යනු Singular Point එකකි. එමනිසා අනිවාර්යයෙන්ම Frobenius Method ($y = \sum c_n x^{n+r}$) භාවිතා කළ යුතුය.
@@ -333,7 +333,7 @@ $c_n (n+r)(3n+3r-1) + c_{n-3} = 0$
 
 ### Q3 (b) Forming a PDE
 > **Question:** Obtain a partial differential equation by eliminating $m$ and $n$ from $z = m e^{-n^2 y} \sin(nx)$.
-> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/10_Introduction_to_Partial_Differential_Equations.md)
+> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](MAT/1032/Short%20Notes/10_Introduction_to_Partial_Differential_Equations.md)
 
 **✍️ Step-by-Step Solution:**
 සමීකරණය $z(x,y)$ බැවින් $x$ සහ $y$ වලින් ආංශිකව අවකලනය කරමු.
@@ -350,7 +350,7 @@ $z_y = m \left( -n^2 e^{-n^2 y} \right) \sin(nx) = -n^2 \left[ m e^{-n^2 y} \sin
 
 ### Q3 (c) Solving a PDE using D-operators
 > **Question:** Given that $D = \frac{\partial}{\partial x}$ and $D' = \frac{\partial}{\partial y}$, solve $D^2(D - 2D')Z = 6x^2y + \sin(x+2y)$.
-> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/10_Introduction_to_Partial_Differential_Equations.md)
+> **📖 Theory Link:** [10. Introduction to Partial Differential Equations](MAT/1032/Short%20Notes/10_Introduction_to_Partial_Differential_Equations.md)
 
 **🔍 සුපිරි විවරණය:**
 මෙය ඝන මාත්‍රයේ (3rd order) PDE එකකි. සාමාන්‍ය ODE වල වගේම මෙහිද Complementary Function ($CF$) සහ Particular Integral ($PI$) සෙවිය යුතුය.
