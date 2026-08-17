@@ -33,7 +33,7 @@ $\frac{dy}{dt} = 0 \implies (y-\alpha)(y-\beta) = 0$.
 
 ### Q1 (b) Solving First Order DEs
 > **Question (i):** Solve $y^2 + \left(\frac{dy}{dx}\right)^2 = 1$
-> **📖 Theory Link:** [02. Separable & Homogeneous DEs](file:///c:/Project/Learning_with_ai/MAT/MAT%201032%20Differential%20Equations/Notes_Organized/02_Separable_and_Homogeneous_DEs.md)
+> **📖 Theory Link:** [02. Separable & Homogeneous DEs](MAT/1032/Short%20Notes/02_Separable_and_Homogeneous_DEs.md)
 
 **✍️ Step-by-Step Solution:**
 $\left(\frac{dy}{dx}\right)^2 = 1 - y^2 \implies \frac{dy}{dx} = \pm\sqrt{1-y^2}$ (මෙය Separable වේ).
