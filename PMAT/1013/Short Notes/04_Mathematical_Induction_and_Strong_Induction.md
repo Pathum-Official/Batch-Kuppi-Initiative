@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [04_D07_Mathematical_Induction.pdf](../04_D07_Mathematical_Induction.pdf), [04_D08_Strong_Induction_and_Well_Ordering.pdf](../04_D08_Strong_Induction_and_Well_Ordering.pdf)
+> **Corresponding Lecture Slides:** [04_D07_Mathematical_Induction.pdf](PMAT/1013/Lecture%20Notes/04_D07_Mathematical_Induction.pdf), [04_D08_Strong_Induction_and_Well_Ordering.pdf](PMAT/1013/Lecture%20Notes/04_D08_Strong_Induction_and_Well_Ordering.pdf)
 > **Prerequisites:** Direct Proofs & Algebraic Inequalities (Module 03).
 
 ---
