@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf](../05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf), [05_D10_Set_Identities_and_Element_Proofs.pdf](../05_D10_Set_Identities_and_Element_Proofs.pdf)
+> **Corresponding Lecture Slides:** [05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf](PMAT/1013/Lecture%20Notes/05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf), [05_D10_Set_Identities_and_Element_Proofs.pdf](PMAT/1013/Lecture%20Notes/05_D10_Set_Identities_and_Element_Proofs.pdf)
 > **Prerequisites:** Propositional Logic, De Morgan's Laws & Quantifiers (Modules 01 & 02).
 
 ---
