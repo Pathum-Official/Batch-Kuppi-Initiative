@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [07_D13_Binary_Relations_and_Compositions.pdf](../07_D13_Binary_Relations_and_Compositions.pdf), [07_D14_Relation_Properties_and_Proofs.pdf](../07_D14_Relation_Properties_and_Proofs.pdf)
+> **Corresponding Lecture Slides:** [07_D13_Binary_Relations_and_Compositions.pdf](PMAT/1013/Lecture%20Notes/07_D13_Binary_Relations_and_Compositions.pdf), [07_D14_Relation_Properties_and_Proofs.pdf](PMAT/1013/Lecture%20Notes/07_D14_Relation_Properties_and_Proofs.pdf)
 > **Prerequisites:** Cartesian Products & Set Operations (Module 05).
 
 ---
