@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [09_D16_Partial_Orders_Posets_and_Hasse_Diagrams.pdf](../09_D16_Partial_Orders_Posets_and_Hasse_Diagrams.pdf), [09_D17_Lattices_and_Total_Orders.pdf](../09_D17_Lattices_and_Total_Orders.pdf)
+> **Corresponding Lecture Slides:** [09_D16_Partial_Orders_Posets_and_Hasse_Diagrams.pdf](PMAT/1013/Lecture%20Notes/09_D16_Partial_Orders_Posets_and_Hasse_Diagrams.pdf), [09_D17_Lattices_and_Total_Orders.pdf](PMAT/1013/Lecture%20Notes/09_D17_Lattices_and_Total_Orders.pdf)
 > **Prerequisites:** Relation Properties: Reflexivity, Antisymmetry, Transitivity (Module 07).
 
 ---
