@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [10_D18_Functions_Injectivity_and_Surjectivity.pdf](../10_D18_Functions_Injectivity_and_Surjectivity.pdf), [10_D19_Function_Composition_and_Inverses.pdf](../10_D19_Function_Composition_and_Inverses.pdf), [10_D20_Direct_and_Inverse_Images_under_Functions.pdf](../10_D20_Direct_and_Inverse_Images_under_Functions.pdf)
+> **Corresponding Lecture Slides:** [10_D18_Functions_Injectivity_and_Surjectivity.pdf](PMAT/1013/Lecture%20Notes/10_D18_Functions_Injectivity_and_Surjectivity.pdf), [10_D19_Function_Composition_and_Inverses.pdf](PMAT/1013/Lecture%20Notes/10_D19_Function_Composition_and_Inverses.pdf), [10_D20_Direct_and_Inverse_Images_under_Functions.pdf](PMAT/1013/Lecture%20Notes/10_D20_Direct_and_Inverse_Images_under_Functions.pdf)
 > **Prerequisites:** Binary Relations, Domain, Range & Set Operations (Modules 05 & 07).
 
 ---
