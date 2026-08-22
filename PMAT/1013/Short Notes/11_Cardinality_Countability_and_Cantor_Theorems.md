@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [11_D21_Cardinality_and_Countable_Sets.pdf](../11_D21_Cardinality_and_Countable_Sets.pdf), [11_D22_Uncountability_and_Cantor_Theorems.pdf](../11_D22_Uncountability_and_Cantor_Theorems.pdf), [11_D23_Proof_Techniques_Synthesis_and_Review.pdf](../11_D23_Proof_Techniques_Synthesis_and_Review.pdf), [11_D24_Course_Summary_and_Exam_Prep.pdf](../11_D24_Course_Summary_and_Exam_Prep.pdf)
+> **Corresponding Lecture Slides:** [11_D21_Cardinality_and_Countable_Sets.pdf](PMAT/1013/Lecture%20Notes/11_D21_Cardinality_and_Countable_Sets.pdf), [11_D22_Uncountability_and_Cantor_Theorems.pdf](PMAT/1013/Lecture%20Notes/11_D22_Uncountability_and_Cantor_Theorems.pdf), [11_D23_Proof_Techniques_Synthesis_and_Review.pdf](PMAT/1013/Lecture%20Notes/11_D23_Proof_Techniques_Synthesis_and_Review.pdf), [11_D24_Course_Summary_and_Exam_Prep.pdf](PMAT/1013/Lecture%20Notes/11_D24_Course_Summary_and_Exam_Prep.pdf)
 > **Prerequisites:** Bijections & Power Sets (Modules 05 & 10).
 
 ---
