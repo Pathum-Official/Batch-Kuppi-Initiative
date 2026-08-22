@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [01_D01_Logic_and_Statements.pdf](../01_D01_Logic_and_Statements.pdf), [01_D02_Proof_Techniques_Intro.pdf](../01_D02_Proof_Techniques_Intro.pdf), [03_D06_Number_Theory_Divisibility_Proofs.pdf](../03_D06_Number_Theory_Divisibility_Proofs.pdf)
+> **Corresponding Lecture Slides:** [01_D01_Logic_and_Statements.pdf](PMAT/1013/Lecture%20Notes/01_D01_Logic_and_Statements.pdf), [01_D02_Proof_Techniques_Intro.pdf](PMAT/1013/Lecture%20Notes/01_D02_Proof_Techniques_Intro.pdf), [03_D06_Number_Theory_Divisibility_Proofs.pdf](PMAT/1013/Lecture%20Notes/03_D06_Number_Theory_Divisibility_Proofs.pdf)
 > **Prerequisites:** Propositional Logic & Conditional Statements (Module 01).
 
 ---
