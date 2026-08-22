@@ -2,9 +2,9 @@
 
 > [!NOTE]
 > **Course:** PMT 1013 / MAT 111 (Foundations of Mathematics) — 1st Year 1st Semester  
-> **Source Document:** [`End-Exam 2026 Model Paper.pdf`](./End-Exam%202026%20Model%20Paper.pdf)  
+> **Source Document:** [`End-Exam 2026 Model Paper.pdf`](PMAT/1013/Papers/End-Exam%202026%20Model%20Paper.pdf)  
 > **Time Allowed:** 03 Hours | **Total Questions:** 05 (Answer All 05 Questions) | **Total Marks:** 100 Marks (20 Marks each)  
-> **Course Index:** [PMT 1013 Master Syllabus Index](../Notes/00_PMT_1013_Foundations_of_Mathematics_Master_Index.md)
+> **Course Index:** [PMT 1013 Master Syllabus Index](PMAT/1013/Short%20Notes/00_PMT_1013_Foundations_of_Mathematics_Master_Index.md)
 
 ---
 
@@ -24,9 +24,9 @@ graph TD
 # 📝 Question 01 [20 Marks] — Divisibility & Formal Symbolic Logic
 
 > 🔗 **අදාළ පාඩම් සහ ලෙච්චර් සටහන්:**
-> * 📘 [Module 03: Proof Techniques & Number Theory Foundations](../Notes/03_Proof_Techniques_and_Number_Theory_Foundations.md)
-> * 📘 [Module 02: Predicates, Quantifiers & Rules of Inference](../Notes/02_Predicates_Quantifiers_and_Rules_of_Inference.md)
-> * 📑 Lecture Slides: [`01_D01_Logic_and_Statements.pdf`](../01_D01_Logic_and_Statements.pdf) | [`01_D02_Proof_Techniques_Intro.pdf`](../01_D02_Proof_Techniques_Intro.pdf) | [`03_D06_Number_Theory_Divisibility_Proofs.pdf`](../03_D06_Number_Theory_Divisibility_Proofs.pdf) | [`02_D05_Rules_of_Inference_and_Arguments.pdf`](../02_D05_Rules_of_Inference_and_Arguments.pdf)
+> * 📘 [Module 03: Proof Techniques & Number Theory Foundations](PMAT/1013/Short%20Notes/03_Proof_Techniques_and_Number_Theory_Foundations.md)
+> * 📘 [Module 02: Predicates, Quantifiers & Rules of Inference](PMAT/1013/Short%20Notes/02_Predicates_Quantifiers_and_Rules_of_Inference.md)
+> * 📑 Lecture Slides: [`01_D01_Logic_and_Statements.pdf`](PMAT/1013/Lecture%20Notes/01_D01_Logic_and_Statements.pdf) | [`01_D02_Proof_Techniques_Intro.pdf`](PMAT/1013/Lecture%20Notes/01_D02_Proof_Techniques_Intro.pdf) | [`03_D06_Number_Theory_Divisibility_Proofs.pdf`](PMAT/1013/Lecture%20Notes/03_D06_Number_Theory_Divisibility_Proofs.pdf) | [`02_D05_Rules_of_Inference_and_Arguments.pdf`](PMAT/1013/Lecture%20Notes/02_D05_Rules_of_Inference_and_Arguments.pdf)
 
 ---
 
@@ -150,9 +150,9 @@ $$\begin{array}{rll}
 # 📝 Question 02 [20 Marks] — Induction & Set Difference Identities
 
 > 🔗 **අදාළ පාඩම් සහ ලෙච්චර් සටහන්:**
-> * 📘 [Module 04: Mathematical Induction & Strong Induction](../Notes/04_Mathematical_Induction_and_Strong_Induction.md)
-> * 📘 [Module 05: Set Theory Operations & Algebraic Proofs](../Notes/05_Set_Theory_Operations_and_Algebraic_Proofs.md)
-> * 📑 Lecture Slides: [`04_D07_Mathematical_Induction.pdf`](../04_D07_Mathematical_Induction.pdf) | [`04_D08_Strong_Induction_and_Well_Ordering.pdf`](../04_D08_Strong_Induction_and_Well_Ordering.pdf) | [`05_D10_Set_Identities_and_Element_Proofs.pdf`](../05_D10_Set_Identities_and_Element_Proofs.pdf)
+> * 📘 [Module 04: Mathematical Induction & Strong Induction](PMAT/1013/Short%20Notes/04_Mathematical_Induction_and_Strong_Induction.md)
+> * 📘 [Module 05: Set Theory Operations & Algebraic Proofs](PMAT/1013/Short%20Notes/05_Set_Theory_Operations_and_Algebraic_Proofs.md)
+> * 📑 Lecture Slides: [`04_D07_Mathematical_Induction.pdf`](PMAT/1013/Lecture%20Notes/04_D07_Mathematical_Induction.pdf) | [`04_D08_Strong_Induction_and_Well_Ordering.pdf`](PMAT/1013/Lecture%20Notes/04_D08_Strong_Induction_and_Well_Ordering.pdf) | [`05_D10_Set_Identities_and_Element_Proofs.pdf`](PMAT/1013/Lecture%20Notes/05_D10_Set_Identities_and_Element_Proofs.pdf)
 
 ---
 
@@ -247,9 +247,9 @@ $$\alpha^2 = \alpha + 1 \quad \text{and} \quad \beta^2 = \beta + 1$$
 # 📝 Question 03 [20 Marks] — Cartesian Products & Indexed Families
 
 > 🔗 **අදාළ පාඩම් සහ ලෙච්චර් සටහන්:**
-> * 📘 [Module 05: Set Theory Operations & Algebraic Proofs](../Notes/05_Set_Theory_Operations_and_Algebraic_Proofs.md)
-> * 📘 [Module 06: Indexed Families of Sets & Partitions](../Notes/06_Indexed_Families_of_Sets_and_Partitions.md)
-> * 📑 Lecture Slides: [`05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf`](../05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf) | [`06_D11_Indexed_Families_of_Sets.pdf`](../06_D11_Indexed_Families_of_Sets.pdf)
+> * 📘 [Module 05: Set Theory Operations & Algebraic Proofs](PMAT/1013/Short%20Notes/05_Set_Theory_Operations_and_Algebraic_Proofs.md)
+> * 📘 [Module 06: Indexed Families of Sets & Partitions](PMAT/1013/Short%20Notes/06_Indexed_Families_of_Sets_and_Partitions.md)
+> * 📑 Lecture Slides: [`05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf`](PMAT/1013/Lecture%20Notes/05_D09_Set_Theory_Operations_and_Cartesian_Product.pdf) | [`06_D11_Indexed_Families_of_Sets.pdf`](PMAT/1013/Lecture%20Notes/06_D11_Indexed_Families_of_Sets.pdf)
 
 ---
 
@@ -334,10 +334,10 @@ x \in B \cap \bigcup_{\alpha \in \Lambda} A_\alpha &\iff x \in B \land x \in \bi
 # 📝 Question 04 [20 Marks] — Relations, Equivalence Classes & Partitions
 
 > 🔗 **අදාළ පාඩම් සහ ලෙච්චර් සටහන්:**
-> * 📘 [Module 07: Binary Relations & Properties](../Notes/07_Binary_Relations_and_Properties.md)
-> * 📘 [Module 08: Equivalence Relations & Congruence Classes](../Notes/08_Equivalence_Relations_and_Congruence_Classes.md)
-> * 📘 [Module 09: Posets, Hasse Diagrams & Lattices](../Notes/09_Partial_Orders_Posets_Hasse_Diagrams_and_Lattices.md)
-> * 📑 Lecture Slides: [`07_D13_Binary_Relations_and_Compositions.pdf`](../07_D13_Binary_Relations_and_Compositions.pdf) | [`07_D14_Relation_Properties_and_Proofs.pdf`](../07_D14_Relation_Properties_and_Proofs.pdf) | [`08_D15_Equivalence_Relations_and_Partitions.pdf`](../08_D15_Equivalence_Relations_and_Partitions.pdf)
+> * 📘 [Module 07: Binary Relations & Properties](PMAT/1013/Short%20Notes/07_Binary_Relations_and_Properties.md)
+> * 📘 [Module 08: Equivalence Relations & Congruence Classes](PMAT/1013/Short%20Notes/08_Equivalence_Relations_and_Congruence_Classes.md)
+> * 📘 [Module 09: Posets, Hasse Diagrams & Lattices](PMAT/1013/Short%20Notes/09_Partial_Orders_Posets_Hasse_Diagrams_and_Lattices.md)
+> * 📑 Lecture Slides: [`07_D13_Binary_Relations_and_Compositions.pdf`](PMAT/1013/Lecture%20Notes/07_D13_Binary_Relations_and_Compositions.pdf) | [`07_D14_Relation_Properties_and_Proofs.pdf`](PMAT/1013/Lecture%20Notes/07_D14_Relation_Properties_and_Proofs.pdf) | [`08_D15_Equivalence_Relations_and_Partitions.pdf`](PMAT/1013/Lecture%20Notes/08_D15_Equivalence_Relations_and_Partitions.pdf)
 
 ---
 
@@ -426,8 +426,8 @@ x \in B \cap \bigcup_{\alpha \in \Lambda} A_\alpha &\iff x \in B \land x \in \bi
 # 📝 Question 05 [20 Marks] — Functions, Set Images & Compositions
 
 > 🔗 **අදාළ පාඩම් සහ ලෙච්චර් සටහන්:**
-> * 📘 [Module 10: Functions, Direct/Inverse Images & Bijectivity](../Notes/10_Functions_Injectivity_Surjectivity_and_Set_Images.md)
-> * 📑 Lecture Slides: [`10_D18_Functions_Injectivity_and_Surjectivity.pdf`](../10_D18_Functions_Injectivity_and_Surjectivity.pdf) | [`10_D19_Function_Composition_and_Inverses.pdf`](../10_D19_Function_Composition_and_Inverses.pdf) | [`10_D20_Direct_and_Inverse_Images_under_Functions.pdf`](../10_D20_Direct_and_Inverse_Images_under_Functions.pdf)
+> * 📘 [Module 10: Functions, Direct/Inverse Images & Bijectivity](PMAT/1013/Short%20Notes/10_Functions_Injectivity_Surjectivity_and_Set_Images.md)
+> * 📑 Lecture Slides: [`10_D18_Functions_Injectivity_and_Surjectivity.pdf`](PMAT/1013/Lecture%20Notes/10_D18_Functions_Injectivity_and_Surjectivity.pdf) | [`10_D19_Function_Composition_and_Inverses.pdf`](PMAT/1013/Lecture%20Notes/10_D19_Function_Composition_and_Inverses.pdf) | [`10_D20_Direct_and_Inverse_Images_under_Functions.pdf`](PMAT/1013/Lecture%20Notes/10_D20_Direct_and_Inverse_Images_under_Functions.pdf)
 
 ---
 
