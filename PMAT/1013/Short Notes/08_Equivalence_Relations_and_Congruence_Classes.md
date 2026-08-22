@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [08_D15_Equivalence_Relations_and_Partitions.pdf](../08_D15_Equivalence_Relations_and_Partitions.pdf)
+> **Corresponding Lecture Slides:** [08_D15_Equivalence_Relations_and_Partitions.pdf](PMAT/1013/Lecture%20Notes/08_D15_Equivalence_Relations_and_Partitions.pdf)
 > **Prerequisites:** Relation Properties & Partitions (Modules 06 & 07).
 
 ---
