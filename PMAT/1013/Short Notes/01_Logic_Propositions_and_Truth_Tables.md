@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [01_D01_Logic_and_Statements.pdf](../01_D01_Logic_and_Statements.pdf), [01_D03_Propositional_Logic_and_Truth_Tables.pdf](../01_D03_Propositional_Logic_and_Truth_Tables.pdf)
+> **Corresponding Lecture Slides:** [01_D01_Logic_and_Statements.pdf](PMAT/1013/Lecture%20Notes/01_D01_Logic_and_Statements.pdf), [01_D03_Propositional_Logic_and_Truth_Tables.pdf](PMAT/1013/Lecture%20Notes/01_D03_Propositional_Logic_and_Truth_Tables.pdf)
 > **Prerequisites:** Basic understanding of declarative sentences and boolean values (True / False).
 
 ---
