@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [02_D04_Predicates_and_Quantifiers.pdf](../02_D04_Predicates_and_Quantifiers.pdf), [02_D05_Rules_of_Inference_and_Arguments.pdf](../02_D05_Rules_of_Inference_and_Arguments.pdf)
+> **Corresponding Lecture Slides:** [02_D04_Predicates_and_Quantifiers.pdf](PMAT/1013/Lecture%20Notes/02_D04_Predicates_and_Quantifiers.pdf), [02_D05_Rules_of_Inference_and_Arguments.pdf](PMAT/1013/Lecture%20Notes/02_D05_Rules_of_Inference_and_Arguments.pdf)
 > **Prerequisites:** Propositional Logic, Truth Tables, Logical Connectives (Module 01).
 
 ---
