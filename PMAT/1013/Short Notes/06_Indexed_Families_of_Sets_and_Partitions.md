@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1013 (Foundations of Mathematics)
-> **Corresponding Lecture Slides:** [06_D11_Indexed_Families_of_Sets.pdf](../06_D11_Indexed_Families_of_Sets.pdf), [06_D12_Set_Partitions_and_Inclusion_Exclusion.pdf](../06_D12_Set_Partitions_and_Inclusion_Exclusion.pdf)
+> **Corresponding Lecture Slides:** [06_D11_Indexed_Families_of_Sets.pdf](PMAT/1013/Lecture%20Notes/06_D11_Indexed_Families_of_Sets.pdf), [06_D12_Set_Partitions_and_Inclusion_Exclusion.pdf](PMAT/1013/Lecture%20Notes/06_D12_Set_Partitions_and_Inclusion_Exclusion.pdf)
 > **Prerequisites:** Quantifiers ($\forall, \exists$) & Set Operations (Modules 02 & 05).
 
 ---
