@@ -2,9 +2,9 @@
 
 > [!NOTE]
 > **Course:** PMT 1022 / MAT 122 (Basics of Number Theory / Introduction to Number Theory)  
-> **Source Document:** [`Practice problems for assignment 01.pdf`](./Practice%20problems%20for%20assignment%2001.pdf)  
+> **Source Document:** [`Practice problems for assignment 01.pdf`](PMAT/1022/Papers/Practice%20problems%20for%20assignment%2001.pdf)  
 > **Total Questions:** 16 In-depth Analytical & Proof Problems  
-> **Course Index:** [PMT 1022 Master Syllabus Index](../Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
+> **Course Index:** [PMT 1022 Master Syllabus Index](PMAT/1022/Short%20Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
 
 ---
 
@@ -26,8 +26,8 @@ graph TD
 
 ### ❓ Question 01: Negation of Statements
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 > *(Note: The negation of $P \implies Q$ is $\mathbf{P \land \neg Q}$).*
 
 1. **(i) "Product of two odd numbers is odd."**
@@ -46,8 +46,8 @@ graph TD
 
 ### ❓ Question 02: Contrapositive of Statements
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 > *(Note: The contrapositive of $P \implies Q$ is $\mathbf{\neg Q \implies \neg P}$).*
 
 1. **(i) "If $mn$ is odd then $m$ is odd and $n$ is odd."**
@@ -61,8 +61,8 @@ graph TD
 
 ### ❓ Question 03: Parity Proofs & Disproofs
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [03_Divisibility_Theory_and_Elementary_Properties.md](../Notes/03_Divisibility_Theory_and_Elementary_Properties.md) | [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
-> * 📑 **Lecture Slide:** [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](../03_Lesson_05_Divisibility_Theory_and_Properties.pdf) | [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+> * 📘 **Short Note:** [03_Divisibility_Theory_and_Elementary_Properties.md](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md) | [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+> * 📑 **Lecture Slide:** [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/03_Lesson_05_Divisibility_Theory_and_Properties.pdf) | [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
 
 1. **(i) "Product of two odd numbers is odd."**
    * **Proof (Direct):** Let $m = 2k + 1$ and $n = 2j + 1$ for $k, j \in \mathbb{Z}$.
@@ -83,8 +83,8 @@ graph TD
 
 ### ❓ Question 04 & 05: Rational & Irrational Operations
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 
 *   **Q4 (i) Sum of two rationals is rational:**
     Let $x = \frac{a}{b}, y = \frac{c}{d}$ ($a, b, c, d \in \mathbb{Z}, b, d \neq 0$).
@@ -104,8 +104,8 @@ graph TD
 
 ### ❓ Question 06: Density of Rational & Irrational Numbers
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [02_Mathematical_Induction_and_Well_Ordering_Principle.md](../Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`02_Lesson_04_Well_Ordering_Principle.pdf`](../02_Lesson_04_Well_Ordering_Principle.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [02_Mathematical_Induction_and_Well_Ordering_Principle.md](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`02_Lesson_04_Well_Ordering_Principle.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)
 
 *   **Between any two real numbers $x < y$, there is a rational number:**
     * Since $y - x > 0$, by the Archimedean Property, $\exists n \in \mathbb{Z}^+$ such that $n(y - x) > 1 \implies ny - nx > 1$.
@@ -121,8 +121,8 @@ graph TD
 
 ### ❓ Question 07: Irrationality of $\sqrt{2m}$ for odd integer $m$
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 **Rigorous Proof (by Contradiction):**
 1. Let $m$ be an odd positive integer ($m = 2k + 1$).
@@ -141,8 +141,8 @@ graph TD
 
 ### ❓ Question 08 & 09: Base Conversions
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](../01_Lesson_02_Basis_Representation_of_Integers.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf)
 
 *   **Q08: Convert $(453)_7$ to Decimal:**
     $$(453)_7 = 4 \cdot 7^2 + 5 \cdot 7^1 + 3 \cdot 7^0 = 4(49) + 5(7) + 3(1) = 196 + 35 + 3 = \mathbf{234_{10}} \quad \blacksquare$$
@@ -163,8 +163,8 @@ graph TD
 
 ### ❓ Question 10: Divisibility Tests for 6, 8, and 16
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](../01_Lesson_02_Basis_Representation_of_Integers.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 *   **(i) Divisibility by 6:**
     1. Prove $10^i \equiv 4 \pmod 6$ for all $i \ge 1$:
@@ -184,8 +184,8 @@ graph TD
 
 ### ❓ Question 11: Divisibility by 99
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](../01_Lesson_02_Basis_Representation_of_Integers.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 For $N = \sum_{i=0}^m a_i 10^i$ and $T = a_0 + 10a_1 + a_2 + 10a_3 + \dots$:
 * Notice $10^2 = 100 \equiv 1 \pmod{99}$.
@@ -198,8 +198,8 @@ For $N = \sum_{i=0}^m a_i 10^i$ and $T = a_0 + 10a_1 + a_2 + 10a_3 + \dots$:
 
 ### ❓ Question 12: ISBN-10 Check Digit Verification
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](../01_Lesson_02_Basis_Representation_of_Integers.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf)
 
 **ISBN:** `0-07-061607-8` ($a_1=0, a_2=0, a_3=7, a_4=0, a_5=6, a_6=1, a_7=6, a_8=0, a_9=7$).
 Calculate the weighted sum $\sum_{k=1}^9 k \cdot a_k$:
@@ -216,8 +216,8 @@ Since the given 10th digit is **8**, the check digit is **CORRECT**! $\blacksqua
 
 ### ❓ Question 13: Minimal Period of $1/17$
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 **Step-by-Step Solution:**
 1. The minimal period of the repeating decimal expansion of $\frac{1}{p}$ (where $p$ is a prime $\neq 2, 5$) is equal to the **multiplicative order of 10 modulo $p$** (i.e. $\operatorname{ord}_p(10)$).
@@ -236,8 +236,8 @@ Since the given 10th digit is **8**, the check digit is **CORRECT**! $\blacksqua
 
 ### ❓ Question 14: Decimals to Rational Representation
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 
 Find the relevant rational numbers in $\frac{a}{b}$ form:
 * **(i) $23.456789$:**
@@ -251,8 +251,8 @@ Find the relevant rational numbers in $\frac{a}{b}$ form:
 
 ### ❓ Question 15: Terminating Decimals in the Sequence $1/2, 1/3, \dots, 1/51$
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md) | [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf) | [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 **Step-by-Step Solution:**
 1. A fraction $\frac{1}{k}$ has a terminating decimal expansion if and only if the denominator $k$ has **no prime factors other than 2 and 5** (i.e. $k = 2^a \cdot 5^b$ for $a, b \ge 0$).
@@ -268,8 +268,8 @@ Find the relevant rational numbers in $\frac{a}{b}$ form:
 
 ### ❓ Question 16: Trailing Zeros in $51!$ (Legendre's Formula)
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
-> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 > 🔗 **Formula:** The number of trailing zeros in $n!$ equals the highest power of 5 dividing $n!$:
 > $$E_5(n!) = \sum_{k=1}^\infty \left\lfloor \frac{n}{5^k} \right\rfloor$$
