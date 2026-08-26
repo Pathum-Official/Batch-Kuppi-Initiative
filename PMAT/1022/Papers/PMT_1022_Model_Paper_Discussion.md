@@ -3,12 +3,12 @@
 > [!NOTE]
 > **Course:** PMT 1022 / MAT 122 (Basics of Number Theory / Introduction to Number Theory)  
 > **Academic Unit:** Department of Mathematics, Faculty of Applied Sciences, University of Sri Jayewardenepura  
-> **Source Document:** [`model paper.pdf`](./model%20paper.pdf)  
+> **Source Document:** [`model paper.pdf`](PMAT/1022/Papers/model%20paper.pdf)  
 > **Time Allowed:** 02 Hours | **Total Marks:** 300 Marks  
 > **Structure:**  
 > * **Part A:** 15 Multiple Choice Questions ($15 \times 8 = 120$ Marks)  
 > * **Part B:** 03 Essay Type Questions ($3 \times 60 = 180$ Marks)  
-> **Course Index:** [PMT 1022 Master Syllabus Index](../Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
+> **Course Index:** [PMT 1022 Master Syllabus Index](PMAT/1022/Short%20Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
 
 ---
 
@@ -37,8 +37,8 @@ graph TD
 $$\frac{1}{84}, \quad \frac{1}{250}, \quad \frac{1}{750}, \quad \frac{1}{1024}, \quad \frac{1}{256}$$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 
 #### 💡 Strategy & Concept (පරිමේය සංඛ්‍යාවක දශම ප්‍රසාරණය තේරුම් ගැනීම):
 * සරලම ආකාරයෙන් ලියූ පරිමේය සංඛ්‍යාවක ($\frac{1}{D}$) හරය $D$ හි ප්‍රථමක සාධක **$2$ සහ $5$ පමණක් ($D = 2^a \cdot 5^b$)** අඩංගු වේ නම්, එය **අවසාන වන (Terminating)** දශමයකි (මන්ද $10 = 2 \times 5$ බැවින් 10 හි බලයකට පහසුවෙන් හැරවිය හැක).
@@ -62,8 +62,8 @@ $$\frac{1}{84}, \quad \frac{1}{250}, \quad \frac{1}{750}, \quad \frac{1}{1024}, 
 * (iii) If $ab$ is divisible by 6, then at least one of $a$ or $b$ must be divisible by 6.
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [03_Divisibility_Theory_and_Elementary_Properties.md](../Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
-> * 📑 **Lecture Slide:** [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](../03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
+> * 📘 **Short Note:** [03_Divisibility_Theory_and_Elementary_Properties.md](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
+> * 📑 **Lecture Slide:** [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
 
 #### 💡 Strategy & Counterexamples (ප්‍රති-උදාහරණ මගින් ප්‍රතික්ෂේප කිරීම):
 1. **(i) සඳහා:** $a = 1, b = 5$ ගන්න. $a + b = 6$ ($6$ න් බෙදේ), නමුත් $6 \nmid 1$ සහ $6 \nmid 5$. එබැවින් (i) **අසත්‍යයි (FALSE)**.
@@ -79,8 +79,8 @@ $$\frac{1}{84}, \quad \frac{1}{250}, \quad \frac{1}{750}, \quad \frac{1}{1024}, 
 $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1}{n} : n \in \mathbb{Z} \setminus \{0\}\right\}$$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](../Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
-> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](../02_Lesson_04_Well_Ordering_Principle.pdf)
+> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
+> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)
 
 #### 💡 Strategy & Least Element Analysis (කුඩාම අගය සෙවීම):
 * **$A$ කුලකය සඳහා:**
@@ -103,8 +103,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 **Question:** What is the largest power of 5 which exactly divides $125,000,000,000$?
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
-> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 #### ✍️ Step-by-Step Solution:
 1. සංඛ්‍යාව ප්‍රථමක සාධක වල ගුණිතයක් ලෙස ලියන්න:
@@ -124,8 +124,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (iii) $324$ is an element of $A$.
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](../Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
-> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](../02_Lesson_04_Well_Ordering_Principle.pdf)
+> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
+> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)
 
 #### ✍️ Step-by-Step Analysis:
 * **(i) සත්‍යයි:** $p = 0$ වන විට $2^0 3^q = 3^q$ වේ. $q = 1, 2, 3, \dots$ ගන්නා විට $\{3, 9, 27, 81, \dots\}$ ලෙස අනන්ත ඔත්තේ නිඛිල සංඛ්‍යා ලැබේ. $\implies$ **TRUE**.
@@ -140,8 +140,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 **Question:** What are the last digits of $29^{18}$ and $7^{32}$ respectively?
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md) | [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf) | [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 #### ✍️ Step-by-Step Solution:
 * **$29^{18} \pmod{10}$ හි අවසන් ඉලක්කම:**
@@ -162,8 +162,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (iii) For every integer $a$, 3 is not a factor of $a^2 + 25$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
-> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
 
 #### ✍️ Step-by-Step Analysis modulo 3:
 ඕනෑම $a \in \mathbb{Z}$ නිඛිලයක් සඳහා පූර්ණ වර්ගයක ශේෂය $a^2 \equiv 0 \text{ හෝ } 1 \pmod 3$ වේ.
@@ -185,8 +185,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (iii) Every non-empty subset of natural numbers has a least element.
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](../Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
-> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](../02_Lesson_04_Well_Ordering_Principle.pdf)
+> * 📘 **Short Note:** [02_Mathematical_Induction_and_Well_Ordering_Principle.md](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
+> * 📑 **Lecture Slide:** [`02_Lesson_04_Well_Ordering_Principle.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)
 
 #### ✍️ Analysis via Well-Ordering Principle:
 * (i) අසත්‍යයි (උදා: සෘණ නිඛිල කුලකය $\{-1, -2, -3, \dots\}$ සෘණ අනන්තයට යන බැවින් කුඩාම අගයක් නැත).
@@ -203,8 +203,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (ii) If integers $a$ and $b$ both prime then $a$ and $b$ relatively prime (for distinct primes).
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [05_Greatest_Common_Divisor_and_Bezout_Identity.md](../Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
-> * 📑 **Lecture Slide:** [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
+> * 📘 **Short Note:** [05_Greatest_Common_Divisor_and_Bezout_Identity.md](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+> * 📑 **Lecture Slide:** [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
 
 #### ✍️ Analysis:
 * (i) අසත්‍යයි (ප්‍රති-උදාහරණය: $a = 8 = 2^3$ සහ $b = 9 = 3^2$ දෙකම සංයුක්ත සංඛ්‍යා වුවත් $\gcd(8, 9) = 1$ වේ).
@@ -220,8 +220,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (ii) For any $k \in \mathbb{Z}$, $\gcd(5k + 3, 6k + 1) = 1$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [05_Greatest_Common_Divisor_and_Bezout_Identity.md](../Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
-> * 📑 **Lecture Slide:** [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
+> * 📘 **Short Note:** [05_Greatest_Common_Divisor_and_Bezout_Identity.md](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+> * 📑 **Lecture Slide:** [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
 
 #### ✍️ Analysis:
 * **(i) සඳහා:** $6(5k + 4) - 5(6k + 5) = (30k + 24) - (30k + 25) = -1$. රේඛීය සංයෝජනය $-1$ වන බැවින් $\gcd(5k+4, 6k+5) = 1$ සෑම විටම සත්‍ය වේ. $\implies$ **TRUE**.
@@ -235,8 +235,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 **Question:** Let $a$ be any integer. What are all possible remainders when $a^4$ is divided by 5?
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 #### ✍️ Analysis modulo 5:
 * $a \equiv 0 \implies 0^4 \equiv \mathbf{0 \pmod 5}$.
@@ -255,8 +255,8 @@ $$A = \left\{\frac{1}{3n+1} : n \in \mathbb{Z}\right\}, \quad B = \left\{\frac{1
 * (iii) For any integers $a$ and $b$, 4 is not a factor of $a^2 + b^2 + 29$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
-> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+> * 📘 **Short Note:** [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+> * 📑 **Lecture Slide:** [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
 
 #### ✍️ Analysis modulo 4:
 $a^2, b^2 \in \{0, 1\} \pmod 4 \implies a^2 + b^2 \in \{0, 1, 2\} \pmod 4$ (කිසිදා 3 විය නොහැක).
@@ -274,8 +274,8 @@ $a^2, b^2 \in \{0, 1\} \pmod 4 \implies a^2 + b^2 \in \{0, 1, 2\} \pmod 4$ (ක�
 * (ii) $p_n \equiv 1 \pmod 6$ or $p_n \equiv 5 \pmod 6$ for all $n > 2$.
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
-> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+> * 📘 **Short Note:** [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+> * 📑 **Lecture Slide:** [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 #### ✍️ Analysis:
 * (i) අසත්‍යයි ($2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 \cdot 13 + 1 = 30031 = 59 \times 509$, සංයුක්ත වේ).
@@ -291,8 +291,8 @@ $a^2, b^2 \in \{0, 1\} \pmod 4 \implies a^2 + b^2 \in \{0, 1, 2\} \pmod 4$ (ක�
 * (ii) $a^2 b^2 \equiv 0 \pmod{n^4}$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 #### ✍️ Analysis:
 * $a = k_1 n$ සහ $b = k_2 n \implies ab = (k_1 k_2) n^2 \implies ab \equiv 0 \pmod{n^2}$. $\implies$ **TRUE**.
@@ -306,8 +306,8 @@ $a^2, b^2 \in \{0, 1\} \pmod 4 \implies a^2 + b^2 \in \{0, 1, 2\} \pmod 4$ (ක�
 **Question:** What is the value of $2^{40} \pmod{13}$?
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
-> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+> * 📘 **Short Note:** [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+> * 📑 **Lecture Slide:** [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 #### ✍️ Solution via Fermat's Little Theorem:
 13 ප්‍රථමක වන අතර $\gcd(2, 13) = 1$ බැවින්:
@@ -328,15 +328,15 @@ $$2^{40} = (2^{12})^3 \cdot 2^4 \equiv (1)^3 \cdot 16 \equiv 16 \equiv \mathbf{3
 
 > 🔗 **අදාළ Short Notes & Lecture Slides:**
 > * 📘 **Short Notes:** 
->   * [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
->   * [03_Divisibility_Theory_and_Elementary_Properties.md](../Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
->   * [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
->   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](../Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+>   * [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+>   * [03_Divisibility_Theory_and_Elementary_Properties.md](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
+>   * [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+>   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
 > * 📑 **Lecture Slides:**
->   * [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
->   * [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](../03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
->   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
->   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
+>   * [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+>   * [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
+>   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+>   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
 
 ---
 
@@ -421,11 +421,11 @@ $$2^{40} = (2^{12})^3 \cdot 2^4 \equiv (1)^3 \cdot 16 \equiv 16 \equiv \mathbf{3
 
 > 🔗 **අදාළ Short Notes & Lecture Slides:**
 > * 📘 **Short Notes:**
->   * [06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md](../Notes/06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
->   * [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+>   * [06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md](PMAT/1022/Short%20Notes/06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
+>   * [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
 > * 📑 **Lecture Slides:**
->   * [`06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf`](../06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)
->   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+>   * [`06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf`](PMAT/1022/Lecture%20Notes/06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)
+>   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
 
 ---
 
@@ -502,11 +502,11 @@ $$2^{40} = (2^{12})^3 \cdot 2^4 \equiv (1)^3 \cdot 16 \equiv 16 \equiv \mathbf{3
 
 > 🔗 **අදාළ Short Notes & Lecture Slides:**
 > * 📘 **Short Notes:**
->   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](../Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
->   * [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+>   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+>   * [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
 > * 📑 **Lecture Slides:**
->   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
->   * [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+>   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
+>   * [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
 
 ---
 
