@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf), [01_Lesson_02_Basis_Representation_of_Integers.pdf](../01_Lesson_02_Basis_Representation_of_Integers.pdf)  
+> **Corresponding Lecture Slides:** [01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf), [01_Lesson_02_Basis_Representation_of_Integers.pdf](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf)  
 > **Prerequisites:** Basic arithmetic operations and algebra.
 
 ---
