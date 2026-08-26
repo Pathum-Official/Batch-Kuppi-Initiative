@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)  
-> **Prerequisites:** [03. Divisibility Theory](03_Divisibility_Theory_and_Elementary_Properties.md), [05. Greatest Common Divisor & Bézout's Identity](05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+> **Corresponding Lecture Slides:** [07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)  
+> **Prerequisites:** [03. Divisibility Theory](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md), [05. Greatest Common Divisor & Bézout's Identity](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
 
 ---
 
