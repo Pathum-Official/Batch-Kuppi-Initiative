@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)  
-> **Prerequisites:** [03. Divisibility Theory](03_Divisibility_Theory_and_Elementary_Properties.md), [04. The Division Algorithm](04_The_Division_Algorithm_and_Form_of_Integers.md)
+> **Corresponding Lecture Slides:** [05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)  
+> **Prerequisites:** [03. Divisibility Theory](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md), [04. The Division Algorithm](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
 
 ---
 
