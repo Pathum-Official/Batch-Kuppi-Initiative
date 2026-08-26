@@ -2,9 +2,9 @@
 
 > [!NOTE]
 > **Course:** PMT 1022 / MAT 122 (Basics of Number Theory / Introduction to Number Theory)  
-> **Source Document:** [`practice problems.pdf`](./practice%20problems.pdf)  
+> **Source Document:** [`practice problems.pdf`](PMAT/1022/Papers/practice%20problems.pdf)  
 > **Total Questions:** 34 Comprehensive Pure Mathematics Practice Problems  
-> **Course Index:** [PMT 1022 Master Syllabus Index](../Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
+> **Course Index:** [PMT 1022 Master Syllabus Index](PMAT/1022/Short%20Notes/00_PMT_1022_Number_Theory_Syllabus_Master_Index.md)
 
 ---
 
@@ -24,8 +24,8 @@ graph TD
 # 📚 Part 1: Rational & Irrational Numbers (Q01 – Q08, Q11 – Q13)
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
-> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
-> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](../01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
+> * 📘 **Short Note:** [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+> * 📑 **Lecture Slide:** [`01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_01_Introduction_to_Number_Theory_and_Sets.pdf)
 
 ---
 
@@ -137,12 +137,12 @@ $$990000x = 114523 - 1145 = 113378 \implies \mathbf{x = \frac{113378}{990000} = 
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
 > * 📘 **Short Notes:** 
->   * [01_Foundations_Real_Numbers_and_Base_Representations.md](../Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
->   * [02_Mathematical_Induction_and_Well_Ordering_Principle.md](../Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
+>   * [01_Foundations_Real_Numbers_and_Base_Representations.md](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
+>   * [02_Mathematical_Induction_and_Well_Ordering_Principle.md](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md)
 > * 📑 **Lecture Slides:**
->   * [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](../01_Lesson_02_Basis_Representation_of_Integers.pdf)
->   * [`02_Lesson_03_Mathematical_Induction.pdf`](../02_Lesson_03_Mathematical_Induction.pdf)
->   * [`02_Lesson_04_Well_Ordering_Principle.pdf`](../02_Lesson_04_Well_Ordering_Principle.pdf)
+>   * [`01_Lesson_02_Basis_Representation_of_Integers.pdf`](PMAT/1022/Lecture%20Notes/01_Lesson_02_Basis_Representation_of_Integers.pdf)
+>   * [`02_Lesson_03_Mathematical_Induction.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_03_Mathematical_Induction.pdf)
+>   * [`02_Lesson_04_Well_Ordering_Principle.pdf`](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)
 
 ---
 
@@ -207,14 +207,14 @@ $$\mathbf{1234_{10} = (10011010010)_2} \quad \blacksquare$$
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
 > * 📘 **Short Notes:**
->   * [03_Divisibility_Theory_and_Elementary_Properties.md](../Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
->   * [04_The_Division_Algorithm_and_Form_of_Integers.md](../Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
->   * [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+>   * [03_Divisibility_Theory_and_Elementary_Properties.md](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
+>   * [04_The_Division_Algorithm_and_Form_of_Integers.md](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md)
+>   * [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
 > * 📑 **Lecture Slides:**
->   * [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](../03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
->   * [`04_Lesson_06_The_Division_Algorithm_Part_1.pdf`](../04_Lesson_06_The_Division_Algorithm_Part_1.pdf)
->   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
->   * [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+>   * [`03_Lesson_05_Divisibility_Theory_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/03_Lesson_05_Divisibility_Theory_and_Properties.pdf)
+>   * [`04_Lesson_06_The_Division_Algorithm_Part_1.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_06_The_Division_Algorithm_Part_1.pdf)
+>   * [`04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf`](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)
+>   * [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 ---
 
@@ -265,11 +265,11 @@ Thus all squares are of the form $4k$ or $4k+1$. Therefore, $4k+2$ is **never a 
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
 > * 📘 **Short Notes:**
->   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](../Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
->   * [06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md](../Notes/06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
+>   * [05_Greatest_Common_Divisor_and_Bezout_Identity.md](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+>   * [06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md](PMAT/1022/Short%20Notes/06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
 > * 📑 **Lecture Slides:**
->   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](../05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
->   * [`06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf`](../06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)
+>   * [`05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf`](PMAT/1022/Lecture%20Notes/05_Lesson_08_Greatest_Common_Divisor_and_Properties.pdf)
+>   * [`06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf`](PMAT/1022/Lecture%20Notes/06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)
 
 ---
 
@@ -317,11 +317,11 @@ General Solution: **$x = -8 + 21t, y = 13 - 34t \quad (t \in \mathbb{Z})$**. $\b
 
 > 🔗 **අදාළ Short Note & Lecture Slides:**
 > * 📘 **Short Notes:**
->   * [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](../Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
->   * [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](../Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
+>   * [07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md](PMAT/1022/Short%20Notes/07_Prime_Numbers_Factorization_and_Euclid_Lemmas.md)
+>   * [08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md](PMAT/1022/Short%20Notes/08_Modular_Arithmetic_Congruences_and_Linear_Congruences.md)
 > * 📑 **Lecture Slides:**
->   * [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](../07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
->   * [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
+>   * [`07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf`](PMAT/1022/Lecture%20Notes/07_Lesson_10_Primes_and_Fundamental_Theorem_of_Arithmetic.pdf)
+>   * [`08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf`](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)
 
 ---
 
