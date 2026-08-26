@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [03_Lesson_05_Divisibility_Theory_and_Properties.pdf](../03_Lesson_05_Divisibility_Theory_and_Properties.pdf)  
-> **Prerequisites:** [01. Foundations & Number Systems](01_Foundations_Real_Numbers_and_Base_Representations.md)
+> **Corresponding Lecture Slides:** [03_Lesson_05_Divisibility_Theory_and_Properties.pdf](PMAT/1022/Lecture%20Notes/03_Lesson_05_Divisibility_Theory_and_Properties.pdf)  
+> **Prerequisites:** [01. Foundations & Number Systems](PMAT/1022/Short%20Notes/01_Foundations_Real_Numbers_and_Base_Representations.md)
 
 ---
 
