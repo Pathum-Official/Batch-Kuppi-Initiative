@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf](../06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)  
-> **Prerequisites:** [04. The Division Algorithm](04_The_Division_Algorithm_and_Form_of_Integers.md), [05. Greatest Common Divisor & Bézout's Identity](05_Greatest_Common_Divisor_and_Bezout_Identity.md)
+> **Corresponding Lecture Slides:** [06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf](PMAT/1022/Lecture%20Notes/06_Lesson_09_Euclidean_Algorithm_and_Diophantine_Equations.pdf)  
+> **Prerequisites:** [04. The Division Algorithm](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md), [05. Greatest Common Divisor & Bézout's Identity](PMAT/1022/Short%20Notes/05_Greatest_Common_Divisor_and_Bezout_Identity.md)
 
 ---
 
