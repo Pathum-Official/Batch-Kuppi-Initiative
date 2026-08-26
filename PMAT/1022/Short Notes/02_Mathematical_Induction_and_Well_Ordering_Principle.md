@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [02_Lesson_03_Mathematical_Induction.pdf](../02_Lesson_03_Mathematical_Induction.pdf), [02_Lesson_04_Well_Ordering_Principle.pdf](../02_Lesson_04_Well_Ordering_Principle.pdf)  
+> **Corresponding Lecture Slides:** [02_Lesson_03_Mathematical_Induction.pdf](PMAT/1022/Lecture%20Notes/02_Lesson_03_Mathematical_Induction.pdf), [02_Lesson_04_Well_Ordering_Principle.pdf](PMAT/1022/Lecture%20Notes/02_Lesson_04_Well_Ordering_Principle.pdf)  
 > **Prerequisites:** Basic propositional logic and algebra.
 
 ---
