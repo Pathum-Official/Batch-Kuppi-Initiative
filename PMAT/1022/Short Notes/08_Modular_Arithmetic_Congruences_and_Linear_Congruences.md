@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf](../08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)  
-> **Prerequisites:** [03. Divisibility Theory](03_Divisibility_Theory_and_Elementary_Properties.md), [04. The Division Algorithm](04_The_Division_Algorithm_and_Form_of_Integers.md), [06. Euclidean Algorithm & Diophantine Equations](06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
+> **Corresponding Lecture Slides:** [08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf](PMAT/1022/Lecture%20Notes/08_Lesson_11_Modular_Arithmetic_and_Congruences.pdf)  
+> **Prerequisites:** [03. Divisibility Theory](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md), [04. The Division Algorithm](PMAT/1022/Short%20Notes/04_The_Division_Algorithm_and_Form_of_Integers.md), [06. Euclidean Algorithm & Diophantine Equations](PMAT/1022/Short%20Notes/06_Euclidean_Algorithm_and_Linear_Diophantine_Equations.md)
 
 ---
 
