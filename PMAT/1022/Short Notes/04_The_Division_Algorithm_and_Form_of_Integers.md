@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > **Course Module Reference:** PMT 1022 (Introduction to Number Theory)  
-> **Corresponding Lecture Slides:** [04_Lesson_06_The_Division_Algorithm_Part_1.pdf](../04_Lesson_06_The_Division_Algorithm_Part_1.pdf), [04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf](../04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)  
-> **Prerequisites:** [02. Mathematical Induction & Well-Ordering Principle](02_Mathematical_Induction_and_Well_Ordering_Principle.md), [03. Divisibility Theory](03_Divisibility_Theory_and_Elementary_Properties.md)
+> **Corresponding Lecture Slides:** [04_Lesson_06_The_Division_Algorithm_Part_1.pdf](PMAT/1022/Lecture%20Notes/04_Lesson_06_The_Division_Algorithm_Part_1.pdf), [04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf](PMAT/1022/Lecture%20Notes/04_Lesson_07_Division_Algorithm_Applications_and_Parity.pdf)  
+> **Prerequisites:** [02. Mathematical Induction & Well-Ordering Principle](PMAT/1022/Short%20Notes/02_Mathematical_Induction_and_Well_Ordering_Principle.md), [03. Divisibility Theory](PMAT/1022/Short%20Notes/03_Divisibility_Theory_and_Elementary_Properties.md)
 
 ---
 
